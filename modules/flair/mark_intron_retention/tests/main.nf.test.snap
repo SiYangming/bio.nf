@@ -1,0 +1,78 @@
+{
+    "markintronretention - bed": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_isoforms.bed:md5,ef32f35e442c31a78b92cf64ea556d09"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_introns.txt:md5,0ef2cf4619fc2f1ff5fbf88e1229ccbe"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,3054b3a5f038ae2ecae5488599bb9512"
+                ],
+                "introns_txt": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_introns.txt:md5,0ef2cf4619fc2f1ff5fbf88e1229ccbe"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_isoforms.bed:md5,ef32f35e442c31a78b92cf64ea556d09"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,3054b3a5f038ae2ecae5488599bb9512"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T18:47:18.645259"
+    },
+    "test_mark_intron_retention": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "psl": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T15:50:54.139578"
+    }
+}

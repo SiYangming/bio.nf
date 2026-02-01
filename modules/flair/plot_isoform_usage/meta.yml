@@ -1,0 +1,53 @@
+name: flair_plotisoformusage
+description: Plots isoform usage for a gene using flair plot_isoform_usage
+keywords:
+  - plot
+  - isoform
+  - usage
+  - flair
+tools:
+  - flair:
+      description: |
+        FLAIR (Full-Length Alternative Isoform analysis of RNA) is a tool for the correction, collapse and quantification of noisy reads.
+      homepage: https://flair.readthedocs.io/en/latest/
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["GPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: Isoform BED file
+      pattern: "*.bed"
+  - counts_matrix:
+      type: file
+      description: Isoform counts matrix TSV file
+      pattern: "*.tsv"
+  - gene_name:
+      type: string
+      description: Name of the gene to plot
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - png:
+      type: file
+      description: Plot in PNG format
+      pattern: "*.png"
+  - pdf:
+      type: file
+      description: Plot in PDF format
+      pattern: "*.pdf"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

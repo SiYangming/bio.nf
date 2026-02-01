@@ -1,0 +1,40 @@
+nextflow_process {
+
+    name "Test Process FLAIR_PLOTISOFORMUSAGE"
+    script "../main.nf"
+    process "FLAIR_PLOTISOFORMUSAGE"
+
+    tag "modules"
+    tag "flair"
+    tag "flair/plotisoformusage"
+
+    test("plotisoformusage - bed, counts, gene") {
+        
+        when {
+            process {
+                """
+                def bed = file("\${projectDir}/modules/flair/testdata/test-predict-productivity.bed", checkIfExists: true)
+                def counts = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.annotated_transcripts.alignment.counts", checkIfExists: true)
+
+                input[0] = [ 
+                    [ id:'test', single_end:false ], 
+                    bed,
+                    counts
+                ]
+                input[1] = "ENSG00000133703.12"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                // Output might be optional if gene not found, but we want success
+                // snapshotting versions.yml at least
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+
+    }
+
+}

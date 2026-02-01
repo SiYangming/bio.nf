@@ -1,0 +1,46 @@
+name: flair_markintronretention
+description: Identifies intron retention in isoforms using flair mark_intron_retention
+keywords:
+  - bed
+  - intron
+  - retention
+  - flair
+tools:
+  - flair:
+      description: |
+        FLAIR (Full-Length Alternative Isoform analysis of RNA) is a tool for the correction, collapse and quantification of noisy reads.
+      homepage: https://flair.readthedocs.io/en/latest/
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["GPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: BED12 format file
+      pattern: "*.bed"
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - isoforms_bed:
+      type: file
+      description: BED file with intron retention marked
+      pattern: "*_isoforms.bed"
+  - introns_txt:
+      type: file
+      description: Text file listing introns
+      pattern: "*_introns.txt"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

@@ -1,0 +1,196 @@
+{
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "drimseq_plots": [
+                    
+                ],
+                "drimseq_results": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T23:30:24.559678"
+    },
+    "test-diffsplice": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "diffsplice.alt3.events.quant.tsv:md5,c59145296906b44f96c56fe00ee68a06",
+                            "diffsplice.alt5.events.quant.tsv:md5,45826fc37b45b0659426dd2f67ae9024",
+                            "diffsplice.es.events.quant.tsv:md5,eda258e225040f498b9044611d7e7ab5",
+                            "diffsplice.ir.events.quant.tsv:md5,45826fc37b45b0659426dd2f67ae9024"
+                        ]
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    [
+                        "FLAIR_DIFFSPLICE",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "drimseq_plots": [
+                    
+                ],
+                "drimseq_results": [
+                    
+                ],
+                "quant_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "diffsplice.alt3.events.quant.tsv:md5,c59145296906b44f96c56fe00ee68a06",
+                            "diffsplice.alt5.events.quant.tsv:md5,45826fc37b45b0659426dd2f67ae9024",
+                            "diffsplice.es.events.quant.tsv:md5,eda258e225040f498b9044611d7e7ab5",
+                            "diffsplice.ir.events.quant.tsv:md5,45826fc37b45b0659426dd2f67ae9024"
+                        ]
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_DIFFSPLICE",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T16:58:17.024625"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "drimseq_plots": [
+                    
+                ],
+                "drimseq_results": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T09:41:36.114225"
+    },
+    "test-diffsplice - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "drimseq_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "diffsplice.events.quant.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "isoforms_drimseq.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_DIFFSPLICE",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "drimseq_plots": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "isoforms_drimseq.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "drimseq_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "drimseq_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "quant_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "diffsplice.events.quant.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_DIFFSPLICE",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T16:58:22.938429"
+    }
+}

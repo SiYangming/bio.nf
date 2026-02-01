@@ -1,0 +1,91 @@
+{
+    "variants - simple": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "variants": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T22:53:43.569208"
+    },
+    "variants - basic": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.flairaligned.longshot.vcf:md5,37ccc3069764945ef2c4775eec3dfd4a"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,3505f2a94aaa49a364c24a8a8b9340a0"
+                ],
+                "variants": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.flairaligned.longshot.vcf:md5,37ccc3069764945ef2c4775eec3dfd4a"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,3505f2a94aaa49a364c24a8a8b9340a0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T16:41:36.101468"
+    },
+    "variants - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,3505f2a94aaa49a364c24a8a8b9340a0"
+                ],
+                "variants": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,3505f2a94aaa49a364c24a8a8b9340a0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T16:42:33.287458"
+    }
+}

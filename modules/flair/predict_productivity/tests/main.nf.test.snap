@@ -1,0 +1,60 @@
+{
+    "predictproductivity - bed, gtf, fasta": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.bed:md5,ec5ca889812962f854a25a371d4adb4d"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,8ba5481c027113a0faad82698324c67d"
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.bed:md5,ec5ca889812962f854a25a371d4adb4d"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,8ba5481c027113a0faad82698324c67d"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T18:46:54.796762"
+    },
+    "test_predict_productivity": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "bed": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T15:52:25.797992"
+    }
+}

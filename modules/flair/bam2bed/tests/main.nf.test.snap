@@ -1,0 +1,101 @@
+{
+    "test_bam2bed_stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "FLAIR_BAM2BED",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_BAM2BED",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T15:46:30.289595"
+    },
+    "bam2bed - bam": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.bed:md5,36ae67fe2cb9b2b3a71ebeebdf50d217"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f4d66593b77f5700bf5139dead78b14f"
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.bed:md5,36ae67fe2cb9b2b3a71ebeebdf50d217"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f4d66593b77f5700bf5139dead78b14f"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-30T11:15:03.632583"
+    },
+    "test_bam2bed": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "bed": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T15:45:25.226394"
+    }
+}

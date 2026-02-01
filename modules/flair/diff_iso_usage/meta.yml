@@ -1,0 +1,48 @@
+name: flair_diffisousage
+description: Calculates differential isoform usage between two samples using flair diff_iso_usage
+keywords:
+  - counts
+  - isoform
+  - differential
+  - flair
+tools:
+  - flair:
+      description: |
+        FLAIR (Full-Length Alternative Isoform analysis of RNA) is a tool for the correction, collapse and quantification of noisy reads.
+      homepage: https://flair.readthedocs.io/en/latest/
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["GPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - counts_matrix:
+      type: file
+      description: Isoform counts matrix TSV file
+      pattern: "*.tsv"
+  - colname1:
+      type: string
+      description: Name of the first sample column
+  - colname2:
+      type: string
+      description: Name of the second sample column
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - tsv:
+      type: file
+      description: TSV file containing differential usage results
+      pattern: "*.tsv"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

@@ -1,0 +1,39 @@
+nextflow_process {
+
+    name "Test Process FLAIR_DIFFISOUSAGE"
+    script "../main.nf"
+    process "FLAIR_DIFFISOUSAGE"
+
+    tag "modules"
+    tag "flair"
+    tag "flair/diffisousage"
+
+    test("diffisousage - counts") {
+        
+        when {
+            process {
+                """
+                def counts_matrix = file("${projectDir}/modules/flair/testdata/basic.counts_matrix_diffexp.tsv", checkIfExists: true)
+                def colname1 = "MCF7cdnar1r3_MCF7_batch1"
+                def colname2 = "MCF7cdnastrandr3r2_MCF7_batch1"
+
+                input[0] = [ 
+                    [ id:'test', single_end:false ], 
+                    counts_matrix
+                ]
+                input[1] = colname1
+                input[2] = colname2
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

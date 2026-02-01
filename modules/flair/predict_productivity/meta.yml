@@ -1,0 +1,51 @@
+name: flair_predictproductivity
+description: Predicts productivity of isoforms using flair predictProductivity
+keywords:
+  - bed
+  - gtf
+  - fasta
+  - productivity
+  - flair
+tools:
+  - flair:
+      description: |
+        FLAIR (Full-Length Alternative Isoform analysis of RNA) is a tool for the correction, collapse and quantification of noisy reads.
+      homepage: https://flair.readthedocs.io/en/latest/
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["GPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: Isoform BED file
+      pattern: "*.bed"
+  - gtf:
+      type: file
+      description: GTF annotation file
+      pattern: "*.gtf"
+  - fasta:
+      type: file
+      description: Genome FASTA file
+      pattern: "*.{fa,fasta}"
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: BED file with productivity information
+      pattern: "*.bed"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

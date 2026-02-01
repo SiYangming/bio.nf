@@ -1,0 +1,15 @@
+name: flair
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::flair=3.0.0
+  - bioconductor-deseq2
+  - bioconductor-drimseq
+  - bioconductor-stager
+  - bioconductor-apeglm
+  - r-argparse
+  - r-ggplot2
+  - r-qqman
+  - r-lazyeval
+  - r-data.table

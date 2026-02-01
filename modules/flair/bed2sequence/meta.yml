@@ -1,0 +1,46 @@
+name: flair_bed2sequence
+description: Extracts sequences from a BED file using a genome FASTA file
+keywords:
+  - bed
+  - fasta
+  - sequence
+  - flair
+tools:
+  - flair:
+      description: |
+        FLAIR (Full-Length Alternative Isoform analysis of RNA) is a tool for the correction, collapse and quantification of noisy reads.
+      homepage: https://flair.readthedocs.io/en/latest/
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["GPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: BED file
+      pattern: "*.bed"
+  - genome:
+      type: file
+      description: Genome FASTA file
+      pattern: "*.{fa,fasta}"
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - fasta:
+      type: file
+      description: Output FASTA file
+      pattern: "*.fa"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

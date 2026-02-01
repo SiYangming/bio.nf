@@ -1,0 +1,55 @@
+{
+    "fusion - simple": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        [
+                            "test.annotated_transcripts.bed:md5,97528dff29f714ce77e2fa3049f6dc26",
+                            "test.annotated_transcripts.fa:md5,815f16acba3e0cbe2b2ef44c0fc8b7ac",
+                            "test.chimreads.fastq:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.fusions.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.fusions.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.prelimfusions.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_transcriptomechimeric.bam:md5,27bf346c75e2df1bd0a220bbc8532e82",
+                            "test_transcriptomechimeric.bam.bai:md5,7764ad6932d3b31b88056730ece526e1"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,2555d57896953c8899e58e2307eb5dc1"
+                ],
+                "output": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        [
+                            "test.annotated_transcripts.bed:md5,97528dff29f714ce77e2fa3049f6dc26",
+                            "test.annotated_transcripts.fa:md5,815f16acba3e0cbe2b2ef44c0fc8b7ac",
+                            "test.chimreads.fastq:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.fusions.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.fusions.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test.prelimfusions.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_transcriptomechimeric.bam:md5,27bf346c75e2df1bd0a220bbc8532e82",
+                            "test_transcriptomechimeric.bam.bai:md5,7764ad6932d3b31b88056730ece526e1"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2555d57896953c8899e58e2307eb5dc1"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T17:17:53.369452"
+    }
+}

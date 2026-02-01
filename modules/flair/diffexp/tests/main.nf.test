@@ -1,0 +1,55 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_DIFFEXP"
+    script "../main.nf"
+    process "FLAIR_DIFFEXP"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/diffexp"
+
+    test("test-diffexp") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], 
+                             file("\${projectDir}/modules/flair/testdata/basic.counts_matrix_diffexp.tsv", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-diffexp - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], 
+                             file("\${projectDir}/modules/flair/testdata/basic.counts_matrix_diffexp.tsv", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

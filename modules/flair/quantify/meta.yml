@@ -1,0 +1,101 @@
+name: "flair_quantify"
+description: Quantifies isoform expression levels across samples
+keywords:
+  - long-read
+  - quantification
+  - isoform-expression
+  - transcriptome
+tools:
+  - flair:
+      description: Full-Length Alternative Isoform analysis of RNA
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["MIT"]
+      identifier: biotools:flair
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'experiment1' ]`
+    - manifest:
+        type: file
+        description: |
+          Tab-separated manifest file with columns: sample_id, condition, batch, reads_file.
+          Example:
+          sample1  control  batch1  /path/to/sample1.fq
+          sample2  treatment  batch1  /path/to/sample2.fq
+        pattern: "*.{txt,tsv}"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing isoform information
+          e.g. `[ id:'isoforms' ]`
+    - isoforms:
+        type: file
+        description: Isoforms reference file (FASTA format from collapse or transcriptome)
+        pattern: "*.{fa,fasta}"
+  - - isoform_bed:
+        type: file
+        description: Isoforms BED file (optional)
+        pattern: "*.bed"
+
+output:
+  - counts:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*.counts.tsv":
+          type: file
+          description: Isoform counts matrix (isoforms x samples)
+          pattern: "*.counts.tsv"
+  - tpm:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*.tpm.tsv":
+          type: file
+          description: Transcripts per million matrix
+          pattern: "*.tpm.tsv"
+  - bam:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*/*.bam":
+          type: file
+          description: Sample-specific BAM files aligned to transcriptome (optional, if --output_bam specified)
+          pattern: "*/*.bam"
+  - map:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*.map.txt":
+          type: file
+          description: Read to isoform map files
+          pattern: "*.map.txt"
+  - versions_flair:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - flair:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

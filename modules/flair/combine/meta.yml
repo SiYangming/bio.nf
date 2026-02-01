@@ -1,0 +1,49 @@
+name: flair_combine
+description: Combine transcriptomes from multiple samples
+keywords:
+  - flair
+  - combine
+  - isoform
+tools:
+  - flair:
+      description: FLAIR (Full-Length Alternative Isoform analysis of RNA)
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["BSD-3-Clause"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - manifest:
+      type: file
+      description: |
+        Path to manifest file. Each line should be tab separated with:
+        sample name, sample type (isoform or fusionisoform), path/to/isoforms.bed,
+        path/to/isoforms.fa (optional), path/to/map.txt (optional).
+  - input_files:
+      type: file
+      description: List of all files referenced in the manifest (BED, FASTA, etc.)
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bed:
+      type: file
+      description: Combined isoforms in BED format
+      pattern: "*.bed"
+  - fasta:
+      type: file
+      description: Combined isoforms sequences in FASTA format (optional)
+      pattern: "*.fa"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

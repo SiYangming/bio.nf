@@ -1,0 +1,73 @@
+name: "flair_diffsplice"
+description: Performs differential splicing/isoform usage analysis between two conditions using DRIMSeq
+keywords:
+  - long-read
+  - differential-splicing
+  - isoform-usage
+  - drimseq
+tools:
+  - flair:
+      description: Full-Length Alternative Isoform analysis of RNA
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["MIT"]
+      identifier: biotools:flair
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'experiment1' ]`
+    - counts:
+        type: file
+        description: Counts matrix from FLAIR quantify
+        pattern: "*.counts.tsv"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing isoform information
+          e.g. `[ id:'isoforms' ]`
+    - isoforms:
+        type: file
+        description: Isoforms reference file (BED format from collapse or transcriptome, optional)
+        pattern: "*.bed"
+
+output:
+  - drimseq_results:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*_drimseq_results.tsv":
+          type: file
+          description: DRIMSeq differential splicing results
+          pattern: "*_drimseq_results.tsv"
+  - drimseq_plots:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'experiment1' ]`
+      - "*_*drimseq*.pdf":
+          type: file
+          description: DRIMSeq diagnostic plots
+          pattern: "*_*drimseq*.pdf"
+  - versions_flair:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - flair:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

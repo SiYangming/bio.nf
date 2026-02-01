@@ -1,0 +1,76 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_TRANSCRIPTOME"
+    script "../main.nf"
+    process "FLAIR_TRANSCRIPTOME"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/transcriptome"
+    tag "flair/align"
+
+    setup {
+        run("FLAIR_ALIGN") {
+            script "../../align/main.nf"
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                """
+            }
+        }
+    }
+
+    test("test-transcriptome") {
+
+        when {
+            process {
+                """
+                input[0] = FLAIR_ALIGN.out.bam.join(FLAIR_ALIGN.out.bai)
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-transcriptome - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = FLAIR_ALIGN.out.bam.join(FLAIR_ALIGN.out.bai)
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

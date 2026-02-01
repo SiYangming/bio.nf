@@ -1,0 +1,35 @@
+nextflow_process {
+
+    name "Test Process FLAIR_BAM2BED"
+    script "../main.nf"
+    process "FLAIR_BAM2BED"
+
+    tag "modules"
+    tag "flair"
+    tag "flair/bam2bed"
+
+    test("bam2bed - bam") {
+        
+        when {
+            process {
+                """
+                def bam = file("\${projectDir}/modules/flair/testdata/tiny.bam", checkIfExists: true)
+
+                input[0] = [ 
+                    [ id:'test', single_end:false ], 
+                    bam
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

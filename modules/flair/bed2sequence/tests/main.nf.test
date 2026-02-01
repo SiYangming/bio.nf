@@ -1,0 +1,37 @@
+nextflow_process {
+
+    name "Test Process FLAIR_BED2SEQUENCE"
+    script "../main.nf"
+    process "FLAIR_BED2SEQUENCE"
+
+    tag "modules"
+    tag "flair"
+    tag "flair/bed2sequence"
+
+    test("bed2sequence - bed, genome") {
+        
+        when {
+            process {
+                """
+                def bed = file("\${projectDir}/modules/flair/testdata/test.bed", checkIfExists: true)
+                def genome = file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true)
+
+                input[0] = [ 
+                    [ id:'test', single_end:false ], 
+                    bed,
+                    genome
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

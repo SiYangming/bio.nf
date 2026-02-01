@@ -1,0 +1,86 @@
+name: "flair_correct"
+description: Corrects misaligned splice sites in aligned reads using reference annotation
+keywords:
+  - long-read
+  - splice-correction
+  - isoform
+  - transcriptome
+tools:
+  - flair:
+      description: Full-Length Alternative Isoform analysis of RNA
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["MIT"]
+      identifier: biotools:flair
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - bed:
+        type: file
+        description: Aligned reads in BED12 format from FLAIR align
+        pattern: "*.bed"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing reference information
+          e.g. `[ id:'genome' ]`
+    - genome:
+        type: file
+        description: Reference genome FASTA file
+        pattern: "*.{fasta,fa,fasta.gz,fa.gz}"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annotation' ]`
+    - gtf:
+        type: file
+        description: Reference annotation GTF file
+        pattern: "*.gtf"
+  - - chromsizes:
+        type: file
+        description: Chromosome sizes file
+        pattern: "*.txt"
+
+output:
+  - bed:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_all_corrected.bed":
+          type: file
+          description: Corrected reads in BED12 format
+          pattern: "*_all_corrected.bed"
+  - inconsistent:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_all_inconsistent.bed":
+          type: file
+          description: Reads with inconsistent splice sites
+          pattern: "*_all_inconsistent.bed"
+  - versions_flair:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - flair:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

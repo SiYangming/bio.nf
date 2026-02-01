@@ -1,0 +1,59 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_ALIGN"
+    script "../main.nf"
+    process "FLAIR_ALIGN"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/align"
+
+    test("test-align") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-align - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.1.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

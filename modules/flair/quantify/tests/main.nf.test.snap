@@ -1,0 +1,278 @@
+{
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "sample.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "sample.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T09:40:51.00148"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,bc44032c01ff97e11182d05ec0a2e312"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bam": [
+                    
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,bc44032c01ff97e11182d05ec0a2e312"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T15:17:37.090306"
+    },
+    "test-quantify": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,c9a79d60a8f4150db1f1eb1c0d4bc9a3"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.tpm.tsv:md5,2295e0af53a18b10822328e9100df599"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test.A1.A.isoform.read.map.txt:md5,dbb9e4c8fc08c1fb627619430e6bdba2",
+                            "test.A2.A.isoform.read.map.txt:md5,5cb1e822c40543269e0eb1990fbcfa71",
+                            "test.A3.A.isoform.read.map.txt:md5,0649295fe9ec1765477134c5dbe77536",
+                            "test.B1.B.isoform.read.map.txt:md5,1d5005ebad45b816a43caa16cab3097d",
+                            "test.B2.B.isoform.read.map.txt:md5,1ff5331c0258712699c24ae8f74c4ba1",
+                            "test.B3.B.isoform.read.map.txt:md5,9d0701037a015b068ab2ab4a0eccdcc0"
+                        ]
+                    ]
+                ],
+                "4": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "bam": [
+                    
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,c9a79d60a8f4150db1f1eb1c0d4bc9a3"
+                    ]
+                ],
+                "map": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test.A1.A.isoform.read.map.txt:md5,dbb9e4c8fc08c1fb627619430e6bdba2",
+                            "test.A2.A.isoform.read.map.txt:md5,5cb1e822c40543269e0eb1990fbcfa71",
+                            "test.A3.A.isoform.read.map.txt:md5,0649295fe9ec1765477134c5dbe77536",
+                            "test.B1.B.isoform.read.map.txt:md5,1d5005ebad45b816a43caa16cab3097d",
+                            "test.B2.B.isoform.read.map.txt:md5,1ff5331c0258712699c24ae8f74c4ba1",
+                            "test.B3.B.isoform.read.map.txt:md5,9d0701037a015b068ab2ab4a0eccdcc0"
+                        ]
+                    ]
+                ],
+                "tpm": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.tpm.tsv:md5,2295e0af53a18b10822328e9100df599"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T22:21:58.440937"
+    },
+    "test-quantify - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.tpm.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "sample.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "sample.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.counts.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "map": [
+                    
+                ],
+                "tpm": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.tpm.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_QUANTIFY",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T19:01:01.470091"
+    }
+}

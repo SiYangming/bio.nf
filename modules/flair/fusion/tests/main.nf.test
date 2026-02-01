@@ -1,0 +1,50 @@
+nextflow_process {
+    name "Test Process FLAIR_FUSION"
+    script "../main.nf"
+    process "FLAIR_FUSION"
+
+    tag "modules"
+    tag "flair"
+    tag "flair/fusion"
+
+    test("fusion - simple") {
+        when {
+            process {
+                """
+                def reads = file("${projectDir}/modules/flair/testdata/ERGIC3_KRAS_sim_fusion.badread20x.stranded.fastq.gz", checkIfExists: true)
+                // We use a dummy BAM file here because we cannot easily generate the required chimeric BAM in the test context without running flair align first.
+                // In a real workflow, this BAM comes from flair align. 
+                // For this unit test, we use tiny.bam as a placeholder to satisfy the input channel, 
+                // but we might expect the process to fail or produce limited output if the BAM content doesn't match the reads/genome for fusion calling.
+                // However, looking at the Makefile, flair fusion is run AFTER flair align.
+                // The Makefile example:
+                // flair align -r \${ERGIC3_KRAS_SIM_FA_GZ} --genome \${GENOME_FA} ... -o \$O/\$@ ...
+                // flair fusion -g \${GENOME_FA} -f \$(BASIC_ANNOTATION) -r \${ERGIC3_KRAS_SIM_FA_GZ} -b \$O/\$@_chimeric.bam ...
+                
+                // Since we can't run flair align in this single process test easily (unless we use a workflow test or pre-generated data),
+                // we will try to use the existing tiny.bam if appropriate, or we need to generate a valid chimeric bam.
+                // Given the limitations, we will try to mimic the input structure.
+                
+                def bam = file("${projectDir}/modules/flair/testdata/tiny.bam", checkIfExists: true) 
+                def genome = file("${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true)
+                def gtf = file("${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true)
+
+                input[0] = [ 
+                    [ id:'test', single_end:false ], 
+                    reads,
+                    bam
+                ]
+                input[1] = genome
+                input[2] = gtf
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

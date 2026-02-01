@@ -1,0 +1,316 @@
+{
+    "homo_sapiens - pacbio": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "bed": [
+                    
+                ],
+                "inconsistent": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T17:09:09.001526"
+    },
+    "test-correct": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,b6d9616e64bd03da9269ac42e71703ce"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,f414411f3f6a21e2255c486e6931b15e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,b6d9616e64bd03da9269ac42e71703ce"
+                    ]
+                ],
+                "inconsistent": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,f414411f3f6a21e2255c486e6931b15e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T15:23:51.833158"
+    },
+    "test-correct - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "inconsistent": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-26T16:35:28.305288"
+    },
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "inconsistent": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T14:58:26.77228"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,4a4f525f197364d0bdb766b18d858768"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,4b9e8187a8dbccbf59b586b97db3496c"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,4a4f525f197364d0bdb766b18d858768"
+                    ]
+                ],
+                "inconsistent": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,4b9e8187a8dbccbf59b586b97db3496c"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T11:58:38.583217"
+    },
+    "homo_sapiens - pacbio - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "inconsistent": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_inconsistent.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T17:09:21.29927"
+    }
+}

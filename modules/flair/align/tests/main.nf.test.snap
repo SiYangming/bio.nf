@@ -1,0 +1,440 @@
+{
+    "homo_sapiens - pacbio": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bam:md5,e9f5057f4a1287c5fda580f68fcb2843"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bam.bai:md5,d7c27ec2287846190404dabc0a42139a"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bed:md5,7c9bcc672853d072b24a2ed53f87c159"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bam.bai:md5,d7c27ec2287846190404dabc0a42139a"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bam:md5,e9f5057f4a1287c5fda580f68fcb2843"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.aligned.bed:md5,7c9bcc672853d072b24a2ed53f87c159"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T20:13:28.645137"
+    },
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T11:48:14.966638"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,8d8fdf5002db291498e58e7cee94fa25"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,dd90aeae27826d0350338bf8708c031c"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,1399a609c5aa6e913771d021bc828f3a"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,dd90aeae27826d0350338bf8708c031c"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,8d8fdf5002db291498e58e7cee94fa25"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,1399a609c5aa6e913771d021bc828f3a"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T11:48:07.228747"
+    },
+    "test-align - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-26T16:33:38.487101"
+    },
+    "homo_sapiens - pacbio - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T17:08:08.816266"
+    },
+    "test-align": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,484e1aa47d7edb44239b179a8b7ab45e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,0fc663a7b0fe875deb6e7b862cf114e5"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,eb7ff35f03163ec5a3a634dd33ce0dc3"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bai": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam.bai:md5,0fc663a7b0fe875deb6e7b862cf114e5"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,484e1aa47d7edb44239b179a8b7ab45e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bed:md5,eb7ff35f03163ec5a3a634dd33ce0dc3"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T13:03:58.156022"
+    }
+}

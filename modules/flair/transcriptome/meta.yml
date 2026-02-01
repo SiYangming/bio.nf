@@ -1,0 +1,92 @@
+name: "flair_transcriptome"
+description: Generates transcriptome of high-confidence isoforms directly from BAM (3x faster than correct + collapse)
+keywords:
+  - long-read
+  - isoform-discovery
+  - transcriptome
+  - fast
+tools:
+  - flair:
+      description: Full-Length Alternative Isoform analysis of RNA
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["MIT"]
+      identifier: biotools:flair
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - bam:
+        type: file
+        description: Aligned BAM file (from minimap2 or FLAIR align)
+        pattern: "*.bam"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing reference information
+          e.g. `[ id:'genome' ]`
+    - genome:
+        type: file
+        description: Reference genome FASTA file
+        pattern: "*.{fasta,fa,fasta.gz,fa.gz}"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annotation' ]`
+    - gtf:
+        type: file
+        description: Reference annotation GTF file (optional)
+        pattern: "*.gtf"
+
+output:
+  - isoforms_bed:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.isoforms.bed":
+          type: file
+          description: High-confidence isoforms in BED12 format
+          pattern: "*.isoforms.bed"
+  - isoforms_gtf:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.isoforms.gtf":
+          type: file
+          description: High-confidence isoforms in GTF format
+          pattern: "*.isoforms.gtf"
+  - isoforms_fa:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.isoforms.fa":
+          type: file
+          description: High-confidence isoforms sequences in FASTA format
+          pattern: "*.isoforms.fa"
+  - versions_flair:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - flair:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

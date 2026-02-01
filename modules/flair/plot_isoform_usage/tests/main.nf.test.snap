@@ -1,0 +1,14 @@
+{
+    "plotisoformusage - bed, counts, gene": {
+        "content": [
+            [
+                "versions.yml:md5,ce68f32dd26f7ce7b389d8c102224fb8"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T18:31:10.37172"
+    }
+}

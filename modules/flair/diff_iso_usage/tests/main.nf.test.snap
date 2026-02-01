@@ -1,0 +1,37 @@
+{
+    "diffisousage - counts": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.tsv:md5,d1727cb4459f402e1cbe5ecae4d6c3ae"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,be3627f0cbb5da91de6fee31f62a227b"
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.tsv:md5,d1727cb4459f402e1cbe5ecae4d6c3ae"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,be3627f0cbb5da91de6fee31f62a227b"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T16:40:18.147869"
+    }
+}

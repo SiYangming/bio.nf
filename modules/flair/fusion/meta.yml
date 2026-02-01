@@ -1,0 +1,48 @@
+name: flair_fusion
+description: Detect fusions from long reads
+keywords:
+  - flair
+  - fusion
+  - chimera
+tools:
+  - flair:
+      description: FLAIR (Full-Length Alternative Isoform analysis of RNA)
+      homepage: https://github.com/BrooksLabUCSC/flair
+      documentation: https://flair.readthedocs.io/
+      tool_dev_url: https://github.com/BrooksLabUCSC/flair
+      doi: "10.1038/s41467-020-15171-6"
+      licence: ["BSD-3-Clause"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - reads:
+      type: file
+      description: Raw reads (FastA/FastQ)
+  - genome_chim_bam:
+      type: file
+      description: BAM file of chimeric reads from genomic alignment
+  - genome:
+      type: file
+      description: Reference genome FASTA
+  - gtf:
+      type: file
+      description: Reference annotation GTF
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - output:
+      type: file
+      description: Fusion output files
+      pattern: "${prefix}*"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@siyangming"

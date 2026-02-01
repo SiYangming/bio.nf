@@ -1,0 +1,294 @@
+{
+    "test-transcriptome": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,e0733f8e912a02fca10128d52ee4f07d"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,557edb48fbbe592b78d31033014f2e00"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,7349fb665cd82cfb737291fa4ccd7b78"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,e0733f8e912a02fca10128d52ee4f07d"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,7349fb665cd82cfb737291fa4ccd7b78"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,557edb48fbbe592b78d31033014f2e00"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T22:30:54.720998"
+    },
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T09:40:23.348943"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,86d6684baa4697815b0ac52eecef0391"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,0cdb27c717284b7b0feacaf9a06ce1a8"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,31c828690cff9b1a62fbea06f203dda8"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,86d6684baa4697815b0ac52eecef0391"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,31c828690cff9b1a62fbea06f203dda8"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,0cdb27c717284b7b0feacaf9a06ce1a8"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-25T12:03:00.958036"
+    },
+    "test-transcriptome - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_TRANSCRIPTOME",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T22:31:01.107065"
+    }
+}

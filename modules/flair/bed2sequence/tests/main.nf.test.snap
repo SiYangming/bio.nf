@@ -1,0 +1,37 @@
+{
+    "bed2sequence - bed, genome": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.fa:md5,3cf980430c78359982e81d15c93f2d12"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,6712a2f8469fc154593d3fcbcb355138"
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test.fa:md5,3cf980430c78359982e81d15c93f2d12"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,6712a2f8469fc154593d3fcbcb355138"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T23:14:32.358358"
+    }
+}

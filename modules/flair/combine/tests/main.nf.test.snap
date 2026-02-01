@@ -1,0 +1,41 @@
+{
+    "combine - simple manifest": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.combined.bed.bed:md5,9c89dd23884d15a0125ce6455370074c"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,85f63ecdf77ca43de1afd63398af32a9"
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.combined.bed.bed:md5,9c89dd23884d15a0125ce6455370074c"
+                    ]
+                ],
+                "fasta": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,85f63ecdf77ca43de1afd63398af32a9"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T15:03:11.472179"
+    }
+}

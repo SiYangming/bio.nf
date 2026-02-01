@@ -1,0 +1,226 @@
+{
+    "sarscov2 - nanopore - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_deseq2_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_genes_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_isoforms_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "deseq2_plots": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_genes_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_isoforms_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "deseq2_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_deseq2_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-26T08:50:46.634069"
+    },
+    "sarscov2 - nanopore": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "deseq2_plots": [
+                    
+                ],
+                "deseq2_results": [
+                    
+                ],
+                "versions_flair": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-23T09:41:07.610774"
+    },
+    "test-diffexp": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2_MCF7_v_A549.tsv:md5,935e99af893ae8c7af9d63000c4d7d1b",
+                            "isoforms_deseq2_MCF7_v_A549.tsv:md5,a88a52b3969ab2548cceedc76cbc9b0c"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2_QCplots_MCF7_v_A549.pdf:md5,2fda3806cf28f789912f450f50286f24",
+                            "isoforms_deseq2_QCplots_MCF7_v_A549.pdf:md5,3d30b02eeae1401d228df6fca99685e0"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "deseq2_plots": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2_QCplots_MCF7_v_A549.pdf:md5,2fda3806cf28f789912f450f50286f24",
+                            "isoforms_deseq2_QCplots_MCF7_v_A549.pdf:md5,3d30b02eeae1401d228df6fca99685e0"
+                        ]
+                    ]
+                ],
+                "deseq2_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2_MCF7_v_A549.tsv:md5,935e99af893ae8c7af9d63000c4d7d1b",
+                            "isoforms_deseq2_MCF7_v_A549.tsv:md5,a88a52b3969ab2548cceedc76cbc9b0c"
+                        ]
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T16:56:26.183384"
+    },
+    "test-diffexp - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "genes_deseq2_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "isoforms_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ],
+                "deseq2_plots": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genes_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "isoforms_deseq2.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "deseq2_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "genes_deseq2_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_flair": [
+                    [
+                        "FLAIR_DIFFEXP",
+                        "flair",
+                        "FLAIR 3.0.0"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-31T16:56:34.970344"
+    }
+}

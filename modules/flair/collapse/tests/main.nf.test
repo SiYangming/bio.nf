@@ -1,0 +1,92 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_COLLAPSE"
+    script "../main.nf"
+    process "FLAIR_COLLAPSE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/collapse"
+    tag "flair/align"
+    tag "flair/correct"
+
+    setup {
+        run("FLAIR_ALIGN") {
+            script "../../align/main.nf"
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                """
+            }
+        }
+        
+        run("FLAIR_CORRECT") {
+            script "../../correct/main.nf"
+            process {
+                """
+                input[0] = FLAIR_ALIGN.out.bed
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+    }
+
+    test("test-collapse") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = FLAIR_CORRECT.out.bed
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                input[3] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-collapse - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.1.fa", checkIfExists: true) ]
+                input[1] = FLAIR_CORRECT.out.bed
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true) ]
+                input[3] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

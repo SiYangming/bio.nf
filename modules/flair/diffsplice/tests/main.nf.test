@@ -1,0 +1,59 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_DIFFSPLICE"
+    script "../main.nf"
+    process "FLAIR_DIFFSPLICE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/diffsplice"
+
+    test("test-diffsplice") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], 
+                             file("\${projectDir}/modules/flair/testdata/basic.counts_matrix_diffsplice.tsv", checkIfExists: true) ]
+                input[1] = [ [ id:'test' ], 
+                             file("https://raw.githubusercontent.com/BrooksLabUCSC/flair/master/test/expected/test-collapse.isoforms.bed", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-diffsplice - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], 
+                             file("\${projectDir}/modules/flair/testdata/basic.counts_matrix_diffsplice.tsv", checkIfExists: true) ]
+                input[1] = [ [ id:'test' ], 
+                             file("https://raw.githubusercontent.com/BrooksLabUCSC/flair/master/test/expected/test-collapse.isoforms.bed", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

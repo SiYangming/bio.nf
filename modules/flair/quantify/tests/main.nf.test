@@ -1,0 +1,95 @@
+
+nextflow_process {
+
+    name "Test Process FLAIR_QUANTIFY"
+    script "../main.nf"
+    process "FLAIR_QUANTIFY"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "flair"
+    tag "flair/quantify"
+
+    test("test-quantify") {
+        
+        config "./nextflow.config"
+
+        when {
+            process {
+                """
+                def reads1 = file("\${projectDir}/modules/flair/testdata/basic.reads.1.fa", checkIfExists: true)
+                def reads2 = file("\${projectDir}/modules/flair/testdata/basic.reads.2.fa", checkIfExists: true)
+                def reads3 = file("\${projectDir}/modules/flair/testdata/basic.reads.3.fa", checkIfExists: true)
+                def reads4 = file("\${projectDir}/modules/flair/testdata/basic.reads.4.fa", checkIfExists: true)
+                def reads5 = file("\${projectDir}/modules/flair/testdata/basic.reads.5.fa", checkIfExists: true)
+                def reads6 = file("\${projectDir}/modules/flair/testdata/basic.reads.6.fa", checkIfExists: true)
+                
+                def manifest = file("manifest.tsv")
+                manifest.text = "A1\\tA\\tb0\\t\${reads1.name}\\n" +
+                                "A2\\tA\\tb0\\t\${reads2.name}\\n" +
+                                "A3\\tA\\tb0\\t\${reads3.name}\\n" +
+                                "B1\\tB\\tb0\\t\${reads4.name}\\n" +
+                                "B2\\tB\\tb0\\t\${reads5.name}\\n" +
+                                "B3\\tB\\tb0\\t\${reads6.name}"
+                
+                input[0] = [ [ id:'test' ], // meta
+                             manifest,
+                             [reads1, reads2, reads3, reads4, reads5, reads6] ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.fa", checkIfExists: true) ]
+                input[2] = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.bed", checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-quantify - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def reads1 = file("\${projectDir}/modules/flair/testdata/basic.reads.1.fa", checkIfExists: true)
+                def reads2 = file("\${projectDir}/modules/flair/testdata/basic.reads.2.fa", checkIfExists: true)
+                def reads3 = file("\${projectDir}/modules/flair/testdata/basic.reads.3.fa", checkIfExists: true)
+                def reads4 = file("\${projectDir}/modules/flair/testdata/basic.reads.4.fa", checkIfExists: true)
+                def reads5 = file("\${projectDir}/modules/flair/testdata/basic.reads.5.fa", checkIfExists: true)
+                def reads6 = file("\${projectDir}/modules/flair/testdata/basic.reads.6.fa", checkIfExists: true)
+                
+                def manifest = file("manifest.tsv")
+                manifest.text = "A1\\tA\\tb0\\t\${reads1.name}\\n" +
+                                "A2\\tA\\tb0\\t\${reads2.name}\\n" +
+                                "A3\\tA\\tb0\\t\${reads3.name}\\n" +
+                                "B1\\tB\\tb0\\t\${reads4.name}\\n" +
+                                "B2\\tB\\tb0\\t\${reads5.name}\\n" +
+                                "B3\\tB\\tb0\\t\${reads6.name}"
+
+                input[0] = [ [ id:'test' ], // meta
+                             manifest,
+                             [reads1, reads2, reads3, reads4, reads5, reads6] ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.fa", checkIfExists: true) ]
+                input[2] = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.bed", checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
