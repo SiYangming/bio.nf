@@ -1,0 +1,252 @@
+{
+    "test_flair_stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_COLLAPSE",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_COLLAPSE",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T12:58:30.442616"
+    },
+    "simple": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,484e1aa47d7edb44239b179a8b7ab45e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,b6d9616e64bd03da9269ac42e71703ce"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,bf9dfb6e9e1fb7b4ddecedf8eb4ad1c6"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,c03c58ed2ee0a1550d8f67ec989eab5c"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,9bb775f60d2aeab162dee68847739bef"
+                    ]
+                ],
+                "5": [
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_COLLAPSE",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.bam:md5,484e1aa47d7edb44239b179a8b7ab45e"
+                    ]
+                ],
+                "bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_all_corrected.bed:md5,b6d9616e64bd03da9269ac42e71703ce"
+                    ]
+                ],
+                "isoforms_bed": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.bed:md5,bf9dfb6e9e1fb7b4ddecedf8eb4ad1c6"
+                    ]
+                ],
+                "isoforms_fa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.fa:md5,9bb775f60d2aeab162dee68847739bef"
+                    ]
+                ],
+                "isoforms_gtf": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.isoforms.gtf:md5,c03c58ed2ee0a1550d8f67ec989eab5c"
+                    ]
+                ],
+                "versions": [
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_ALIGN",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_COLLAPSE",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ],
+                    [
+                        "FLAIR_ANALYSIS:FLAIR_CORRECT",
+                        "flair",
+                        "FLAIR 3.0.0b1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-01-27T12:58:12.103352"
+    }
+}

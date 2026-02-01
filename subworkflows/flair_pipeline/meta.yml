@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: flair_pipeline
+description: Run FLAIR align, correct, and collapse
+keywords:
+  - flair
+  - nanopore
+  - isoforms
+  - quantification
+components:
+  - flair/align
+  - flair/correct
+  - flair/collapse
+input:
+  - ch_reads:
+      description: |
+        The input channel containing the reads
+        Structure: [ val(meta), path(reads) ]
+  - ch_genome:
+      description: |
+        The input channel containing the genome
+        Structure: [ val(meta), path(genome) ]
+  - ch_gtf:
+      description: |
+        The input channel containing the GTF annotation
+        Structure: [ val(meta), path(gtf) ]
+output:
+  - bam:
+      description: Aligned BAM file
+      structure: [ val(meta), path(bam) ]
+  - bed:
+      description: Corrected BED file
+      structure: [ val(meta), path(bed) ]
+  - isoforms_bed:
+      description: Isoforms BED file
+      structure: [ val(meta), path(bed) ]
+  - isoforms_gtf:
+      description: Isoforms GTF file
+      structure: [ val(meta), path(gtf) ]
+  - isoforms_fa:
+      description: Isoforms Fasta file
+      structure: [ val(meta), path(fasta) ]
+  - versions:
+      description: |
+        Files containing software versions
+        Structure: [ path(versions.yml) ]
+authors:
+  - "@siyangming"

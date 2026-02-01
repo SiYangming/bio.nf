@@ -1,0 +1,78 @@
+nextflow_workflow {
+
+    name "Test Subworkflow MINIMAP2_LONGSHOT_FLAIR"
+    script "../main.nf"
+    workflow "MINIMAP2_LONGSHOT_FLAIR"
+    tag "subworkflows"
+    tag "minimap2_longshot_flair"
+
+    test("minimap2_longshot_flair - basic") {
+
+        config "./nextflow.config"
+        
+        when {
+            workflow {
+                """
+                // Define inputs
+                def reads = file("\${projectDir}/modules/flair/testdata/basic.reads.4.fa", checkIfExists: true)
+                def genome = file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true)
+                def genome_fai = file("\${projectDir}/modules/flair/testdata/genome.fa.fai", checkIfExists: true)
+                
+                def isoforms_fa = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.fa", checkIfExists: true)
+                def isoforms_bed = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.bed", checkIfExists: true)
+                def gtf = file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true)
+
+                input[0] = Channel.of([ [ id:'test' ], reads ])
+                input[1] = Channel.of([ [ id:'genome' ], genome, genome_fai ])
+                input[2] = Channel.of([ [ id:'test' ], isoforms_fa ])
+                input[3] = Channel.of([ [ id:'test' ], isoforms_bed ])
+                input[4] = Channel.of(gtf)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+    }
+
+    test("minimap2_longshot_flair - stub") {
+
+        options "-stub"
+        config "./nextflow.config"
+
+        when {
+            workflow {
+                """
+                // Define inputs
+                def reads = file("\${projectDir}/modules/flair/testdata/basic.reads.4.fa", checkIfExists: true)
+                def genome = file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true)
+                def genome_fai = file("\${projectDir}/modules/flair/testdata/genome.fa.fai", checkIfExists: true)
+                
+                def isoforms_fa = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.fa", checkIfExists: true)
+                def isoforms_bed = file("\${projectDir}/modules/flair/testdata/test-collapse-annot.isoforms.bed", checkIfExists: true)
+                def gtf = file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true)
+
+                input[0] = Channel.of([ [ id:'test' ], reads ])
+                input[1] = Channel.of([ [ id:'genome' ], genome, genome_fai ])
+                input[2] = Channel.of([ [ id:'test' ], isoforms_fa ])
+                input[3] = Channel.of([ [ id:'test' ], isoforms_bed ])
+                input[4] = Channel.of(gtf)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+    }
+
+}

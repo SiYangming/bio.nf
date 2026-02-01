@@ -1,0 +1,62 @@
+nextflow_workflow {
+
+    name "Test Workflow FLAIR_ANALYSIS"
+    script "../main.nf"
+    workflow "FLAIR_ANALYSIS"
+
+    tag "subworkflows"
+    tag "subworkflows_nfcore"
+    tag "subworkflows/flair_analysis"
+    tag "flair/align"
+    tag "flair/correct"
+    tag "flair/collapse"
+    tag "flair"
+
+    test("simple") {
+
+        when {
+            workflow {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("../../tests/genome.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+    }
+
+    test("test_flair_stub") {
+
+        options "-stub"
+
+        when {
+            workflow {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.reads.fa", checkIfExists: true) ]
+                input[1] = [ [ id:'genome' ], // meta
+                             file("../../tests/genome.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'genome' ], // meta
+                             file("\${projectDir}/modules/flair/testdata/basic.annotation.gtf", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "minimap2_longshot_flair - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,0895d151814d5456da446f27ed7730e7",
+                    "versions.yml:md5,1e78083908ab1afab514aab4538f0ed4",
+                    "versions.yml:md5,d081bdb0853a1994845c9d24f328315f",
+                    "versions.yml:md5,d64422eb1422b81680c307619c218bb1",
+                    "versions.yml:md5,dd294c21f7660975706dc0d91f67a052"
+                ],
+                "variants": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,0895d151814d5456da446f27ed7730e7",
+                    "versions.yml:md5,1e78083908ab1afab514aab4538f0ed4",
+                    "versions.yml:md5,d081bdb0853a1994845c9d24f328315f",
+                    "versions.yml:md5,d64422eb1422b81680c307619c218bb1",
+                    "versions.yml:md5,dd294c21f7660975706dc0d91f67a052"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T12:42:11.924136"
+    },
+    "flair_longshot - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "FLAIR_LONGSHOT:SAMTOOLS_FAIDX",
+                        "samtools",
+                        "1.22.1"
+                    ],
+                    "versions.yml:md5,36c1217ddb1e0af0fa2182ccedc84279",
+                    "versions.yml:md5,6c879236e54513fc55d93202ad7c1ec1",
+                    "versions.yml:md5,70a5f529eff7f257fe0b94631304ac73",
+                    "versions.yml:md5,da2ad61806d317597ff4d1475fc74462"
+                ],
+                "variants": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    [
+                        "FLAIR_LONGSHOT:SAMTOOLS_FAIDX",
+                        "samtools",
+                        "1.22.1"
+                    ],
+                    "versions.yml:md5,36c1217ddb1e0af0fa2182ccedc84279",
+                    "versions.yml:md5,6c879236e54513fc55d93202ad7c1ec1",
+                    "versions.yml:md5,70a5f529eff7f257fe0b94631304ac73",
+                    "versions.yml:md5,da2ad61806d317597ff4d1475fc74462"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T11:20:28.939621"
+    },
+    "minimap2_longshot_flair - basic": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.flairaligned.longshot.vcf:md5,37ccc3069764945ef2c4775eec3dfd4a"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,1e78083908ab1afab514aab4538f0ed4",
+                    "versions.yml:md5,43914a13d80913ff769848fb4883a122",
+                    "versions.yml:md5,4ba4bbdad431d3489a2621f9f5e612fb",
+                    "versions.yml:md5,d081bdb0853a1994845c9d24f328315f",
+                    "versions.yml:md5,dd294c21f7660975706dc0d91f67a052"
+                ],
+                "variants": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.flairaligned.longshot.vcf:md5,37ccc3069764945ef2c4775eec3dfd4a"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,1e78083908ab1afab514aab4538f0ed4",
+                    "versions.yml:md5,43914a13d80913ff769848fb4883a122",
+                    "versions.yml:md5,4ba4bbdad431d3489a2621f9f5e612fb",
+                    "versions.yml:md5,d081bdb0853a1994845c9d24f328315f",
+                    "versions.yml:md5,dd294c21f7660975706dc0d91f67a052"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T16:21:19.161354"
+    },
+    "flair_longshot - basic": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    [
+                        "FLAIR_LONGSHOT:SAMTOOLS_FAIDX",
+                        "samtools",
+                        "1.22.1"
+                    ],
+                    "versions.yml:md5,36c1217ddb1e0af0fa2182ccedc84279",
+                    "versions.yml:md5,6c879236e54513fc55d93202ad7c1ec1",
+                    "versions.yml:md5,fffe5d2382ceb5bb10ee30bc80b98388"
+                ],
+                "variants": [
+                    
+                ],
+                "versions": [
+                    [
+                        "FLAIR_LONGSHOT:SAMTOOLS_FAIDX",
+                        "samtools",
+                        "1.22.1"
+                    ],
+                    "versions.yml:md5,36c1217ddb1e0af0fa2182ccedc84279",
+                    "versions.yml:md5,6c879236e54513fc55d93202ad7c1ec1",
+                    "versions.yml:md5,fffe5d2382ceb5bb10ee30bc80b98388"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-01T11:21:31.419877"
+    }
+}
