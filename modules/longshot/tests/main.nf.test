@@ -1,0 +1,66 @@
+nextflow_process {
+
+    name "Test Process LONGSHOT"
+    script "../main.nf"
+    process "LONGSHOT"
+
+    tag "modules"
+    tag "longshot"
+
+    test("longshot - bam, genome") {
+        
+        when {
+            process {
+                """
+                def bam = file("\${projectDir}/modules/longshot/testdata/pacbio_reads_30x.bam", checkIfExists: true)
+                def bai = file("\${projectDir}/modules/longshot/testdata/pacbio_reads_30x.bam.bai", checkIfExists: true)
+                def genome = file("\${projectDir}/modules/longshot/testdata/genome.fa", checkIfExists: true)
+                def genome_fai = file("\${projectDir}/modules/longshot/testdata/genome.fa.fai", checkIfExists: true)
+                def region = ""
+
+                input[0] = [ [ id:'test' ], bam, bai ]
+                input[1] = [ [ id:'genome' ], genome, genome_fai ]
+                input[2] = region
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("longshot - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def bam = file("\${projectDir}/modules/flair/testdata/tiny.md.bam", checkIfExists: true)
+                def bai = file("\${projectDir}/modules/flair/testdata/tiny.md.bam.bai", checkIfExists: true)
+                def genome = file("\${projectDir}/modules/flair/testdata/genome.fa", checkIfExists: true)
+                def genome_fai = file("\${projectDir}/modules/flair/testdata/genome.fa.fai", checkIfExists: true)
+                def region = "chr12"
+
+                input[0] = [ [ id:'test' ], bam, bai ]
+                input[1] = [ [ id:'genome' ], genome, genome_fai ]
+                input[2] = region
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
