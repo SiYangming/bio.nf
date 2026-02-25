@@ -1,0 +1,44 @@
+name: kingfisher_annotate
+description: Annotate runs by their metadata e.g. number of sequenced bases, BioSample attributes, etc.
+keywords:
+  - sra
+  - ena
+  - metadata
+  - annotation
+  - kingfisher
+tools:
+  - kingfisher:
+      description: |
+        Kingfisher is a fast and flexible program for procurement of sequence files (and
+        their metadata annotations) from public data sources, including the European Nucleotide
+        Archive (ENA), NCBI SRA, Amazon AWS and Google Cloud.
+      homepage: https://wwood.github.io/kingfisher-download/
+      documentation: https://wwood.github.io/kingfisher-download/
+      doi: 10.1111/1755-0998.13664
+      licence: ["GPL v3"]
+      identifier: biotools:kingfisher
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - run_id:
+        type: string
+        description: Run ID (e.g. SRR9984183)
+output:
+  - metadata:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.csv":
+          type: file
+          description: Metadata in CSV format
+          pattern: "*.csv"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"

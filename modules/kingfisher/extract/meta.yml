@@ -1,0 +1,44 @@
+name: kingfisher_extract
+description: Extract .sra format files into FASTQ or FASTA format
+keywords:
+  - sra
+  - extract
+  - fastq
+  - kingfisher
+tools:
+  - kingfisher:
+      description: |
+        Kingfisher is a fast and flexible program for procurement of sequence files (and
+        their metadata annotations) from public data sources, including the European Nucleotide
+        Archive (ENA), NCBI SRA, Amazon AWS and Google Cloud.
+      homepage: https://wwood.github.io/kingfisher-download/
+      documentation: https://wwood.github.io/kingfisher-download/
+      doi: 10.1111/1755-0998.13664
+      licence: ["GPL v3"]
+      identifier: biotools:kingfisher
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - sra:
+        type: file
+        description: SRA file
+        pattern: "*.sra"
+output:
+  - fastq:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.fastq.gz":
+          type: file
+          description: Extracted FASTQ files
+          pattern: "*.fastq.gz"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"

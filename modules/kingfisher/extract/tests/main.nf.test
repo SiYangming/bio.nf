@@ -1,0 +1,32 @@
+nextflow_process {
+
+    name "Test Process KINGFISHER_EXTRACT"
+    script "../main.nf"
+    process "KINGFISHER_EXTRACT"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "kingfisher"
+    tag "kingfisher/extract"
+
+    test("sra_extract_stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:false ], // meta map
+                    file('test.sra')
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out.fastq, process.out.versions).match() }
+            )
+        }
+    }
+}

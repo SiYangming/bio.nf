@@ -1,0 +1,26 @@
+{
+    "sra_extract_stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    [
+                        "test_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "test_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,7ab3db3c85086e0b2dd18b96d0e31029"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
+        },
+        "timestamp": "2026-02-25T00:53:19.810036"
+    }
+}

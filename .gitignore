@@ -1,3 +1,4 @@
 .nf-test.log
 /.nf-test
 **/.DS_Store
+*.nf

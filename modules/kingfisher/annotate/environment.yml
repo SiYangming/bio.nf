@@ -1,0 +1,7 @@
+name: kingfisher
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::kingfisher=0.4.1

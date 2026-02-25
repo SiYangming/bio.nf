@@ -1,0 +1,35 @@
+nextflow_process {
+
+    name "Test Process KINGFISHER_ANNOTATE"
+    script "../main.nf"
+    process "KINGFISHER_ANNOTATE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "kingfisher"
+    tag "kingfisher/annotate"
+
+    test("sra_ids_from_csv") {
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.fromPath('/Users/siyangming/nextflow_nf_core/bio.nf/modules/kingfisher/sra_ids_test.csv')
+                            .splitCsv(header: false)
+                            .map { row ->
+                                def id = row[0]
+                                [ [ id: id, single_end: true ], id ]
+                            }
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out.metadata, process.out.versions).match() }
+            )
+        }
+    }
+}
