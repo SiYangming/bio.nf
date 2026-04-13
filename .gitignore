@@ -2,3 +2,6 @@
 /.nf-test
 **/.DS_Store
 *.nf
+*.log*
+/.nextflow
+/work
