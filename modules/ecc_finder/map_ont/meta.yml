@@ -1,0 +1,81 @@
+name: "ecc_finder_map_ont"
+description: Detect eccDNA loci from Nanopore long reads using mapping mode
+keywords:
+  - eccDNA
+  - long-read
+  - ONT
+  - mapping
+tools:
+  - ecc_finder:
+      description: A robust and accurate detection tool to detect eccDNA using Illumina and ONT sequencing
+      homepage: https://github.com/njaupan/ecc_finder
+      documentation: https://github.com/njaupan/ecc_finder/wiki
+      tool_dev_url: https://github.com/njaupan/ecc_finder
+      doi: "10.3389/fpls.2021.743742"
+      licence: ["GPL-3.0"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - idx:
+        type: file
+        description: Index file of reference genome for minimap2
+        pattern: "*.idx"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - query:
+        type: file
+        description: Query fastq/fasta file (uncompressed or bgzipped)
+        pattern: "*.{fastq,fq,fasta,fa,fastq.gz,fq.gz,fasta.gz,fa.gz}"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing reference information
+          e.g. `[ id:'ref' ]`
+    - ref:
+        type: file
+        description: Reference genome fasta file (uncompressed or bgzipped)
+        pattern: "*.{fa,fasta,fa.gz,fasta.gz}"
+
+output:
+  - csv:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.csv":
+          type: file
+          description: eccDNA loci in CSV format
+          pattern: "*ecc.ont.csv"
+  - fasta:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.fasta":
+          type: file
+          description: eccDNA sequences in FASTA format
+          pattern: "*ecc.ont.fasta"
+  - versions_ecc_finder:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - ecc_finder:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"
