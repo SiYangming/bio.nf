@@ -1,0 +1,62 @@
+name: "ecc_finder_asm_sr"
+description: Assemble eccDNA sequences from Illumina short reads
+keywords:
+  - eccDNA
+  - short-read
+  - Illumina
+  - assembly
+tools:
+  - ecc_finder:
+      description: A robust and accurate detection tool to detect eccDNA using Illumina and ONT sequencing
+      homepage: https://github.com/njaupan/ecc_finder
+      documentation: https://github.com/njaupan/ecc_finder/wiki
+      tool_dev_url: https://github.com/njaupan/ecc_finder
+      doi: "10.3389/fpls.2021.743742"
+      licence: ["GPL-3.0"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - query1:
+        type: file
+        description: Query fastq forward file (uncompressed or bgzipped)
+        pattern: "*.{fastq,fq,fastq.gz,fq.gz}"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - query2:
+        type: file
+        description: Query fastq reverse file (uncompressed or bgzipped)
+        pattern: "*.{fastq,fq,fastq.gz,fq.gz}"
+
+output:
+  - fasta:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.fasta":
+          type: file
+          description: Assembled eccDNA sequences in FASTA format
+          pattern: "*ecc.asm.sr.fasta"
+  - versions_ecc_finder:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - ecc_finder:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

@@ -1,0 +1,38 @@
+nextflow_process {
+
+    name "Test Process ECC_FINDER_MAP_ONT"
+    script "../main.nf"
+    process "ECC_FINDER_MAP_ONT"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "ecc_finder"
+    tag "ecc_finder/map_ont"
+
+    test("test-map-ont - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'ref' ], // meta
+                             file("\${projectDir}/modules/ecc_finder/testdata/test_ref.fa.mmi", checkIfExists: true) ]
+                input[1] = [ [ id:'test' ], // meta2
+                             file("\${projectDir}/modules/ecc_finder/testdata/Arabi.ONT.1kReads.fasta.gz", checkIfExists: true) ]
+                input[2] = [ [ id:'ref' ], // meta3
+                             file("\${projectDir}/modules/ecc_finder/testdata/test_ref.fa", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

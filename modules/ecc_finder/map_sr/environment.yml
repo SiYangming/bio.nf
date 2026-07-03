@@ -1,0 +1,26 @@
+name: ecc_finder
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python>=3.8
+  - pysam
+  - numpy
+  - pandas
+  - matplotlib
+  - pybedtools
+  - minimap2
+  - bwa
+  - samtools
+  - bedtools
+  - fastp
+  - seqtk
+  - cd-hit
+  - unicycler
+  - tidehunter
+  - genrich
+  - requests
+  - pip
+  - pip:
+    - git+https://github.com/njaupanpan/ecc_finder.git
