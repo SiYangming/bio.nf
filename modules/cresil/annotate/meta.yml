@@ -1,0 +1,110 @@
+name: "cresil_annotate"
+description: Annotate eccDNA regions with genes, CpG islands, repeats, and variants
+keywords:
+  - eccDNA
+  - long-read
+  - annotation
+  - nanopore
+tools:
+  - cresil:
+      description: Circular DNA Identification Tool
+      homepage: https://gitlab.com/visanu/cresil
+      documentation: https://gitlab.com/visanu/cresil
+      tool_dev_url: https://gitlab.com/visanu/cresil
+      doi: "10.1093/bib/bbac422"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - identify_table:
+        type: file
+        description: eccDNA identification result table (eccDNA_final.txt)
+        pattern: "*.txt"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing repeat masker information
+          e.g. `[ id:'rmsk' ]`
+    - rmsk_bed:
+        type: file
+        description: Repeat masker BED file (optional)
+        pattern: "*.bed"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing CpG island information
+          e.g. `[ id:'cpg' ]`
+    - cpg_bed:
+        type: file
+        description: CpG islands BED file (optional)
+        pattern: "*.bed"
+  - - meta4:
+        type: map
+        description: |
+          Groovy Map containing gene annotation information
+          e.g. `[ id:'gene' ]`
+    - gene_bed:
+        type: file
+        description: Gene annotation BED file (optional)
+        pattern: "*.bed"
+
+output:
+  - gene_annot:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_gene.annotate.txt":
+          type: file
+          description: Gene annotation result
+          pattern: "*_gene.annotate.txt"
+  - cpg_annot:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_CpG.annotate.txt":
+          type: file
+          description: CpG island annotation result
+          pattern: "*_CpG.annotate.txt"
+  - repeat_annot:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_repeat.annotate.txt":
+          type: file
+          description: Repeat annotation result
+          pattern: "*_repeat.annotate.txt"
+  - variant_annot:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_variant.annotate.txt":
+          type: file
+          description: Variant annotation result
+          pattern: "*_variant.annotate.txt"
+  - versions_cresil:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - cresil:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

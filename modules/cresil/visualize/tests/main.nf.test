@@ -1,0 +1,73 @@
+
+nextflow_process {
+
+    name "Test Process CRESIL_VISUALIZE"
+    script "../main.nf"
+    process "CRESIL_VISUALIZE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "cresil"
+    tag "cresil/visualize"
+
+    test("test-visualize") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/cresil/testdata/eccDNA_final.txt", checkIfExists: true) ]
+                input[1] = [ [ id:'test' ], // meta2
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/gene.annotate.txt", checkIfExists: true) ]
+                input[2] = [ [ id:'test' ], // meta3
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/CpG.annotate.txt", checkIfExists: true) ]
+                input[3] = [ [ id:'test' ], // meta4
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/repeat.annotate.txt", checkIfExists: true) ]
+                input[4] = [ [ id:'test' ], // meta5
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/variant.annotate.txt", checkIfExists: true) ]
+                input[5] = 'ec1'
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-visualize - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/cresil/testdata/eccDNA_final.txt", checkIfExists: true) ]
+                input[1] = [ [ id:'test' ], // meta2
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/gene.annotate.txt", checkIfExists: true) ]
+                input[2] = [ [ id:'test' ], // meta3
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/CpG.annotate.txt", checkIfExists: true) ]
+                input[3] = [ [ id:'test' ], // meta4
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/repeat.annotate.txt", checkIfExists: true) ]
+                input[4] = [ [ id:'test' ], // meta5
+                             file("\${projectDir}/modules/cresil/testdata/cresil_gAnnotation/variant.annotate.txt", checkIfExists: true) ]
+                input[5] = 'ec1'
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

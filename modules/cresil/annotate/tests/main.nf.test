@@ -1,0 +1,67 @@
+
+nextflow_process {
+
+    name "Test Process CRESIL_ANNOTATE"
+    script "../main.nf"
+    process "CRESIL_ANNOTATE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "cresil"
+    tag "cresil/annotate"
+
+    test("test-annotate") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("${projectDir}/modules/cresil/testdata/eccDNA_final.txt", checkIfExists: true) ]
+                input[1] = [ [ id:'rmsk' ], // meta2
+                             file("${projectDir}/modules/cresil/testdata/rmsk.bed", checkIfExists: true) ]
+                input[2] = [ [ id:'cpg' ], // meta3
+                             file("${projectDir}/modules/cresil/testdata/cpg.bed", checkIfExists: true) ]
+                input[3] = [ [ id:'gene' ], // meta4
+                             file("${projectDir}/modules/cresil/testdata/gene.bed", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-annotate - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("${projectDir}/modules/cresil/testdata/eccDNA_final.txt", checkIfExists: true) ]
+                input[1] = [ [ id:'rmsk' ], // meta2
+                             file("${projectDir}/modules/cresil/testdata/rmsk.bed", checkIfExists: true) ]
+                input[2] = [ [ id:'cpg' ], // meta3
+                             file("${projectDir}/modules/cresil/testdata/cpg.bed", checkIfExists: true) ]
+                input[3] = [ [ id:'gene' ], // meta4
+                             file("${projectDir}/modules/cresil/testdata/gene.bed", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

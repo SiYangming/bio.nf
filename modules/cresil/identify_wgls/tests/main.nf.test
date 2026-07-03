@@ -1,0 +1,73 @@
+
+nextflow_process {
+
+    name "Test Process CRESIL_IDENTIFY_WGLS"
+    script "../main.nf"
+    process "CRESIL_IDENTIFY_WGLS"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "cresil"
+    tag "cresil/identify_wgls"
+
+    test("test-identify_wgls") {
+
+        options "-c /Users/siyangming/nextflow_nf_core/bio.nf/modules/cresil/identify_wgls/tests/nextflow.config"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/cresil/testdata/ref.mmi", checkIfExists: true) ]
+                input[1] = [ [ id:'ref' ], // meta2
+                             file("\${projectDir}/modules/cresil/testdata/ref.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'ref' ], // meta3
+                             file("\${projectDir}/modules/cresil/testdata/ref.fa.fai", checkIfExists: true) ]
+                input[3] = [ [ id:'test' ], // meta4
+                             file("\${projectDir}/modules/cresil/testdata/exp_reads.fastq", checkIfExists: true) ]
+                input[4] = [ [ id:'test' ], // meta5
+                             file("\${projectDir}/modules/cresil/testdata/trim.txt", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("test-identify_wgls - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test' ], // meta
+                             file("\${projectDir}/modules/cresil/testdata/ref.mmi", checkIfExists: true) ]
+                input[1] = [ [ id:'ref' ], // meta2
+                             file("\${projectDir}/modules/cresil/testdata/ref.fa", checkIfExists: true) ]
+                input[2] = [ [ id:'ref' ], // meta3
+                             file("\${projectDir}/modules/cresil/testdata/ref.fa.fai", checkIfExists: true) ]
+                input[3] = [ [ id:'test' ], // meta4
+                             file("\${projectDir}/modules/cresil/testdata/exp_reads.fastq", checkIfExists: true) ]
+                input[4] = [ [ id:'test' ], // meta5
+                             file("\${projectDir}/modules/cresil/testdata/trim.txt", checkIfExists: true) ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

@@ -1,0 +1,7 @@
+name: cresil
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::cresil=1.2.1
