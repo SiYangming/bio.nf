@@ -1,0 +1,4 @@
+chrom	start	end	id	region_size	merge_len	eccdna_status	freq	rep_chrom	rep_start	rep_end	rep_name	rep_class	rep_family	rep_id	rep_size	rep_ovl_ecc	ovl_cov
+chr1	999	5000	ec1	4001	4000	validated	1.0	chr1	1000	1200	Alu	SINE	Alu	chr1_1000_200	200	200	1.0
+chr1	999	5000	ec1	4001	4000	validated	1.0	chr1	3000	3300	L1	LINE	L1	chr1_3000_300	300	300	1.0
+chr2	1999	6000	ec2	4001	4000	validated	1.0		0	0					0	0	0.0

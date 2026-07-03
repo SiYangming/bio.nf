@@ -1,0 +1,92 @@
+name: "cresil_visualize"
+description: Visualize eccDNA structure with Circos configuration
+keywords:
+  - eccDNA
+  - long-read
+  - visualization
+  - circos
+tools:
+  - cresil:
+      description: Circular DNA Identification Tool
+      homepage: https://gitlab.com/visanu/cresil
+      documentation: https://gitlab.com/visanu/cresil
+      tool_dev_url: https://gitlab.com/visanu/cresil
+      doi: "10.1093/bib/bbac422"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - identify_table:
+        type: file
+        description: Final eccDNA table from cresil identify
+        pattern: "*eccDNA_final.txt"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annot' ]`
+    - gene_annot:
+        type: file
+        description: Gene annotation file from cresil annotate
+        pattern: "*_gene.annotate.txt"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annot' ]`
+    - cpg_annot:
+        type: file
+        description: CpG annotation file from cresil annotate
+        pattern: "*_CpG.annotate.txt"
+  - - meta4:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annot' ]`
+    - repeat_annot:
+        type: file
+        description: Repeat annotation file from cresil annotate
+        pattern: "*_repeat.annotate.txt"
+  - - meta5:
+        type: map
+        description: |
+          Groovy Map containing annotation information
+          e.g. `[ id:'annot' ]`
+    - variant_annot:
+        type: file
+        description: Variant annotation file from cresil annotate
+        pattern: "*_variant.annotate.txt"
+  - - eccdna_id:
+        type: string
+        description: eccDNA ID to visualize
+
+output:
+  - circos_config:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_for_Circos":
+          type: directory
+          description: Circos configuration directory
+          pattern: "*_for_Circos"
+  - versions_cresil:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - cresil:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

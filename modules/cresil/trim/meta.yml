@@ -1,0 +1,62 @@
+name: "cresil_trim"
+description: Find and trim potential eccDNA regions from ONT reads
+keywords:
+  - eccDNA
+  - long-read
+  - trimming
+  - nanopore
+tools:
+  - cresil:
+      description: Circular DNA Identification Tool
+      homepage: https://gitlab.com/visanu/cresil
+      documentation: https://gitlab.com/visanu/cresil
+      tool_dev_url: https://gitlab.com/visanu/cresil
+      doi: "10.1093/bib/bbac422"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - reads:
+        type: file
+        description: Input FASTQ or FASTA file of long reads
+        pattern: "*.{fastq,fq,fasta,fa,fastq.gz,fq.gz,fasta.gz,fa.gz}"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing reference information
+          e.g. `[ id:'ref' ]`
+    - mmi:
+        type: file
+        description: Minimap2 index file
+        pattern: "*.mmi"
+
+output:
+  - trim:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.trim.txt":
+          type: file
+          description: Trimmed regions text file
+          pattern: "*.trim.txt"
+  - versions_cresil:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - cresil:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"

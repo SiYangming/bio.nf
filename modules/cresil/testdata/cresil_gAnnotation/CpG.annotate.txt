@@ -1,0 +1,4 @@
+chrom	start	end	id	region_size	merge_len	eccdna_status	freq	cpg_chrom	cpg_start	cpg_end	cpg_id	cpg_size	cpg_ovl_ecc	ovl_cov
+chr1	999	5000	ec1	4001	4000	validated	1.0	chr1	1500	1700	cpg_island_1	200	200	1.0
+chr1	999	5000	ec1	4001	4000	validated	1.0	chr1	4500	4750	cpg_island_2	250	250	1.0
+chr2	1999	6000	ec2	4001	4000	validated	1.0		0	0		0	0	0.0

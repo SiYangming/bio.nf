@@ -1,0 +1,4 @@
+readid	q_len	q_start	q_end	ref	r_start	r_end	match	mapBlock	mapq	strand	qlenTrimmed	freqCov	order	ctc_read
+read1	2000	100	1900	chr1	1000	2800	1700	primary	60	+	1800	50	1	1
+read2	1500	50	1450	chr1	1500	2900	1400	primary	60	+	1400	45	2	1
+read3	1800	80	1720	chr1	2000	3640	1640	primary	60	-	1640	55	3	1

@@ -1,0 +1,90 @@
+name: "cresil_identify_wgls"
+description: Identify eccDNA using whole-genome long-read sequencing data
+keywords:
+  - eccDNA
+  - long-read
+  - whole-genome
+  - identification
+  - nanopore
+tools:
+  - cresil:
+      description: Circular DNA Identification Tool
+      homepage: https://gitlab.com/visanu/cresil
+      documentation: https://gitlab.com/visanu/cresil
+      tool_dev_url: https://gitlab.com/visanu/cresil
+      doi: "10.1093/bib/bbac422"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - mmi:
+        type: file
+        description: Minimap2 index file
+        pattern: "*.mmi"
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing reference information
+          e.g. `[ id:'ref' ]`
+    - fasta:
+        type: file
+        description: Reference genome FASTA file
+        pattern: "*.{fa,fasta}"
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing reference index information
+          e.g. `[ id:'ref' ]`
+    - fai:
+        type: file
+        description: FASTA index file
+        pattern: "*.fai"
+  - - meta4:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - reads:
+        type: file
+        description: Input FASTQ or FASTA file of long reads
+        pattern: "*.{fastq,fq,fasta,fa,fastq.gz,fq.gz,fasta.gz,fa.gz}"
+  - - meta5:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - trim:
+        type: file
+        description: Trim result table (optional)
+        pattern: "*.trim.txt"
+
+output:
+  - identify_wgls:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.eccDNA_final.txt":
+          type: file
+          description: Final eccDNA identification result
+          pattern: "*.eccDNA_final.txt"
+  - versions_cresil:
+      - "${task.process}":
+          type: string
+          description: Process name
+      - cresil:
+          type: string
+          description: Tool name
+      - version:
+          type: string
+          description: Tool version
+
+authors:
+  - "@SiYangming"
+maintainers:
+  - "@SiYangming"
