@@ -1,0 +1,63 @@
+name: "flye"
+description: "Fast and accurate long-read assembler for PacBio and Oxford Nanopore sequencing data"
+keywords:
+  - assembly
+  - long reads
+  - nanopore
+  - pacbio
+  - genome assembly
+tools:
+  - "flye":
+      description: "Fast and accurate long-read assembler"
+      homepage: "https://github.com/mikolmogorov/Flye"
+      documentation: "https://github.com/mikolmogorov/Flye"
+      tool_dev_url: "https://github.com/mikolmogorov/Flye"
+      licence: ["BSD-3-Clause"]
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - reads:
+        type: file
+        description: Input FASTA or FASTQ file(s) with long reads
+        pattern: "*.{fa,fasta,fq,fastq,fa.gz,fasta.gz,fq.gz,fastq.gz}"
+output:
+  - assembly:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - assembly.fasta:
+          type: file
+          description: Assembled contigs in FASTA format
+          pattern: "assembly.fasta"
+  - gfa:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - assembly_graph.gfa:
+          type: file
+          description: Assembly graph in GFA format
+          pattern: "assembly_graph.gfa"
+  - info:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - assembly_info.txt:
+          type: file
+          description: Assembly statistics and contig information
+          pattern: "assembly_info.txt"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@siyangming"
