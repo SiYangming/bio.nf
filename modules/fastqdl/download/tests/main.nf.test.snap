@@ -1,0 +1,311 @@
+{
+    "single_accession - stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    [
+                        "SRR13191702_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR13191702_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495"
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ]
+        ],
+        "timestamp": "2026-07-08T20:17:23.726346",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "sra_ids_from_csv - stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "DRR026872",
+                        "single_end": true
+                    },
+                    [
+                        "DRR026872_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "DRR026872_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "DRR028935",
+                        "single_end": true
+                    },
+                    [
+                        "DRR028935_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "DRR028935_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "ERR1160846",
+                        "single_end": true
+                    },
+                    [
+                        "ERR1160846_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "ERR1160846_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "GSE214215",
+                        "single_end": true
+                    },
+                    [
+                        "GSE214215_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "GSE214215_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "GSM4907283",
+                        "single_end": true
+                    },
+                    [
+                        "GSM4907283_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "GSM4907283_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "SRR12848126",
+                        "single_end": true
+                    },
+                    [
+                        "SRR12848126_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR12848126_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "SRR13191702",
+                        "single_end": true
+                    },
+                    [
+                        "SRR13191702_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR13191702_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "SRR14593545",
+                        "single_end": true
+                    },
+                    [
+                        "SRR14593545_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR14593545_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "SRR14709033",
+                        "single_end": true
+                    },
+                    [
+                        "SRR14709033_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR14709033_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                [
+                    {
+                        "id": "SRR9984183",
+                        "single_end": true
+                    },
+                    [
+                        "SRR9984183_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "SRR9984183_2.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495",
+                "versions.yml:md5,29d9ad0e7265b4375a9709b16ac10495"
+            ],
+            [
+                [
+                    {
+                        "id": "DRR026872",
+                        "single_end": true
+                    },
+                    "DRR026872-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "DRR028935",
+                        "single_end": true
+                    },
+                    "DRR028935-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "ERR1160846",
+                        "single_end": true
+                    },
+                    "ERR1160846-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "GSE214215",
+                        "single_end": true
+                    },
+                    "GSE214215-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "GSM4907283",
+                        "single_end": true
+                    },
+                    "GSM4907283-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR12848126",
+                        "single_end": true
+                    },
+                    "SRR12848126-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR13191702",
+                        "single_end": true
+                    },
+                    "SRR13191702-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR14593545",
+                        "single_end": true
+                    },
+                    "SRR14593545-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR14709033",
+                        "single_end": true
+                    },
+                    "SRR14709033-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR9984183",
+                        "single_end": true
+                    },
+                    "SRR9984183-run-info.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "DRR026872",
+                        "single_end": true
+                    },
+                    "DRR026872-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "DRR028935",
+                        "single_end": true
+                    },
+                    "DRR028935-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "ERR1160846",
+                        "single_end": true
+                    },
+                    "ERR1160846-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "GSE214215",
+                        "single_end": true
+                    },
+                    "GSE214215-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "GSM4907283",
+                        "single_end": true
+                    },
+                    "GSM4907283-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR12848126",
+                        "single_end": true
+                    },
+                    "SRR12848126-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR13191702",
+                        "single_end": true
+                    },
+                    "SRR13191702-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR14593545",
+                        "single_end": true
+                    },
+                    "SRR14593545-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR14709033",
+                        "single_end": true
+                    },
+                    "SRR14709033-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "SRR9984183",
+                        "single_end": true
+                    },
+                    "SRR9984183-run-mergers.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ]
+        ],
+        "timestamp": "2026-07-08T20:17:18.498972",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    }
+}
