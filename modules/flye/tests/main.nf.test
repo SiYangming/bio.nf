@@ -1,0 +1,32 @@
+nextflow_process {
+
+    name "Test Process FLYE"
+    script "../main.nf"
+    process "FLYE"
+
+    tag "modules"
+    tag "flye"
+
+    test("flye - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def reads = file("\${projectDir}/modules/flye/testdata/ecoli_test_reads.fasta", checkIfExists: true)
+                input[0] = [ [ id:'test' ], reads ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
