@@ -1,0 +1,13 @@
+<Settings>
+    <Section name="NCBI">
+        <Setting name="API Key"></Setting>
+        <Setting name="Cloud Provider"></Setting>
+        <Setting name="Max Cloud File Size">0</Setting>
+        <Setting name="Prefer Cloud">true</Setting>
+        <Setting name="Retry Count">0</Setting>
+        <Setting name="Retry Wait">5</Setting>
+        <Setting name="Timeout">120</Setting>
+        <Setting name="Use Cache">true</Setting>
+        <Setting name="Cache Location">/tmp/ncbi</Setting>
+    </Section>
+</Settings>
