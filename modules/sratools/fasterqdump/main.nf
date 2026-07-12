@@ -25,7 +25,7 @@ process SRATOOLS_FASTERQDUMP {
     def args2 = task.ext.args2 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def outfile = "${prefix}.fastq"
-    def exclude_third = meta.single_end ? '' : "mv $outfile $prefix || echo 'No third file'"
+    def exclude_third = meta.single_end ? '' : "if [ -f ${outfile} ] && [ -f ${prefix}_1.fastq ]; then mv ${outfile} ${prefix}; fi"
     // Excludes the "${prefix}.fastq" file from output `reads` channel for paired end cases and
     // avoids the '.' in the path bug: https://github.com/ncbi/sra-tools/issues/865
     def key_file = ''
@@ -58,7 +58,7 @@ process SRATOOLS_FASTERQDUMP {
     def args2 = task.ext.args2 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def outfile = "${prefix}.fastq"
-    def exclude_third = meta.single_end ? '' : "mv $outfile $prefix || echo 'No third file'"
+    def exclude_third = meta.single_end ? '' : "if [ -f ${outfile} ] && [ -f ${prefix}_1.fastq ]; then mv ${outfile} ${prefix}; fi"
     // Excludes the "${prefix}.fastq" file from output `reads` channel for paired end cases and
     // avoids the '.' in the path bug: https://github.com/ncbi/sra-tools/issues/865
     def key_file = ''
