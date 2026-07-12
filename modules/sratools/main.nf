@@ -1,7 +1,6 @@
 include { SRATOOLS_FASTERQDUMP } from './fasterqdump/main.nf'
 
 process COPY_OUTPUT {
-    tag "$meta.id"
     label 'process_low'
 
     input:
@@ -11,10 +10,12 @@ process COPY_OUTPUT {
     tuple val(meta), path('*.fastq.gz')
 
     script:
-    def out_dir = "${params.outdir}/${meta.id}"
     """
-    mkdir -p ${out_dir}
-    cp *.fastq.gz ${out_dir}/
+    for f in *.fastq; do
+        cat "\$f" > "\${f}.tmp"
+        mv "\${f}.tmp" "\$f"
+    done
+    pigz --no-name --processes $task.cpus *.fastq
     """
 }
 
@@ -39,7 +40,13 @@ workflow {
     COPY_OUTPUT(SRATOOLS_FASTERQDUMP.out.reads)
 
     COPY_OUTPUT.out
-        .view { meta, reads ->
-            println "Copied ${meta.id} to ${params.outdir}/${meta.id}: ${reads.size()} files"
+        .subscribe { meta, reads ->
+            def out_dir = "${params.outdir}/${meta.id}"
+            new File(out_dir).mkdirs()
+            reads.each { read ->
+                def dest = new File(out_dir, read.getName())
+                java.nio.file.Files.copy(read, dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            }
+            println "Copied ${meta.id} to ${out_dir}: ${reads.size()} files"
         }
 }
