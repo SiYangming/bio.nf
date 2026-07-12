@@ -1,0 +1,67 @@
+{
+    "flye - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly.fasta:md5,ce380e926cec6ee3cd4b297d03b27ed5"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly_graph.gfa:md5,faa8399abf4c58b73eb1e908e8ea418f"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly_info.txt:md5,77e4e6cbfd20d91b46e078a5757a7850"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,c9a9943613e1bd7a9a38d15025e9f92b"
+                ],
+                "assembly": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly.fasta:md5,ce380e926cec6ee3cd4b297d03b27ed5"
+                    ]
+                ],
+                "gfa": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly_graph.gfa:md5,faa8399abf4c58b73eb1e908e8ea418f"
+                    ]
+                ],
+                "info": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "assembly_info.txt:md5,77e4e6cbfd20d91b46e078a5757a7850"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,c9a9943613e1bd7a9a38d15025e9f92b"
+                ]
+            }
+        ],
+        "timestamp": "2026-07-08T21:54:15.8483",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    }
+}
