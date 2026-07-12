@@ -18,7 +18,6 @@ process SRATOOLS_FASTERQDUMP {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: '--split-files'
     def key_file = ''
     if (certificate.toString().endsWith('.jwt')) {
         key_file += " --perm ${certificate}"
@@ -29,9 +28,10 @@ process SRATOOLS_FASTERQDUMP {
     export NCBI_SETTINGS="\$PWD/${ncbi_settings}"
 
     fasterq-dump \\
-        $args \\
+        --split-files \\
         --threads $task.cpus \\
         --outfile ${meta.id} \\
+        --outdir . \\
         ${key_file} \\
         ${sra}
 
