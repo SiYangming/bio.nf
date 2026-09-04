@@ -1,0 +1,174 @@
+software: transdecoder
+canonical: transdecoder
+category: orf_prediction
+description: 'TransDecoder 是从转录本（全长 RNA-seq / Iso-Seq / Trinity 组装产物）中识别编码区（CDS） 的经典
+  de novo 工具：TransDecoder.LongOrfs 提取候选最长 ORF， TransDecoder.Predict 基于序列组成模型（hexamer
+  score + homology）评分并输出最终 CDS， 支持 Pfam / BlastP 证据保留（--retain_pfam_hits / --retain_blastp_hits）。
+
+  '
+homepage: https://github.com/TransDecoder/TransDecoder
+license: Other（TransDecoder 自定义许可，SPDX NOASSERTION；见仓库 LICENSE 文件）
+software_versions:
+- id: transdecoder_native
+  transdecoder: 5.7.1
+  build_route: official biocontainer（quay.io/biocontainers/transdecoder / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/transdecoder
+  note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+    宿主运行 main.py 时以 conda/mamba 安装 transdecoder=5.7.1；二进制 TransDecoder.LongOrfs / TransDecoder.Predict。
+- id: transdecoder_nextflow_nfcore
+  module_version: 'master（2026-09-01 抓取；submodules: longorf / predict）'
+  transdecoder: 5.7.1
+  source: bioconda::transdecoder=5.7.1（modules/nf-core/transdecoder/{longorf,predict}/environment.yml）
+  note: nf-core transdecoder 为两个子模块（longorf / predict），environment.yml 均 pin bioconda::transdecoder=5.7.1，与
+    native 一致。
+- id: transdecoder_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  transdecoder: 5.7.1
+  source: bioconda transdecoder=5.7.1（bio/transdecoder/{longorfs,predict}/environment.yaml）
+  note: 官方 snakemake-wrappers 有 bio/transdecoder/{longorfs,predict} 两个 wrapper，均 pin
+    transdecoder=5.7.1，与 native 一致。
+- id: transdecoder_nextflow_local
+  transdecoder: 未固定（用户按 main.nf 中 conda/container 自行声明）
+- id: transdecoder_snakemake_local
+  transdecoder: 5.7.1（建议；自维护规则，conda
+    指向 bioconda::transdecoder=5.7.1）
+implementations:
+- id: transdecoder_native
+  path: native
+  source_type: custom
+  type: native
+  version: 5.7.1-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/transdecoder
+    quay_biocontainers: quay.io/biocontainers/transdecoder
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: transdecoder_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时（bio/transdecoder/longorfs 与 predict）。
+default_implementation: transdecoder_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: transdecoder 子命令：longorfs | predict
+  input:
+    type: file
+    required: true
+    cli_arg: -t
+    description: 输入转录本 FASTA（支持 .gz 时由驱动自动解压到 tmpdir）
+  output_dir:
+    type: string
+    required: false
+    cli_arg: -O
+    description: 输出目录（默认取输入文件所在目录）
+  gene_trans_map:
+    type: file
+    required: false
+    cli_arg: --gene_trans_map
+    description: gene-to-transcript 映射文件（LongOrfs；可选）
+  min_protein_length:
+    type: integer
+    default: 50
+    cli_arg: -m
+    description: 最小蛋白长度（aa），LongOrfs 过滤用（默认 -m 50）
+  genetic_code:
+    type: string
+    default: Universal
+    cli_arg: -G
+    description: 遗传密码表（Universal / Candida / Yeast 等，见 TransDecoder 文档）
+  strand_specific:
+    type: boolean
+    default: false
+    cli_arg: -S
+    description: 仅分析正义链（strand-specific，top strand only）
+  complete_orfs_only:
+    type: boolean
+    default: false
+    cli_arg: --complete_orfs_only
+    description: 仅保留同时含起始与终止密码子的完整 ORF
+  retain_pfam_hits:
+    type: file
+    required: false
+    cli_arg: --retain_pfam_hits
+    description: hmmscan Pfam domain table（Predict 证据保留）
+  retain_blastp_hits:
+    type: file
+    required: false
+    cli_arg: --retain_blastp_hits
+    description: blastp -outfmt 6 结果（Predict 证据保留）
+  single_best_only:
+    type: boolean
+    default: false
+    cli_arg: --single_best_only
+    description: 每个转录本仅保留单一最佳 ORF
+  no_refine_starts:
+    type: boolean
+    default: false
+    cli_arg: --no_refine_starts
+    description: 禁用起始密码子精修（predict 默认 --no_refine_starts）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --cpu
+    description: 线程数（Predict 用 --cpu 注入）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 TransDecoder 的额外参数（高级用法，慎用）
+outputs:
+  pep:
+    type: file
+    format: fasta
+    description: 预测蛋白序列（<prefix>.transdecoder.pep）
+  cds:
+    type: file
+    format: fasta
+    description: 预测 CDS 核酸序列（<prefix>.transdecoder.cds）
+  gff3:
+    type: file
+    format: gff3
+    description: CDS 注释（<prefix>.transdecoder.gff3）
+  bed:
+    type: file
+    format: bed
+    description: CDS 区间（<prefix>.transdecoder.bed）
+  transdecoder_dir:
+    type: directory
+    description: LongOrfs 中间目录（<prefix>.transdecoder_dir/，含 longest_orfs.pep/cds/gff3）
+environment:
+  container_official: quay.io/biocontainers/transdecoder（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 transdecoder。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  tmpdir: /tmp
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    PYTHONUNBUFFERED: '1'
+  per_subcommand_threads:
+    predict: 8
+    longorfs: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: TransDecoder.Predict
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件，可分别 include；两规则共用 snakemake/transdecoder.yaml 环境）：
+    include: "modules/transdecoder/snakemake/transdecoder_longorfs.smk"
+    include: "modules/transdecoder/snakemake/transdecoder_predict.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/transdecoder/snakemake/transdecoder_longorfs.smk \
+    #       --config transdecoder_input_fasta=transcripts.fa transdecoder_outdir=td_out --cores 4 --use-conda
+  snakemake_rules:
+  - transdecoder_longorfs.smk
+  - transdecoder_predict.smk
