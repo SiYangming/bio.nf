@@ -1,0 +1,153 @@
+software: minimap2
+canonical: minimap2
+category: alignment_utils
+description: 'minimap2 是通用的核酸序列比对工具，支持长读长（PacBio/ONT/Iso-Seq）与短读长、 基因组比对、转录组 splice-aware
+  比对、重叠群自比对（ava）等。 Iso-Seq 流程中用于把 polyA 清理后的 FLNC reads 比对到参考基因组。
+
+  '
+homepage: https://github.com/lh3/minimap2
+license: MIT
+software_versions:
+  native:
+    minimap2: '2.24'
+    build_route: official biocontainer（quay.io/biocontainers/minimap2 / depot.galaxyproject.org）
+    source: https://anaconda.org/bioconda/minimap2
+    note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+      native 2.24 与历史流程原配 2.28 有差异（2.24 足够本流程用途）；若需完全对齐 2.28，
+      用 conda/mamba 装 bioconda::minimap2=2.28（BAM 输出管线另需 samtools）。
+  nextflow_nfcore:
+    minimap2: '2.30'
+    module_version: master@aa4e071（modules/nf-core/minimap2/align）
+    source: bioconda::minimap2=2.30 + bioconda::samtools=1.23.1（modules/nf-core/minimap2/align/environment.yml，2026-08
+      抓取）
+    note: 早期 master pin 曾为 htslib=1.20 + minimap2=2.28 + samtools=1.20；nf-core 已 bump。
+  nextflow_local:
+    minimap2: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    minimap2: '2.31'
+    wrapper_tag: v3.13.0
+    wrapper_utils: 0.9.0
+    source: bioconda minimap2=2.31 + samtools=1.24 + snakemake-wrapper-utils=0.9.0（bio/minimap2/aligner/environment.yaml）
+    note: bio/minimap2 仅有 aligner / index 两个 wrapper；切 wrapper tag 后务必核对版本。
+  snakemake_local:
+    minimap2: '2.31'
+    samtools: '1.24'
+    source: bioconda minimap2=2.31 + samtools=1.24（snakemake/minimap2.yaml；与官方 wrapper
+      v3.13.0 bio/minimap2/aligner 锚点一致）
+    note: 本地 minimap2_align.smk 规则 conda env 的 pin；docker 模式经 minimap2.docker_image，
+      native 模式用 minimap2.minimap2_bin / samtools_bin（见 smk 头注 config 契约）。
+implementations:
+- id: minimap2_native
+  path: native
+  source_type: custom
+  type: native
+  version: 2.24-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， align
+    子命令输出 PAF 或 BAM（BAM 走 minimap2 | samtools sort | samtools view 管线）。
+
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/minimap2
+    quay_biocontainers: quay.io/biocontainers/minimap2
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: minimap2_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
+default_implementation: minimap2_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: minimap2 子命令：align
+  reads:
+    type: file
+    required: true
+    format:
+    - fasta
+    - fastq
+    - fasta.gz
+    - fastq.gz
+    description: 输入 reads（FASTA/FASTQ，支持 .gz）
+  reference:
+    type: file
+    required: false
+    format:
+    - fasta
+    description: 参考基因组 FASTA；不提供时退化为 reads vs reads 自比对
+  outdir:
+    type: string
+    required: false
+    description: 输出目录（默认当前目录）
+  prefix:
+    type: string
+    required: false
+    description: 输出前缀（默认从 reads 文件名推断）
+  bam:
+    type: boolean
+    required: false
+    default: false
+    description: 输出 BAM（否则输出 PAF）
+  cigar_paf:
+    type: boolean
+    required: false
+    default: false
+    description: PAF 输出写入 CIGAR（-c，仅 PAF 模式有效）
+  cigar_bam:
+    type: boolean
+    required: false
+    default: false
+    description: BAM 输出为长 CIGAR 写 CG 标签（-L）
+  args:
+    type: string
+    required: false
+    description: 透传 minimap2 附加参数（如 "-x splice -uf -k14"）
+  samtools_bin:
+    type: string
+    required: false
+    description: samtools 可执行路径（BAM 输出管线用；默认从 PATH 解析）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: -t
+    description: 线程数（自动注入 -t）
+outputs:
+  paf:
+    type: file
+    format: paf
+    description: PAF 模式输出（<prefix>.paf）
+  bam:
+    type: file
+    format: bam
+    description: BAM 模式输出（<prefix>.bam，经 samtools sort + view -b -h）
+environment:
+  container_official: quay.io/biocontainers/minimap2（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 minimap2。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    align: 8
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: minimap2
+  snakemake_rules:
+  - minimap2_align.smk
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件；本地仅 align 子命令一个规则，conda env 用同目录 minimap2.yaml）：
+    include: "modules/minimap2/snakemake/minimap2_align.smk"
+    # config 契约与独立运行示例见 .smk 头部，例如：
+    #   snakemake -s modules/minimap2/snakemake/minimap2_align.smk \
+    #       --config minimap2_reads=flnc.fa.gz minimap2_reference=ref.fa threads=8 \
+    #       --cores 8 --use-conda
+    # 官方 bio/minimap2（aligner/index wrapper）说明层见 README「官方 snakemake-wrappers」节；
+    # 需要 PAF 单条命令直出时可用官方 wrapper 句柄，或按 .smk 头注自行写 shell 规则。

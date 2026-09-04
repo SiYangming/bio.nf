@@ -1,0 +1,181 @@
+software: star
+canonical: star
+category: alignment_utils
+description: 'STAR 是超快、内存高效的 RNA-seq spliced reads 比对器，基于 uncompressed
+  suffix array + 最大可映射种子搜索将单端/双端 reads 比对到基因组（支持剪接位点与
+  融合转录本发现），是 RNA-seq/Ribo-seq 流程中最常用的基因组比对器之一（--runMode
+  genomeGenerate 建立索引，--runMode alignReads 比对）。
+  '
+homepage: https://github.com/alexdobin/STAR
+license: GPL-3.0-or-later
+software_versions:
+- id: star_native
+  star: '2.7.10b'
+  build_route: official biocontainer（quay.io/biocontainers/star / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/star
+  note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+    native 锚点 star=2.7.10b 由官方镜像/conda 提供（Debian apt 曾打包为 rna-star，可执行文件为 STAR）。
+    注意：riboseq 流程/本地 snakemake env 用 bioconda star==2.7.11b，比 native 锚点高 1 个
+    字母版本；跨实现迁移（尤其依赖索引/比对细节的流程）时留意行为差异，必要时用官方容器
+    固定 2.7.11b（如 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8）。'
+- id: star_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  star: '2.7.11b'
+  source: bioconda star=2.7.11b（bio/star/align、bio/star/index 的 environment.yaml）
+  note: '官方 bio/star 提供 align/index 两个 wrapper；v3.13.0 tag 与 master 均 pin
+    star=2.7.11b（与 riboseq 本地 env 一致）。本模块 snakemake/ 本地规则
+    （star_index.smk / star_align.smk，单规则单文件、config 驱动，conda env 同
+    riboseq 的 bioconda star==2.7.11b）与官方 wrapper 二选一；切 wrapper tag 后务必
+    核对版本。'
+- id: star_nextflow_nfcore
+  star: '2.7.11b'
+  source: bioconda::star=2.7.11b + htslib=1.21 + samtools=1.21 + gawk=5.1.0
+    （modules/nf-core/star/{align,genomegenerate,indexversion,starsolo}/environment.yml，以 align 为代表 pin）
+  note: '参考信息：本模块未建 nextflow/ 目录，nf-core 官方子模块（align/genomegenerate/
+    indexversion/starsolo）记录于 README/software_versions，组装 Nextflow 流程时用
+    nf-core modules install 安装。'
+implementations:
+- id: star_native
+  path: native
+  source_type: custom
+  type: native
+  version: 2.7.10b-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+    自动注入 --threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/star，tag 见 README）。
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/star
+    quay_biocontainers: quay.io/biocontainers/star
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>=2.7.11b；容器可用 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8
+      镜像（与 riboseq 流程一致）
+- id: star_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/
+    star_index.smk + star_align.smk 提供 riboseq 基因组比对本地规则（每 rule 一个
+    config 驱动 .smk，摆脱流程 samples/config[paths] 依赖），官方 bio/star
+    信息见 README 与 software_versions。
+default_implementation: star_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: star 子命令：index|align
+  fasta:
+    type: file
+    required: false
+    cli_arg: positional
+    description: index 的参考基因组 FASTA（可多文件逗号分隔，--genomeFastaFiles）
+  genome_dir:
+    type: string
+    required: false
+    description: index 输出索引目录（positional，--genomeDir）或 align 的索引目录（--genome-dir）
+  gtf:
+    type: file
+    required: false
+    cli_arg: --gtf
+    description: index 的注释 GTF（--sjdbGTFfile，生成剪接位点索引）
+  sjdb_overhang:
+    type: integer
+    required: false
+    cli_arg: --sjdb-overhang
+    description: index 的 --sjdbOverhang（建议 readLength-1）
+  genome_sa_index_nbases:
+    type: integer
+    required: false
+    cli_arg: --genome-sa-index-nbases
+    description: index 的 --genomeSAindexNbases（小基因组 <2^14 bp 请调小，如 5）
+  reads1:
+    type: file
+    required: false
+    cli_arg: -1
+    description: align 双端 reads mate1（FASTQ/FASTA，可 .gz/.bz2）
+  reads2:
+    type: file
+    required: false
+    cli_arg: -2
+    description: align 双端 reads mate2（FASTQ/FASTA，可 .gz/.bz2）
+  reads:
+    type: file
+    required: false
+    cli_arg: -U
+    description: align 单端 reads（FASTQ/FASTA，可 .gz/.bz2）
+  output:
+    type: file
+    required: false
+    cli_arg: -o
+    description: align 的比对结果文件（SAM/BAM，依 --out-sam-type；省略时打印产物路径）
+  out_sam_type:
+    type: string
+    required: false
+    cli_arg: --out-sam-type
+    default: BAM SortedByCoordinate
+    description: align 的 --outSAMtype（SAM / BAM Unsorted / BAM SortedByCoordinate）
+  genome_load:
+    type: string
+    required: false
+    cli_arg: --genome-load
+    default: NoSharedMemory
+    description: align 的 --genomeLoad（NoSharedMemory / LoadAndRemove / LoadAndKeep / Load）
+  read_files_command:
+    type: string
+    required: false
+    cli_arg: --read-files-command
+    description: align 的 --readFilesCommand（默认按 .gz→zcat / .bz2→bunzip2 -c 自动推导）
+  out_file_name_prefix:
+    type: string
+    required: false
+    cli_arg: --out-file-name-prefix
+    description: --outFileNamePrefix（align 默认临时 run_dir；自定义时跳过 -o 挪动）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --threads
+    description: 线程数（自动注入 --runThreadN；index 建议 8）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 STAR 的额外参数（高级用法，慎用）
+outputs:
+  genome_index:
+    type: directory
+    description: index 产物：--genomeDir 目录下的 STAR 索引（Genome/SA/SAindex/chrName*.txt 等）
+  aligned_sam:
+    type: file
+    format: sam
+    description: align 产物（--out-sam-type SAM）：SAM 比对结果
+  aligned_bam:
+    type: file
+    format: bam
+    description: align 产物（--out-sam-type BAM Unsorted/SortedByCoordinate）：BAM 比对结果
+environment:
+  container_official: quay.io/biocontainers/star（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 star。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 16384
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    index: 8
+    align: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: STAR
+  snakemake_rules:
+  - star_index.smk
+  - star_align.smk
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件，可分别 include；两规则共用 snakemake/star.yaml 环境）：
+    include: "modules/star/snakemake/star_index.smk"
+    include: "modules/star/snakemake/star_align.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/star/snakemake/star_index.smk \
+    #       --config star_genome_fasta=refs.fa star_outdir=star_out threads=8 \
+    #       --cores 8 --use-conda

@@ -1,0 +1,194 @@
+software: cutadapt
+canonical: cutadapt
+category: trimming
+description: 'cutadapt 从高通量测序 reads 中去除接头（adapter）、引物、poly-A 等不需要序列，
+  支持 SE/PE、5''/3'' 任意端接头、质量修剪（-q）、长度过滤（-m/-M）、NextSeq 特殊质量修剪
+  （--nextseq-trim），是绝大多数 RNA-seq / 小 RNA / riboseq 流程的 read 预处理底座。
+
+  '
+homepage: https://cutadapt.readthedocs.io/
+license: MIT
+software_versions:
+- id: cutadapt_native
+  cutadapt: 4.2-1
+  build_route: official biocontainer（quay.io/biocontainers/cutadapt / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/cutadapt
+  note: '2026-09 核实：Debian bookworm apt 上限为 4.2-1（Debian 13 trixie 才有 4.7-2），
+    而 bioconda / nf-core / snakemake-wrappers 官方已统一 cutadapt=5.2。官方镜像优先，
+    本地不再自建容器：native 记录版本 4.2-1（原 apt 路线已随本地容器一并移除），宿主机直跑
+    main.py 时用 conda/mamba 安装 cutadapt=5.2（implementations 中 native 版本标签
+    5.2-v1.0 为技能语义对齐版本）。核心接头/质量/长度参数 4.2 与 5.2 兼容，但 4.3+ 新增选项
+    （如 --poly-a）需 5.2 才有，透传前请 cutadapt --help 核对；完整 5.2 语义亦可用官方
+    wrapper/容器环境。'
+- id: cutadapt_nextflow_nfcore
+  module_version: master（nf-core/modules 无 release tag；cutadapt main.nf 2026-04 更新 PR #11260）
+  cutadapt: '5.2'
+  source: bioconda::cutadapt=5.2（modules/nf-core/cutadapt/environment.yml）
+  note: '官方为单模块 CUTADAPT（main.nf + meta.yml + environment.yml + tests/，无按工具版本
+    分子目录，2026-09 抓取核实）；使用 nf-core modules install nf-core cutadapt 安装。'
+- id: cutadapt_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  cutadapt: '5.2'
+  source: bioconda cutadapt=5.2（bio/cutadapt/{se,pe}/environment.yaml）
+  note: '官方 bio/cutadapt 子模块为 se + pe（2026-09 抓取核实），wrapper 仅依赖 snakemake.shell
+    无 snakemake-wrapper-utils；官方最新 tag 已达 v9.17.0（2026-09），仓库全局登记 v3.13.0，
+    切 tag 后按 environment.yaml 核对 cutadapt=5.2。'
+- id: cutadapt_snakemake_local
+  cutadapt: '5.2'
+  source: modules/cutadapt/snakemake/cutadapt.yaml（bioconda::cutadapt==5.2，随 riboseq 拆分）
+  note: snakemake/ 目录规则（cutadapt_{se,pe}.smk + scripts/cutadapt.py + docker_wrapper.py）为自维护
+    local 规则（源自 riboseq 流程），依赖流程级 config 上下文；版本由流程 config 声明。
+implementations:
+- id: cutadapt_native
+  path: native
+  source_type: custom
+  type: native
+  version: 5.2-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+    覆盖 trim / adapter-removal 子命令，自动注入 --cores 线程与 TMPDIR。
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/cutadapt
+    quay_biocontainers: quay.io/biocontainers/cutadapt
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda cutadapt=5.2；容器可用
+      quay.io/biocontainers/cutadapt:5.2 官方镜像（tag 见 README，差异见 software_versions）
+- id: cutadapt_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；官方 bio/cutadapt/{se,pe} 桥接见 README。
+  note: snakemake/ 目录同时存放自 riboseq 拆分的本地规则（cutadapt_{se,pe}.smk），运行时 conda 用
+    envs/cutadapt.yaml（bioconda cutadapt=5.2）。
+default_implementation: cutadapt_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: cutadapt 子命令：trim（通用裁剪）| adapter-removal（纯接头去除）
+  input:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入 FASTQ：SE 1 个文件；PE 2 个文件（R1 在前 R2 在后）
+  adapter:
+    type: string
+    required: false
+    cli_arg: -a
+    description: 3' adapter（R1/SE），如 -a AACCGGTT
+  front:
+    type: string
+    required: false
+    cli_arg: -g
+    description: 5' adapter（R1/SE；^ 前缀锚定起始），如 -g ^AGATCGGAAG
+  anywhere:
+    type: string
+    required: false
+    cli_arg: -b
+    description: 5' 或 3' 均可出现的 adapter（R1/SE）
+  adapter_2:
+    type: string
+    required: false
+    cli_arg: -A
+    description: 3' adapter（R2，PE 时配合 adapter）
+  front_2:
+    type: string
+    required: false
+    cli_arg: -G
+    description: 5' adapter（R2，PE 时配合 front）
+  anywhere_2:
+    type: string
+    required: false
+    cli_arg: -B
+    description: 5' 或 3' 均可的 adapter（R2，PE）
+  quality_cutoff:
+    type: string
+    required: false
+    cli_arg: -q
+    description: 质量修剪阈值，如 '20' 或 '20,15'（3' 端 / 5' 端；trim 子命令）
+  nextseq_trim:
+    type: integer
+    required: false
+    cli_arg: --nextseq-trim
+    description: NextSeq 特殊质量修剪阈值（如 20；trim 子命令）
+  min_length:
+    type: integer
+    required: false
+    cli_arg: -m
+    description: 最短保留长度（trim 子命令）
+  max_length:
+    type: integer
+    required: false
+    cli_arg: -M
+    description: 最长保留长度（trim 子命令）
+  output:
+    type: file
+    required: false
+    cli_arg: -o
+    description: 输出 FASTQ（SE 主输出 / PE 的 R1）
+  paired_output:
+    type: file
+    required: false
+    cli_arg: -p
+    description: PE 的 R2 输出
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --cores
+    description: 线程数（自动注入 cutadapt --cores）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 cutadapt 的额外参数（高级用法，慎用；4.3+ 新增选项需 cutadapt 5.2）
+outputs:
+  trimmed_fastq:
+    type: file
+    format: fastq
+    description: 裁剪后输出 FASTQ（SE 的 -o / PE 的 R1 -o）
+  trimmed_fastq2:
+    type: file
+    format: fastq
+    description: PE 的 R2 输出（-p）
+  cutadapt_report:
+    type: string
+    description: 运行统计报告（写 stderr；Snakemake 规则内重定向为 {sample}.qc.txt）
+  snakemake_fastq:
+    type: file
+    format: fastq.gz
+    path_pattern: '{output_dir}/{protocol}/cutadapt/{sample}_cutadapt.fastq.gz'
+    description: snakemake 规则 cutadapt_se 输出（PE 为 {sample}_R1/_R2_cutadapt.fastq.gz）
+  snakemake_qc:
+    type: file
+    format: txt
+    path_pattern: '{output_dir}/LOGS/{protocol}/cutadapt/{sample}.qc.txt'
+    description: snakemake 规则输出的 cutadapt 统计
+environment:
+  container_official: quay.io/biocontainers/cutadapt（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 cutadapt。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  tmpdir: /tmp
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    PYTHONUNBUFFERED: '1'
+  per_subcommand_threads:
+    trim: 4
+    adapter-removal: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: cutadapt
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（cutadapt 只有 trim 一个子命令；SE/PE 为同一 wrapper 的两种形态）：
+    include: "modules/cutadapt/snakemake/cutadapt_se.smk"
+    include: "modules/cutadapt/snakemake/cutadapt_pe.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/cutadapt/snakemake/cutadapt_se.smk \
+    #       --config cutadapt_read1=s.fastq.gz cutadapt_fastq=out.fastq.gz --cores 8 --use-conda
+  snakemake_rules:
+  - cutadapt_se.smk
+  - cutadapt_pe.smk

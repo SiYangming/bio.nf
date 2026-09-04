@@ -1,0 +1,11 @@
+# minimap2 snakemake conda 环境（与 minimap2_align.smk 同目录，conda: "minimap2.yaml" 相对解析）
+# 版本：minimap2==2.31 + samtools==1.24（bioconda；与官方 snakemake-wrappers v3.13.0
+#       bio/minimap2/aligner/environment.yaml 锚点一致，见软件级 meta.yaml software_versions）
+name: minimap2
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::minimap2==2.31
+  - bioconda::samtools==1.24

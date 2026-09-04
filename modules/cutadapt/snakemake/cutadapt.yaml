@@ -1,0 +1,8 @@
+name: cutadapt
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::cutadapt==5.2
+

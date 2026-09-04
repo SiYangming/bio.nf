@@ -1,0 +1,144 @@
+software: bowtie2
+canonical: bowtie2
+category: alignment_utils
+description: 'bowtie2 是超快、内存高效的短 reads 比对工具，基于 FM-Index 将单端/双端
+  reads 比对到长参考序列（支持 gap、local 与双端比对模式），是 RNA-seq/ChIP-seq/
+  metagenomics 流程中最常用的比对器之一（bowtie2-build 建立 .bt2 索引族）。
+  '
+homepage: https://bowtie-bio.sourceforge.net/bowtie2/index.shtml
+license: GPL-3.0-or-later
+software_versions:
+- id: bowtie2_native
+  bowtie2: '2.5.0'
+  build_route: official biocontainer（quay.io/biocontainers/bowtie2 / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/bowtie2
+  note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+    native 记录版本 2.5.0（原 apt 打包 2.5.0-3+b2 已随本地容器一并移除），宿主机直跑 main.py 时用
+    conda/mamba 安装 bowtie2。
+    注意：riboseq 流程/本地 snakemake env 用 bioconda bowtie2==2.5.4（官方容器
+    quay.io/biocontainers/bowtie2:2.5.4--he96a11b_7），比 2.5.0 高 2 个 minor；跨实现迁移
+    （尤其依赖比对细节的流程）时留意行为差异，必要时用 conda/官方容器固定 2.5.4。'
+- id: bowtie2_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  bowtie2: '2.5.4'
+  wrapper_utils: '0.6.2'
+  source: bioconda bowtie2=2.5.4 + samtools=1.20 + snakemake-wrapper-utils=0.6.2（bio/bowtie2/align/environment.yaml）
+  note: '官方 bio/bowtie2 提供 align/build 两个 wrapper；v3.13.0 tag 的 align pin 2.5.4，
+    master 已 autobump 到 bowtie2=2.5.5（build 亦 2.5.5）。本模块 snakemake/bowtie2_{index,align}.smk
+    为 riboseq 流程拆分的本地规则（conda env 同 riboseq 的 bioconda 2.5.4），与官方
+    wrapper 二选一；切 wrapper tag 后务必核对版本。'
+- id: bowtie2_nextflow_nfcore
+  bowtie2: '2.5.4'
+  source: bioconda::bowtie2=2.5.4（modules/nf-core/bowtie2/{align,build}/environment.yml，含
+    htslib=1.21、samtools=1.21、pigz=2.8）
+  note: '参考信息：本模块未建 nextflow/ 目录，nf-core 官方子模块（align/build）记录于
+    README/software_versions，组装 Nextflow 流程时用 nf-core modules install 安装。'
+implementations:
+- id: bowtie2_native
+  path: native
+  source_type: custom
+  type: native
+  version: 2.5.0-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+    自动注入 --threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/bowtie2，见 software_versions）。
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/bowtie2
+    quay_biocontainers: quay.io/biocontainers/bowtie2
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>=2.5.4；容器可用 quay.io/biocontainers/bowtie2:2.5.4--he96a11b_7
+      镜像（与 riboseq 流程一致）
+- id: bowtie2_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/bowtie2_{index,align}.smk
+    提供 riboseq 转录组比对本地规则（bowtie2_index / bowtie2_align），官方 bio/bowtie2
+    信息见 README 与 software_versions。
+default_implementation: bowtie2_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: bowtie2 子命令：build|align
+  reference:
+    type: file
+    required: false
+    cli_arg: positional
+    description: build 的参考序列 FASTA（可多文件逗号分隔）
+  index_base:
+    type: string
+    required: false
+    cli_arg: positional
+    description: build 输出索引 basename（生成 .1.bt2 … .rev.2.bt2）
+  index:
+    type: string
+    required: false
+    cli_arg: -x
+    description: align 的 bowtie2 索引 basename（不含 .1.bt2 后缀）
+  reads1:
+    type: file
+    required: false
+    cli_arg: -1
+    description: 双端 reads mate1（FASTQ/FASTA，可 .gz）
+  reads2:
+    type: file
+    required: false
+    cli_arg: -2
+    description: 双端 reads mate2（FASTQ/FASTA，可 .gz）
+  reads:
+    type: file
+    required: false
+    cli_arg: -U
+    description: 单端 reads（FASTQ/FASTA，可 .gz）
+  output:
+    type: file
+    required: false
+    cli_arg: -S
+    description: align 的 SAM 输出文件（默认 stdout）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --threads
+    description: 线程数（自动注入；build 建议 8）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 bowtie2 / bowtie2-build 的额外参数（高级用法，慎用）
+outputs:
+  bt2_index:
+    type: file
+    format: bt2
+    description: build 产物：<basename>.{1,2,3,4,rev.1,rev.2}.bt2 索引族
+  sam_file:
+    type: file
+    format: sam
+    description: align 产物：SAM 比对结果
+environment:
+  container_official: quay.io/biocontainers/bowtie2（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 bowtie2。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    build: 8
+    align: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: bowtie2
+  snakemake_rules:
+  - snakemake/bowtie2_index.smk
+  - snakemake/bowtie2_align.smk
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件，可分别 include；共用 snakemake/bowtie2.yaml 环境）：
+    include: "modules/bowtie2/snakemake/bowtie2_index.smk"
+    include: "modules/bowtie2/snakemake/bowtie2_align.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/bowtie2/snakemake/bowtie2_index.smk \
+    #       --config bowtie2_input_fasta=ref.fa bowtie2_index_prefix=bt2/bowtie2 --cores 8 --use-conda
