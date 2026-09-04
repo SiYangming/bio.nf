@@ -1,0 +1,156 @@
+software: umi_tools
+canonical: umi_tools
+category: umi_tools_extract_dedup
+description: 'umi_tools 是处理 Unique Molecular Identifiers (UMI)/随机分子标签 与单细胞
+  细胞条形码的工具集，核心能力包括从 FASTQ 提取条形码（extract）、基于 UMI 与比对坐标的
+  PCR 重复去除（dedup/group）与表达计数（count），是 Ribo-Seq / scRNA-Seq 等流程的常用组件。
+
+  '
+homepage: https://umi-tools.readthedocs.io/
+license: MIT
+software_versions:
+- id: umi_tools_native
+  umi_tools: '1.1.6'
+  build_route: official biocontainer（quay.io/biocontainers/umi_tools / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/umi_tools
+  note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；与 bioconda
+    1.1.6 同版本，无跨实现版本差；宿主运行 main.py 时以 conda/mamba 安装 umi_tools=1.1.6，依赖
+    （pysam/numpy/scipy/pandas/matplotlib/regex/future/pybktree）由 conda 解析。
+- id: umi_tools_nextflow_nfcore
+  module_version: rolling (master)
+  umi_tools: '1.1.6'
+  source: bioconda::umi_tools=1.1.6 + conda-forge::python=3.9.18 + bioconda::pysam=0.22.0（modules/nf-core/umitools/*/environment.yml）
+  note: nf-core 官方目录名为 umitools，含 dedup/extract/group/prepareforrsem 四个子模块；main.nf
+    使用 -I/-S/-L，无多线程开关。
+- id: umi_tools_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  umi_tools: '1.1.6'
+  source: bioconda umi_tools==1.1.6（本模块 snakemake/umi_tools.yaml，与流程时代一致）
+  note: 官方 snakemake-wrappers master 与 v3.13.0 递归树均无 bio/umi_tools（WebFetch 核实 404），
+    本模块 snakemake/ 规则为自维护 local 规则（迁自 riboseq 流程），conda pin 与 bioconda 对齐。
+implementations:
+- id: umi_tools_native
+  path: native
+  source_type: custom
+  type: native
+  version: 1.1.6-v1.0
+  priority: high
+  when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/umi_tools
+    quay_biocontainers: quay.io/biocontainers/umi_tools
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: umi_tools_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程（如 riboseq）时 include 本模块 snakemake/umi_tools_extract_se.smk /
+    umi_tools_extract_pe.smk / umi_tools_dedup.smk 单规则文件（td2 式 config 驱动，见 snakemake_include_hint）。
+default_implementation: umi_tools_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: umi_tools 子命令：extract|dedup
+  input:
+    type: file
+    required: true
+    cli_arg: -I
+    description: 输入文件（extract 为 FASTQ；dedup 为 BAM）
+  output:
+    type: file
+    required: false
+    cli_arg: -S
+    description: 输出文件（extract 为 FASTQ；dedup 为去重 BAM）
+  bc_pattern:
+    type: string
+    required: false
+    cli_arg: --bc-pattern
+    description: 'extract: read1 条形码模式（N=UMI，C=cell，X=保留），如 NNNNNNNN'
+  bc_pattern2:
+    type: string
+    required: false
+    cli_arg: --bc-pattern2
+    description: 'extract: read2 条形码模式（PE 拆分 UMI 时）'
+  read2_in:
+    type: file
+    required: false
+    cli_arg: --read2-in
+    description: extract 的 PE read2 输入
+  read2_out:
+    type: file
+    required: false
+    cli_arg: --read2-out
+    description: extract 的 PE read2 输出
+  extract_method:
+    type: string
+    required: false
+    cli_arg: --extract-method
+    description: extract 提取方法（string=序列固定位置 / regex=正则）
+  three_prime:
+    type: boolean
+    required: false
+    cli_arg: --3prime
+    description: extract 条形码位于 read 3' 端
+  method:
+    type: string
+    required: false
+    cli_arg: --method
+    description: dedup UMI 分组方法（unique|percentile|cluster|adjacency|directional，默认
+      directional）
+  paired:
+    type: boolean
+    required: false
+    cli_arg: --paired
+    description: dedup 输入为 paired-end BAM，成对输出
+  output_stats:
+    type: string
+    required: false
+    cli_arg: --output-stats
+    description: dedup 统计输出前缀（生成 *_edit_distance.tsv 等）
+  threads:
+    type: integer
+    default: 4
+    description: 资源声明用（umi_tools extract/dedup 为单进程实现，不注入命令）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 umi_tools 子命令的额外参数（高级用法，慎用）
+outputs:
+  result_file:
+    type: file
+    description: 主输出文件（extract 的 UMI 标记 FASTQ / dedup 的去重 BAM）
+  stats_report:
+    type: file
+    format: tsv
+    description: dedup --output-stats 产生的 *_edit_distance.tsv 等统计
+environment:
+  container_official: quay.io/biocontainers/umi_tools（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 umi_tools。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: umi_tools
+  snakemake_rules:
+  - umi_tools_extract_se.smk
+  - umi_tools_extract_pe.smk
+  - umi_tools_dedup.smk
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件，可分别 include；三规则共用 snakemake/umi_tools.yaml 环境）：
+    include: "modules/umi_tools/snakemake/umi_tools_extract_se.smk"
+    include: "modules/umi_tools/snakemake/umi_tools_extract_pe.smk"
+    include: "modules/umi_tools/snakemake/umi_tools_dedup.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/umi_tools/snakemake/umi_tools_extract_se.smk \
+    #       --config umi_input_fastq=reads.fastq.gz 'umi_tools.bc_pattern=NNNNNNNN' \
+    #       umi_output_fastq=reads_umi.fastq.gz --cores 4 --use-conda

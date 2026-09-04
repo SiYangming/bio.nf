@@ -1,0 +1,163 @@
+software: bbmap
+canonical: bbmap
+category: alignment_utils
+description: 'BBMap（BBTools 套件核心）是基于 Java 的短读长比对器，适用于 DNA/RNA-seq，
+  支持超大参考基因组/转录组（含 gz 直读、ambiguous 多匹配策略、outm/outu 分流输出与
+  path= 索引复用），在 Ribo-seq 流程中常被用于 rRNA/tRNA/转录组的分层滤比。
+  '
+homepage: https://sourceforge.net/projects/bbmap/
+license: BSD-3-clause
+software_versions:
+- id: bbmap_native
+  bbmap: '39.01'
+  build_route: official biocontainer（quay.io/biocontainers/bbmap / depot.galaxyproject.org）
+  source: https://anaconda.org/bioconda/bbmap
+  note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+    native 记录版本 39.01（Java 工具 bbmap.sh；原 apt 打包 39.01+dfsg-2 已随本地容器一并移除），
+    宿主机直跑 main.py 时用 conda/mamba 安装 bbmap。
+    注意：riboseq 流程/本地 snakemake env 用 bioconda bbmap==39.52（官方容器
+    quay.io/biocontainers/bbmap:39.52--he5f24ec_0），比 39.01 高约 0.5 minor；跨实现迁移
+    （尤其依赖比对细节的流程）时留意行为差异，必要时用 conda/官方容器固定 39.52。'
+- id: bbmap_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  bbmap: '39.06'
+  wrapper_utils: '0.6.2'
+  source: bioconda bbmap=39.06 + snakemake-wrapper-utils=0.6.2 + pigz=2.8（bio/bbtools/environment.yaml）
+  note: '官方 snakemake-wrappers 目录为 bio/bbtools（BBMAP-SUITE 单 wrapper；官方无
+    bio/bbmap），以 params.command= 运行套件内任意工具；master 已 autobump 到 bbmap=40.02
+    + snakemake-wrapper-utils=0.9.0。本模块 snakemake/bbmap_{index,align}.smk 为 riboseq 流程拆分的
+    本地规则（conda env 同 riboseq 的 bioconda 39.52），与官方 wrapper 二选一；
+    切 wrapper tag 后务必核对版本。'
+- id: bbmap_nextflow_nfcore
+  bbmap: '39.18'
+  source: bioconda::bbmap=39.18 + pigz=2.8（modules/nf-core/bbmap/align/environment.yml）
+  note: '参考信息：本模块未建 nextflow/ 目录，nf-core 官方 bbmap 子模块（align/bbduk/
+    bbmerge/bbnorm/bbsplit/clumpify/filterbyname/index/pileup/repair/sendsketch）记录于
+    README/software_versions，组装 Nextflow 流程时用 nf-core modules install 安装。'
+implementations:
+- id: bbmap_native
+  path: native
+  source_type: custom
+  type: native
+  version: 39.01-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
+    自动注入 --threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/bbmap，见 software_versions）。
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/bbmap
+    quay_biocontainers: quay.io/biocontainers/bbmap
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>=39.52；容器可用 quay.io/biocontainers/bbmap:39.52--he5f24ec_0
+      镜像（与 riboseq 流程一致）
+- id: bbmap_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/bbmap_{index,align}.smk
+    提供 riboseq 分层比对本地规则（bbmap_index / bbmap_align_rRNA / bbmap_align_tRNA /
+    bbmap_align_pc），官方 bio/bbtools（BBMAP-SUITE wrapper）信息见 README 与 software_versions。
+default_implementation: bbmap_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: bbmap 子命令：index|align
+  ref:
+    type: file
+    required: false
+    cli_arg: ref=
+    description: 参考序列 FASTA（index 必需；align 走临时索引时使用，可 .gz）
+  path:
+    type: string
+    required: false
+    cli_arg: path=
+    description: BBMap 索引目录（index 为输出目录；align 为已建索引目录，与 ref 二选一）
+  reads:
+    type: file
+    required: false
+    cli_arg: in=
+    description: align 输入 reads（FASTQ/FASTA，可 .gz）
+  out:
+    type: file
+    required: false
+    cli_arg: out=
+    description: align 的比对输出文件（.sam/.bam）
+  outm:
+    type: file
+    required: false
+    cli_arg: outm=
+    description: align 比对上的 reads 输出文件（FASTQ，可 .gz）
+  outu:
+    type: file
+    required: false
+    cli_arg: outu=
+    description: align 未比对上 reads 的输出文件（FASTQ，可 .gz）
+  threads:
+    type: integer
+    default: 8
+    cli_arg: threads=
+    description: 线程数（自动注入）
+  nodisk:
+    type: boolean
+    default: false
+    cli_arg: nodisk=t
+    description: 不把索引写入磁盘（临时参考比对时用，rRNA/tRNA 滤比场景）
+  ambiguous:
+    type: string
+    required: false
+    cli_arg: ambiguous=
+    description: 多匹配策略：best|toss|all（riboseq 流程用 best）
+  trimreaddescription:
+    type: boolean
+    default: false
+    cli_arg: trimreaddescription=t
+    description: 去除 read 描述中空格及其后内容（riboseq 流程用 t）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 bbmap.sh 的额外 key=value 参数（高级用法，慎用）
+outputs:
+  index_dir:
+    type: directory
+    description: index 产物：path= 目录下的 BBMap 参考索引文件
+  sam_bam:
+    type: file
+    format: sam
+    description: align 产物：out= 的比对结果（SAM/BAM 依扩展名）
+  mapped_reads:
+    type: file
+    format: fastq
+    description: align 产物：outm= 比对上的 reads
+  unmapped_reads:
+    type: file
+    format: fastq
+    description: align 产物：outu= 未比对 reads
+environment:
+  container_official: quay.io/biocontainers/bbmap（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 bbmap。
+optimization:
+  default_cpus: 8
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    JAVA_TOOL_OPTIONS: '-Xmx8g -Djava.io.tmpdir={tmpdir}'
+  per_subcommand_threads:
+    index: 8
+    align: 8
+    default: 8
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: bbmap.sh
+  snakemake_rules:
+  - snakemake/bbmap_index.smk
+  - snakemake/bbmap_align.smk
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（规则已拆为单规则文件，可分别 include；共用 snakemake/bbmap.yaml 环境）：
+    include: "modules/bbmap/snakemake/bbmap_index.smk"
+    include: "modules/bbmap/snakemake/bbmap_align.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/bbmap/snakemake/bbmap_align.smk \
+    #       --config bbmap_read1=s.fastq.gz bbmap_ref=ref.fa bbmap_sam=out.sam --cores 8 --use-conda

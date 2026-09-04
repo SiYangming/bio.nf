@@ -1,0 +1,10 @@
+# ultra Snakemake conda 环境（供 snakemake/ultra_index.smk 与 ultra_align.smk 的 conda: 指令使用）
+# uLTRA 在 bioconda 的包名为 ultra_bioinformatics（二进制 uLTRA）；
+# minimap2 / namfinder 为 ultra_bioinformatics 的运行时依赖，随包自动安装（uLTRA 按 PATH 查找）；
+# samtools 用于 align 后排序，需显式同环境安装。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::ultra_bioinformatics=0.1
+  - samtools

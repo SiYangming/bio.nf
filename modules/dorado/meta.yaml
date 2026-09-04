@@ -1,0 +1,146 @@
+software: dorado
+canonical: dorado
+category: basecalling
+description: 'Dorado 是 Oxford Nanopore 官方的高精度 basecalling 工具： dorado basecaller <model>
+  <reads> 将 POD5/FAST5 原始信号转为 FASTQ（RNA 用 rna004_130bps_sup 等模型），dorado demux 按 barcode
+  拆分 reads， 是 nanoseq 流程的原始数据 basecalling 环节（enable_dorado 开关）。
+
+  '
+homepage: https://github.com/nanoporetech/dorado
+license: Oxford Nanopore Technologies PLC. 开源许可（NC 部分模型另有限制）
+software_versions:
+- id: dorado_native
+  dorado: latest（官方 release，如 0.9.x/0.10.x；Dockerfile 用 ARG DORADO_VERSION 可 pin）
+  source: https://github.com/nanoporetech/dorado/releases（官方 Linux x64 静态二进制 tar.gz）
+  note: dorado 不在 Debian bookworm apt，也不在 bioconda；容器走 bookworm-slim + 官方二进制下载路线（非
+    micromamba）。
+- id: dorado_nextflow_nfcore
+  module_version: —
+  dorado: 官方无模块（modules/nf-core/dorado 404）
+  source: —
+  note: 2026-09 抓取 https://api.github.com/repos/nf-core/modules/contents/modules/nf-core/dorado
+    返回 404；Nextflow 场景请使用 dorado_nextflow_local 或降级 native。
+- id: dorado_snakemake_wrappers
+  wrapper_tag: v3.13.0
+  dorado: 官方无 wrapper（bio/dorado 404）
+  source: —
+  note: 2026-09 抓取 https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/dorado
+    返回 404；Snakemake 场景请使用 dorado_snakemake_local。
+- id: dorado_nextflow_local
+  dorado: 未固定（用户按 main.nf 中 container 自行声明；建议 nanoporetech/dorado:latest）
+- id: dorado_snakemake_local
+  dorado: latest
+  source: 自维护 dorado_basecall.smk / dorado_demux.smk（提炼自 nanoseq config.yaml dorado 段 + dorado 官方用法）
+  note: rule 内 container 建议 nanoporetech/dorado:latest 或本地 dorado 二进制（dorado 不在 bioconda，无 conda env）。
+implementations:
+- id: dorado_native
+  path: native
+  source_type: custom
+  type: native
+  version: latest-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。 覆盖 basecall
+    / demux 子命令，自动注入线程（--device cuda:all 可选）。
+
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/dorado
+    quay_biocontainers: quay.io/biocontainers/dorado
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: dorado_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
+  note: 官方 snakemake-wrappers 暂无 bio/dorado wrapper（2026-09 抓取 404），本实现仅登记桥接层，实际请走
+    dorado_snakemake_local。
+default_implementation: dorado_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: dorado 子命令：basecall|demux
+  model:
+    type: string
+    required: true
+    cli_arg: positional
+    description: basecall 模型（如 rna004_130bps_sup@v5.1.0 / 本地模型目录）
+  reads:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入 raw 信号目录或文件（POD5/FAST5，basecall）
+  output:
+    type: file
+    required: false
+    cli_arg: -o
+    description: 输出文件/目录（basecall 用 --output-dir；demux 用 --output-dir）
+  emit_fastq:
+    type: boolean
+    default: true
+    cli_arg: --emit-fastq
+    description: 输出 FASTQ（basecall；nanoseq 默认开启）
+  device:
+    type: string
+    required: false
+    cli_arg: --device
+    description: 计算设备（cuda:all / cuda:0 / cpu；默认自动）
+  demux_kit:
+    type: string
+    required: false
+    cli_arg: --kit-name
+    description: demux 的 barcode 试剂盒名（如 SQK-RNA004-24）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --num-workers
+    description: 线程数（自动注入）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 dorado 的额外参数（高级用法，慎用）
+outputs:
+  fastq:
+    type: file
+    format: fastq
+    description: basecall 输出的 FASTQ 文件
+  demuxed_fastq:
+    type: file
+    format: fastq
+    description: demux 输出的拆分 FASTQ（按 barcode）
+environment:
+  conda: environment.yml
+  dockerfile: Dockerfile
+  apptainer_def: Apptainer.def
+optimization:
+  default_cpus: 4
+  default_mem_mb: 16384
+  tmpdir: /tmp
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    PYTHONUNBUFFERED: '1'
+  per_subcommand_threads:
+    basecall: 8
+    demux: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: dorado
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（每 rule 一单规则文件；dorado 不在 bioconda，无同目录 conda env，
+    # docker 模式走 rule container + --use-container，native 走 PATH 二进制）：
+    include: "modules/dorado/snakemake/dorado_basecall.smk"
+    include: "modules/dorado/snakemake/dorado_demux.smk"
+    # config 契约与独立运行示例见各 .smk 头部，例如：
+    #   snakemake -s modules/dorado/snakemake/dorado_basecall.smk \
+    #       --config dorado_input_pod5=pod5/ dorado_fastq=basecall.fastq --cores 8
+    # 顶层键：dorado_input_pod5 / dorado_fastq / dorado_input_reads / dorado_demux_outdir /
+    #   threads / exec_mode(native|docker)；
+    # 软件段（config.yaml 预设）：dorado.{docker_image,model,kit_name,extra_params}
+  snakemake_rules:
+  - dorado_basecall.smk
+  - dorado_demux.smk

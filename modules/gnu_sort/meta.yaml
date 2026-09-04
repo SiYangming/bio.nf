@@ -1,0 +1,109 @@
+software: gnu_sort
+canonical: gnu_sort
+category: utility
+description: 'GNU coreutils 的 sort 程序：对文本行进行排序（支持 -k 键、-n 数值、-S 缓冲区、 --parallel 等），是
+  isoseq 流程中 GTF 按染色体+起始位点排序的基础工具 （sort -k1,1 -k4,4n）。
+
+  '
+homepage: https://www.gnu.org/software/coreutils/
+license: GPL-3.0-or-later
+implementations:
+- id: gnu_sort_native
+  path: native
+  source_type: custom
+  type: native
+  version: 9.1-v1.0
+  priority: high
+  when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。直接调用 GNU/系统 sort 二进制。
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/gnu_sort
+    quay_biocontainers: quay.io/biocontainers/gnu_sort
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: gnu_sort_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: Snakemake 流程、复用中央 wrapper 缓存时（注意：官方暂缺 gnu sort wrapper，见下方说明）。
+default_implementation: gnu_sort_native
+software_versions:
+  native:
+    gnu_sort: '9.1'
+    coreutils: '9.1'
+    build_route: 'APT：Debian bookworm coreutils=9.1（binary: sort）'
+    source: apt coreutils=9.1-1（Debian bookworm stable）
+    note: sort -k1,1 -k4,4n 等核心选项 GNU/BSD 均支持；--parallel 仅 GNU 提供（main.py 自动检测）。
+  nextflow_nfcore:
+    gnu_sort: '9.5'
+    coreutils: '9.5'
+    module_version: master（2026-08 抓取；install 时由 nf-core tools 写实际 commit）
+    source: conda-forge::coreutils=9.5（modules/nf-core/gnu/sort/environment.yml）
+    note: nf-core 拆分为 gnu/sort 与 gnu/split 两个子模块；本软件对应 gnu/sort（排序）。
+  nextflow_local:
+    gnu_sort: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    gnu_sort: 无官方 wrapper
+    wrapper_tag: v3.13.0
+    source: https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/gnu
+      → 404
+    note: snakemake-wrappers 官方 bio/ 目录无 gnu/sort（2026-08 核对）；必须降级使用 gnu_sort_snakemake_local。
+  snakemake_local:
+    gnu_sort: 9.1（自维护规则：sort <args> <in> > <out>.sorted；同目录 script wrapper gnu_sort.py，docker/native/conda 三模式分派；规则无 conda env 文件）
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: gnu_sort 子命令：sort
+  input:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入文件（文本/SAM/GTF/BED 等）
+  output:
+    type: file
+    required: false
+    cli_arg: -o
+    description: 输出文件路径（默认 <input>.sorted）
+  args:
+    type: string
+    required: false
+    cli_arg: --args
+    description: 透传 sort 附加参数（如 -k1,1 -k4,4n、-n、-S 2G、--parallel 8）
+  threads:
+    type: integer
+    default: 4
+    cli_arg: --threads
+    description: 线程数（检测到 GNU coreutils 时注入 --parallel=N；BSD sort 忽略）
+outputs:
+  sorted_file:
+    type: file
+    description: 排序后的输出文件
+environment:
+  conda: environment.yml
+  dockerfile: Dockerfile
+  apptainer_def: Apptainer.def
+optimization:
+  default_cpus: 4
+  default_mem_mb: 4096
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    sort: 8
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: sort
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（单规则文件 gnu_sort.smk，config 驱动 + 同目录 script wrapper gnu_sort.py）：
+    include: "modules/gnu_sort/snakemake/gnu_sort.smk"
+    # config 契约与独立运行示例见 gnu_sort.smk 头部，例如：
+    #   snakemake -s modules/gnu_sort/snakemake/gnu_sort.smk \
+    #       --config gnu_sort_input=transcripts.gtf gnu_sort_output=transcripts.sorted.gtf \
+    #       --cores 4
+    # 顶层键：gnu_sort_input(必填)/gnu_sort_output(默认 <输入>.sorted)/exec_mode(conda|docker|native)；
+    # 软件段（config.yaml 预设）：gnu_sort.{docker_image,sort_bin,args}
+  snakemake_rules:
+  - gnu_sort.smk

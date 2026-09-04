@@ -1,0 +1,138 @@
+software: bamtools
+canonical: bamtools
+category: alignment_utils
+description: 'BamTools 是操作 BAM 文件的高通量测序工具集，提供格式转换（convert）、 统计（stats/count）、过滤（filter）、索引（index）、排序（sort）等核心能力。
+  Iso-Seq 流程中常用于把 refine 后的 BAM 转换为 FASTA/FASTQ，供下游 TAMA 等使用。
+
+  '
+homepage: https://github.com/pezmaster31/bamtools
+license: MIT
+software_versions:
+  native:
+    bamtools: 2.5.2
+    build_route: official biocontainer（quay.io/biocontainers/bamtools / depot.galaxyproject.org）
+    source: https://anaconda.org/bioconda/bamtools
+    note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+      宿主运行 main.py 时以 conda/mamba 安装 bamtools=2.5.x（版本差异见 snakemake_wrappers 2.5.3）。
+  nextflow_nfcore:
+    bamtools: 2.5.2
+    module_version: master@ad1de30（modules/nf-core/bamtools/convert）
+    source: bioconda::bamtools=2.5.2（modules/nf-core/bamtools/*/environment.yml）
+    note: nf-core 将 bamtools 拆为 convert / split / stats 三个子模块；升级 modules 时请同步刷新。
+  nextflow_local:
+    bamtools: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    bamtools: 2.5.3
+    wrapper_tag: v3.13.0
+    source: bioconda bamtools=2.5.3（bio/bamtools/*/environment.yaml）
+    note: bio/bamtools 仅有 filter / filter_json / split / stats 四个 wrapper，无 convert；convert
+      请走 native 或 nf-core。
+  snakemake_local:
+    bamtools: 2.5.2（snakemake/bamtools.yaml env pin；bamtools_convert.smk 单规则 config 驱动）
+implementations:
+- id: bamtools_native
+  path: native
+  source_type: custom
+  type: native
+  version: 2.5.2-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， 覆盖 convert/count/stats/header/index/sort
+    子命令。
+
+    '
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/bamtools
+    quay_biocontainers: quay.io/biocontainers/bamtools
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: bamtools_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
+default_implementation: bamtools_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: bamtools 子命令：convert|count|stats|header|index|sort
+  bam:
+    type: file
+    required: true
+    cli_arg: -in
+    description: 输入 BAM 文件
+  format:
+    type: string
+    required: false
+    cli_arg: -format
+    description: convert 目标格式：bed/fasta/fastq/json/pileup/sam/yaml（默认 fasta）
+  outdir:
+    type: string
+    required: false
+    description: convert 输出目录（默认当前目录）
+  prefix:
+    type: string
+    required: false
+    description: convert 输出前缀（默认从 BAM 文件名推断）
+  output:
+    type: file
+    required: false
+    cli_arg: -out
+    description: sort/index 的显式输出文件
+  region:
+    type: string
+    required: false
+    cli_arg: -region
+    description: 区域字符串（如 chr1:100-200），convert 限定转换范围
+  sort_by:
+    type: string
+    required: false
+    cli_arg: -by
+    description: sort 排序依据：region/name/size
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 bamtools 子命令的额外参数（高级用法，慎用）
+  threads:
+    type: integer
+    default: 4
+    description: 线程数（契约字段；bamtools CLI 无通用 -@ 参数，不实际注入）
+outputs:
+  converted_file:
+    type: file
+    description: convert 输出文件（<prefix>.<format>）
+  sorted_bam:
+    type: file
+    format: bam
+    description: sort 输出的排序 BAM
+  bai:
+    type: file
+    format: bai
+    description: index 生成的 .bai 索引
+environment:
+  container_official: quay.io/biocontainers/bamtools（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README「容器与 Conda 链接」）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 bamtools。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    sort: 8
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: bamtools
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（单规则文件 bamtools_convert.smk，含同目录 bamtools.yaml + bamtools_convert.py）：
+    include: "modules/bamtools/snakemake/bamtools_convert.smk"
+    # config 契约与独立运行示例见 bamtools_convert.smk 头部，例如：
+    #   snakemake -s modules/bamtools/snakemake/bamtools_convert.smk \
+    #       --config bamtools_input_bam=refine.bam --cores 2 --use-conda
+    # 顶层键：bamtools_input_bam(必填)/bamtools_outdir/bamtools_output/bamtools_versions/exec_mode；
+    # 软件段（config.yaml 预设）：bamtools.{docker_image,bamtools_bin,format,extra_params}
+  snakemake_rules:
+  - bamtools_convert.smk

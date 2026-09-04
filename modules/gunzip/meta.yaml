@@ -1,0 +1,105 @@
+software: gunzip
+canonical: gunzip
+category: utility
+description: 'gunzip 是 GNU gzip 的解压前端，将 .gz 压缩文件还原为原始内容（gzip -cd <in.gz> > <out>）。
+  本技能覆盖解压能力（native 子命令 gunzip），是 isoseq 流程中 参考基因组 / 注释 / reads 解压的基础工具。
+
+  '
+homepage: https://www.gnu.org/software/gzip/
+license: GPL-3.0-or-later
+implementations:
+- id: gunzip_native
+  path: native
+  source_type: custom
+  type: native
+  version: 1.12-v1.0
+  priority: high
+  when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。直接调用 gzip/gunzip 二进制。
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/gunzip
+    quay_biocontainers: quay.io/biocontainers/gunzip
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: gunzip_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: Snakemake 流程、复用中央 wrapper 缓存时（注意：官方暂缺 gunzip wrapper，见下方说明）。
+default_implementation: gunzip_native
+software_versions:
+  native:
+    gunzip: '1.12'
+    build_route: 'APT：Debian bookworm gzip=1.12（binary: gzip / gunzip）'
+    source: apt gzip=1.12-1（Debian bookworm stable）
+    note: gzip -cd <in.gz> > <out> 解压语义；gunzip 为 gzip 的硬链接前端，无需单独安装。
+  nextflow_nfcore:
+    gunzip: '1.13'
+    module_version: master（2026-08 抓取；install 时由 nf-core tools 写实际 commit）
+    source: conda-forge::gzip=1.13（modules/nf-core/gunzip/environment.yml）
+    note: nf-core gunzip 为单模块（无子模块拆分）；环境另含 coreutils/grep/sed/tar/lbzip2。
+  nextflow_local:
+    gunzip: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    gunzip: 无官方 wrapper
+    wrapper_tag: v3.13.0
+    source: https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/gunzip
+      → 404
+    note: snakemake-wrappers 官方 bio/ 目录无 gunzip（2026-08 核对）；必须降级使用 gunzip_snakemake_local。
+  snakemake_local:
+    gunzip: 1.12（自维护规则：gzip -cd <in.gz> > <out>；同目录 script wrapper gunzip.py，docker/native/conda 三模式分派；规则无 conda env 文件）
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: gunzip 子命令：gunzip
+  input:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入 .gz 文件
+  output:
+    type: file
+    required: false
+    cli_arg: -o
+    description: 输出文件路径（默认去掉 .gz 后缀）
+  args:
+    type: string
+    required: false
+    cli_arg: --args
+    description: 透传 gzip 附加参数（高级用法，慎用）
+  threads:
+    type: integer
+    default: 1
+    cli_arg: --threads
+    description: 线程数（gzip -cd 单线程；此处仅供上层调度器读取）
+outputs:
+  decompressed:
+    type: file
+    description: 解压后的原始文件
+environment:
+  conda: environment.yml
+  dockerfile: Dockerfile
+  apptainer_def: Apptainer.def
+optimization:
+  default_cpus: 1
+  default_mem_mb: 2048
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    default: 1
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: gzip
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（单规则文件 gunzip.smk，config 驱动 + 同目录 script wrapper gunzip.py）：
+    include: "modules/gunzip/snakemake/gunzip.smk"
+    # config 契约与独立运行示例见 gunzip.smk 头部，例如：
+    #   snakemake -s modules/gunzip/snakemake/gunzip.smk \
+    #       --config gunzip_input=ref.fa.gz gunzip_output=ref.fa --cores 1
+    # 顶层键：gunzip_input(必填)/gunzip_output(默认去 .gz)/exec_mode(conda|docker|native)；
+    # 软件段（config.yaml 预设）：gunzip.{docker_image,gzip_bin}
+  snakemake_rules:
+  - gunzip.smk
