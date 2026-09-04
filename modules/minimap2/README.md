@@ -89,7 +89,7 @@ bash test/run_test.sh
 - **临时目录**：`--tmpdir` 覆盖 `$TMPDIR`；中间 SAM 走管道不落盘（`pipefail` 保证失败传导）。
 - **内存**：通过 `meta.yaml.optimization.default_mem_mb` 声明，供上层调度器读取。
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
 
@@ -102,11 +102,10 @@ bash test/run_test.sh
 
 # minimap2 / snakemake（本地规则 + 官方 wrappers 参考）
 
-### 本地拆分规则（type: snakemake_local，源 isoseq 流程）
+### 本地拆分规则（type: snakemake_local）
 
-`snakemake/` 下规则按「每 rule 一个 config 驱动 .smk」拆分（td2 式，源 isoseq 流程的
-`minimap2_align` 自维护版），规则不依赖流程级 `SAMPLES`/`samples` 表与 `config[paths]`
-上下文，可脱离流程独立 dry-run：
+`snakemake/` 下规则按「每 rule 一个 config 驱动 .smk」拆分（td2 式自维护版），规则不依赖流程级
+`SAMPLES`/`samples` 表与 `config[paths]` 上下文，可脱离流程独立 dry-run：
 
 | 文件 | 规则 | 作用 |
 |------|------|------|
@@ -157,7 +156,7 @@ rule minimap2_align:
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # minimap2 native Conda 环境配方

@@ -34,7 +34,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 2.5.2-v1.0
+  version: 2.5.2
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， 覆盖 convert/count/stats/header/index/sort
     子命令。
@@ -45,11 +45,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/bamtools
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: bamtools_snakemake_wrappers
+- id: bamtools_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "2.5.2"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
 default_implementation: bamtools_native

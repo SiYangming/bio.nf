@@ -103,21 +103,21 @@ snakemake -s modules/gnu_sort/snakemake/gnu_sort.smk \
 |------|------|-----------|
 | `gnu_sort` | `sort <args> <in> > <out>.sorted`（args 由 config 透传） | `exec_mode` / `gnu_sort_input`(必填) / `gnu_sort_output` / `gnu_sort.{docker_image,sort_bin,args}` |
 
-## 与历史实现的差异
+## 规则设计说明
 
-- 移除 `helpers.get_gnu_sort_args`（按后缀 override）：简化为 `config["gnu_sort"]["args"]`
-  单一透传；如需按文件后缀切换参数，在调用方用 `use rule ... from ...` 覆盖 `params.args`。
-- 移除 `docker_run` / `GNU_SORT_DOCKER_IMAGE` 与 `workflow/lib/helpers.py` 依赖；
-  原 `{filepath}` 通配规则改为显式 config 键（每任务一规则）。
-- `shell:` 直写改为 `script:` 同目录 wrapper `gnu_sort.py`（两级注入共享 `modules/docker_wrapper.py`）：
-  docker 用 `gnu_sort.docker_image`、native 用 `gnu_sort.sort_bin`、conda 走 PATH。
-- 规则内补齐 `log:`（stderr 重定向到同目录 `gnu_sort.log`；stdout=排序结果进输出文件）。
-- `sort_bin` 保留 config 可覆盖（默认 `sort`，走系统 PATH）。
+- 参数统一经 `config["gnu_sort"]["args"]` 透传（如需按文件后缀切换参数，调用方可用
+  `use rule ... from ...` 覆盖 `params.args`）。
+- 规则 config 驱动：输入输出为显式 config 键（`gnu_sort_input` / `gnu_sort_output`，每任务一规则），无
+  `{filepath}` 通配；不依赖流程级 `docker_run` / `GNU_SORT_DOCKER_IMAGE` 与 `workflow/lib/helpers.py`。
+- 执行用同目录 `script:` wrapper `gnu_sort.py`（两级注入共享 `modules/docker_wrapper.py`）：docker 用
+  `gnu_sort.docker_image`、native 用 `gnu_sort.sort_bin`、conda 走 PATH。
+- 规则内声明 `log:`（stderr 重定向到 `gnu_sort.log`；stdout=排序结果进输出文件）。
+- `sort_bin` 可用 config 覆盖（默认 `sort`，走系统 PATH）。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # gnu_sort native Conda 环境配方（兜底：离线 / 非容器场景）

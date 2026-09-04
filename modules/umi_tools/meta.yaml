@@ -22,8 +22,7 @@ software_versions:
   source: bioconda::umi_tools=1.1.6 + conda-forge::python=3.9.18 + bioconda::pysam=0.22.0（modules/nf-core/umitools/*/environment.yml）
   note: nf-core 官方目录名为 umitools，含 dedup/extract/group/prepareforrsem 四个子模块；main.nf
     使用 -I/-S/-L，无多线程开关。
-- id: umi_tools_snakemake_wrappers
-  wrapper_tag: v3.13.0
+- id: umi_tools_snakemake_local
   umi_tools: '1.1.6'
   source: bioconda umi_tools==1.1.6（本模块 snakemake/umi_tools.yaml，与流程时代一致）
   note: 官方 snakemake-wrappers master 与 v3.13.0 递归树均无 bio/umi_tools（WebFetch 核实 404），
@@ -33,7 +32,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 1.1.6-v1.0
+  version: "1.1.6"
   priority: high
   when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
   container_ref:
@@ -41,11 +40,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/umi_tools
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: umi_tools_snakemake_wrappers
+- id: umi_tools_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "1.1.6"
   priority: medium
   when_to_use: 组装 Snakemake 流程（如 riboseq）时 include 本模块 snakemake/umi_tools_extract_se.smk /
     umi_tools_extract_pe.smk / umi_tools_dedup.smk 单规则文件（td2 式 config 驱动，见 snakemake_include_hint）。

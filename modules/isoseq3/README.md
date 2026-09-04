@@ -74,7 +74,7 @@ bash test/run_test.sh   # 合成最小 BAM；isoseq3 未安装时退化为 argv 
 - isoseq 4.0.0（bioconda::isoseq=4.0.0，binary `isoseq3`；由官方镜像/conda 提供，宿主机安装用 mamba/conda）
 - 构建路线：official biocontainer（quay.io/biocontainers/isoseq3 / depot.galaxyproject.org，tag 见文末「容器与 Conda 链接」）；本地不再自建容器
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
 
@@ -117,7 +117,7 @@ bash test/run_test.sh   # 合成最小 BAM；isoseq3 未安装时退化为 argv 
   （docker/native/conda 三模式经共享 `modules/docker_wrapper.py` 的 `docker_wrapper_binary(config,
   "isoseq3", "isoseq3_bin", "isoseq3")` 分派）。`exec_mode` 默认 conda，docker/native 需在
   config.yaml 预设 `isoseq3.docker_image` / `isoseq3.isoseq3_bin`。
-- 原聚合 `isoseq3.smk`（依赖 workflow 级 `envs/isoseq3.yaml` 与 `lima/{sample}/`、`logs/` 约定）已按上述单规则文件重新组织并删除；`envs/`、`logs/` 幽灵引用已消除。
+- 规则按上述单文件拆分（config 驱动），不依赖 workflow 级 `envs/isoseq3.yaml` 与 `lima/{sample}/`、`logs/` 约定；无 `envs/` / `logs/` 幽灵引用。
 
 ## 与其它实现的关系
 
@@ -128,7 +128,7 @@ bash test/run_test.sh   # 合成最小 BAM；isoseq3 未安装时退化为 argv 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # isoseq3 native Conda 环境配方

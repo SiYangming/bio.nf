@@ -10,10 +10,11 @@ homepage: https://github.com/nanoporetech/dorado
 license: Oxford Nanopore Technologies PLC. 开源许可（NC 部分模型另有限制）
 software_versions:
 - id: dorado_native
-  dorado: latest（官方 release，如 0.9.x/0.10.x；Dockerfile 用 ARG DORADO_VERSION 可 pin）
+  dorado: latest
   source: https://github.com/nanoporetech/dorado/releases（官方 Linux x64 静态二进制 tar.gz）
-  note: dorado 不在 Debian bookworm apt，也不在 bioconda；容器走 bookworm-slim + 官方二进制下载路线（非
-    micromamba）。
+  note: 'dorado 不在 Debian bookworm apt，也不在 bioconda；native 走自建容器（bookworm-slim + 官方
+    release 二进制）或宿主机直跑官方二进制；Dockerfile 用 ARG DORADO_VERSION 可 pin（如 0.9.x/0.10.x），
+    默认 latest。'
 - id: dorado_nextflow_nfcore
   module_version: —
   dorado: 官方无模块（modules/nf-core/dorado 404）
@@ -21,7 +22,6 @@ software_versions:
   note: 2026-09 抓取 https://api.github.com/repos/nf-core/modules/contents/modules/nf-core/dorado
     返回 404；Nextflow 场景请使用 dorado_nextflow_local 或降级 native。
 - id: dorado_snakemake_wrappers
-  wrapper_tag: v3.13.0
   dorado: 官方无 wrapper（bio/dorado 404）
   source: —
   note: 2026-09 抓取 https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/dorado
@@ -37,7 +37,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: latest-v1.0
+  version: "latest"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。 覆盖 basecall
     / demux 子命令，自动注入线程（--device cuda:all 可选）。
@@ -48,15 +48,15 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/dorado
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: dorado_snakemake_wrappers
+- id: dorado_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: latest
   priority: medium
-  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
-  note: 官方 snakemake-wrappers 暂无 bio/dorado wrapper（2026-09 抓取 404），本实现仅登记桥接层，实际请走
-    dorado_snakemake_local。
+  when_to_use: 组装 Snakemake 流程时 include 本模块 snakemake/dorado_{basecall,demux}.smk 本地规则。
+  note: 官方 snakemake-wrappers 无 bio/dorado wrapper（2026-09 抓取 404），本地规则为唯一 Snakemake 路线
+    （rule 内 container nanoporetech/dorado:latest；dorado 不在 bioconda，无 conda env），详见 software_versions。
 default_implementation: dorado_native
 inputs:
   subcommand:

@@ -86,7 +86,7 @@ bash test/run_test.sh   # 无需真实 long-read 数据；flair 未安装时退�
 
 ## 历史留存
 
-原始阶段脚本 `run_flair_consensus.sh`（bam2Bed12 → identify\_gene\_isoform → collapse 的多步组合）已随所属流程收拢至 `workflow/nanoseq/native/02_run_flair_consensus.sh`（Stage 02 · FLAIR；硬编码项目路径，仅供追溯对照 / 一键运行，正式能力请走 `main.py` 的 bam2bed12 / annotate / collapse 原子子命令）。
+多步组合脚本（bam2Bed12 → identify\_gene\_isoform → collapse）的流程版见 `workflow/nanoseq/native/02_run_flair_consensus.sh`（Stage 02 · FLAIR；硬编码项目路径，仅供追溯对照 / 一键运行）；正式能力请走 `main.py` 的 bam2bed12 / annotate / collapse 原子子命令。
 
 ***
 
@@ -187,7 +187,7 @@ dependencies:
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # flair native Conda 环境配方

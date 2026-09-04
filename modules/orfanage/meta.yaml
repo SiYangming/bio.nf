@@ -11,7 +11,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 1.2.0-v1.0
+  version: 1.2.0
   priority: high
   when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。
   container_ref:
@@ -19,11 +19,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/orfanage
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: orfanage_snakemake_wrappers
+- id: orfanage_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: ''
+  version: "1.2.0"
   priority: medium
   when_to_use: snakemake-wrappers 官方无 orfanage wrapper，此路径为占位说明。
 default_implementation: orfanage_native

@@ -37,7 +37,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 1.0.4-v1.0
+  version: 1.0.4
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， 实现 polyacleanup
     / collapse / filelist / merge 四个子命令。
@@ -50,11 +50,11 @@ implementations:
     quay_bioinfortools: quay.io/bioinfortools/gs-tama:1.0.4（1.0.4 官方容器）
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: gstama_snakemake_wrappers
+- id: gstama_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "1.0.4"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时（注意：官方 bio/gstama 不存在，实际需降级 local/native）。
 default_implementation: gstama_native

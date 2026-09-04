@@ -94,7 +94,7 @@ FASTQC_LOCAL( reads_ch )
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 name: fastqc

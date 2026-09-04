@@ -9,7 +9,7 @@
 # star / native
 
 自包含的 STAR 驱动实现（`source_type: custom`）。官方镜像优先（bioconda → quay.io/biocontainers → depot.galaxyproject.org 已有 star 官方镜像），本地不再维护 Dockerfile/Apptainer.def。
-注意：STAR 可执行文件名为 `STAR`；native 锚点版本 2.7.10b（Debian apt 曾打包为 rna-star），与 bioconda 包名 `star` 流程常用版本 2.7.11b 不同，差异见文末「版本差异声明」。
+注意：STAR 可执行文件名为 `STAR`；native 与 riboseq 流程统一 2.7.11b（bioconda 包 `star` / quay.io/biocontainers），历史锚点 2.7.10b（Debian apt 曾打包为 rna-star）仍可由 conda 安装，差异见文末「版本差异声明」。
 
 ## 能力
 
@@ -160,17 +160,17 @@ include { STAR_GENOMEGENERATE }  from '../modules/nf-core/star/genomegenerate/ma
 
 | 实现 | star 版本 | 来源 |
 |------|-----------|------|
-| native（官方镜像/conda） | **2.7.10b** | quay.io/biocontainers/star + bioconda（native 锚点版本；Debian apt 曾打包为 `rna-star=2.7.10b+dfsg-2+b2`，可执行文件为 STAR） |
-| snakemake 本地规则 env | 2.7.11b | bioconda（riboseq 流程 `envs/star.yaml`） |
+| native（官方镜像/conda） | **2.7.11b** | quay.io/biocontainers/star:2.7.11b--h5ca1c30_8 / bioconda star=2.7.11b（riboseq 流程同款） |
+| snakemake 本地规则 env | 2.7.11b | bioconda（本模块 `snakemake/star.yaml`，与 riboseq 流程一致） |
 | snakemake-wrappers v3.13.0 / master | 2.7.11b | bioconda（bio/star/{align,index}/environment.yaml） |
 | nf-core master | 2.7.11b | bioconda（modules/nf-core/star/*/environment.yml） |
 
-> native 锚点 2.7.10b 与 bioconda/流程常用 2.7.11b 存在字母级差异：bioconda（conda 与 quay 镜像）两组版本均有，2.7.10b 对应 native 锚点、2.7.11b 为 riboseq/流程同款。对索引格式/比对细节敏感的流程建议用官方容器/conda 固定 2.7.11b（如 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8），与 riboseq 流程一致。
+> native 与 riboseq 流程统一 2.7.11b（官方容器 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8 / conda star=2.7.11b）；历史锚点 2.7.10b（Debian apt 曾打包 rna-star，可执行文件为 STAR）仍可由 conda 安装，索引/比对细节敏感流程请统一 2.7.11b。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # star native Conda 环境配方（HPC 无 root / 非容器兜底）
@@ -181,7 +181,7 @@ channels:
   - bioconda
 dependencies:
   - python=3.11
-  - star=2.7.11b       # 与 riboseq 流程一致；native 锚点 2.7.10b 可用 conda star=2.7.10b（见版本差异声明）
+  - star=2.7.11b       # 与 riboseq 流程一致；历史锚点 2.7.10b 可改用 conda star=2.7.10b（见版本差异声明）
   - pyyaml>=6.0
 ```
 

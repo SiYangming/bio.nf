@@ -10,14 +10,14 @@ homepage: https://github.com/alexdobin/STAR
 license: GPL-3.0-or-later
 software_versions:
 - id: star_native
-  star: '2.7.10b'
+  star: '2.7.11b'
   build_route: official biocontainer（quay.io/biocontainers/star / depot.galaxyproject.org）
   source: https://anaconda.org/bioconda/star
   note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
-    native 锚点 star=2.7.10b 由官方镜像/conda 提供（Debian apt 曾打包为 rna-star，可执行文件为 STAR）。
-    注意：riboseq 流程/本地 snakemake env 用 bioconda star==2.7.11b，比 native 锚点高 1 个
-    字母版本；跨实现迁移（尤其依赖索引/比对细节的流程）时留意行为差异，必要时用官方容器
-    固定 2.7.11b（如 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8）。'
+    native 经官方容器/conda 安装 star=2.7.11b（官方容器 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8），
+    与 riboseq 流程 / 本地 snakemake env 一致；宿主机直跑 main.py 时用 conda/mamba 安装 star=2.7.11b。
+    历史锚点 2.7.10b（Debian apt 曾打包 rna-star，可执行文件为 STAR）仍可由 conda 安装，索引/比对细节
+    敏感流程请统一 2.7.11b。'
 - id: star_snakemake_wrappers
   wrapper_tag: v3.13.0
   star: '2.7.11b'
@@ -39,7 +39,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 2.7.10b-v1.0
+  version: "2.7.11b"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
     自动注入 --threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/star，tag 见 README）。
@@ -49,11 +49,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/star
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>=2.7.11b；容器可用 quay.io/biocontainers/star:2.7.11b--h5ca1c30_8
       镜像（与 riboseq 流程一致）
-- id: star_snakemake_wrappers
+- id: star_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "2.7.11b"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/
     star_index.smk + star_align.smk 提供 riboseq 基因组比对本地规则（每 rule 一个

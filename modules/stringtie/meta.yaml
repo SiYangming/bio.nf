@@ -21,7 +21,6 @@ software_versions:
   source: bioconda::stringtie=3.0.3（modules/nf-core/stringtie/{stringtie,merge}/environment.yml）
   note: nf-core 有 stringtie/stringtie 与 stringtie/merge 两个子模块，均 pin bioconda::stringtie=3.0.3。
 - id: stringtie_snakemake_wrappers
-  wrapper_tag: v3.13.0
   stringtie: 官方无 wrapper（bio/stringtie 404）
   source: —
   note: 2026-09 抓取 https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/stringtie
@@ -38,7 +37,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 3.0.3-v1.0
+  version: "3.0.3"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。 覆盖 assemble
     / merge / fix_gtf 三段链路，自动注入线程。
@@ -49,15 +48,15 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/stringtie
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: stringtie_snakemake_wrappers
+- id: stringtie_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "3.0.3"
   priority: medium
-  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
-  note: 官方 snakemake-wrappers 暂无 bio/stringtie wrapper（2026-09 抓取 404），本实现仅登记桥接层，实际请走
-    stringtie_snakemake_local。
+  when_to_use: 组装 Snakemake 流程时 include 本模块 snakemake/stringtie_{assemble,fix_gtf,merge}.smk 本地规则。
+  note: 官方 snakemake-wrappers 无 bio/stringtie wrapper（2026-09 抓取 404），本地规则为唯一 Snakemake 路线
+    （conda env：stringtie.yaml，bioconda::stringtie=3.0.3），详见 software_versions。
 default_implementation: stringtie_native
 inputs:
   subcommand:

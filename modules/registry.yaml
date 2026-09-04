@@ -1,5 +1,5 @@
 version: '1.0'
-generated_at: '2026-09-03T03:48:10+00:00'
+generated_at: '2026-09-04T12:46:39+00:00'
 modules:
 - software: bamtools
   canonical: bamtools
@@ -8,14 +8,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 2.5.2-v1.0
+    version: 2.5.2
     priority: High
     entrypoint: ''
-  - id: bamtools_snakemake_wrappers
-    source_type: official
+  - id: bamtools_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 2.5.2
     priority: Medium
     entrypoint: ''
 - software: bbmap
@@ -25,14 +25,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 39.01-v1.0
+    version: '39.52'
     priority: High
     entrypoint: ''
-  - id: bbmap_snakemake_wrappers
-    source_type: official
+  - id: bbmap_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '39.52'
     priority: Medium
     entrypoint: ''
 - software: bowtie2
@@ -42,14 +42,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 2.5.0-v1.0
+    version: 2.5.4
     priority: High
     entrypoint: ''
-  - id: bowtie2_snakemake_wrappers
-    source_type: official
+  - id: bowtie2_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 2.5.4
     priority: Medium
     entrypoint: ''
 - software: cutadapt
@@ -59,14 +59,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 5.2-v1.0
+    version: '5.2'
     priority: High
     entrypoint: ''
-  - id: cutadapt_snakemake_wrappers
-    source_type: official
+  - id: cutadapt_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '5.2'
     priority: Medium
     entrypoint: ''
 - software: dorado
@@ -76,14 +76,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: latest-v1.0
+    version: latest
     priority: High
     entrypoint: ''
-  - id: dorado_snakemake_wrappers
-    source_type: official
+  - id: dorado_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: latest
     priority: Medium
     entrypoint: ''
 - software: fastp
@@ -93,14 +93,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 0.24.0-v1.0
+    version: 0.24.0
     priority: High
     entrypoint: ''
-  - id: fastp_snakemake_wrappers
-    source_type: official
+  - id: fastp_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 0.24.0
     priority: Medium
     entrypoint: ''
 - software: fastqc
@@ -110,21 +110,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 0.12.1-v1.0
+    version: 0.12.1
     priority: High
     entrypoint: ''
-  - id: fastqc_nextflow_nfcore
-    source_type: official
-    impl: nextflow_local
-    path: nextflow
-    version: 2.1.0
-    priority: Medium
-    entrypoint: ''
-  - id: fastqc_snakemake_wrappers
-    source_type: official
+  - id: fastqc_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 0.12.1
     priority: Medium
     entrypoint: ''
 - software: flair
@@ -134,14 +127,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 3.0.0b1-v1.0
+    version: 3.0.0b1
     priority: High
     entrypoint: ''
-  - id: flair_snakemake_wrappers
-    source_type: official
+  - id: flair_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 3.0.0b1
     priority: Medium
     entrypoint: ''
 - software: gnu_sort
@@ -151,14 +144,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 9.1-v1.0
+    version: 9.1
     priority: High
     entrypoint: ''
-  - id: gnu_sort_snakemake_wrappers
-    source_type: official
+  - id: gnu_sort_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '9.1'
     priority: Medium
     entrypoint: ''
 - software: gstama
@@ -168,14 +161,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.0.4-v1.0
+    version: 1.0.4
     priority: High
     entrypoint: ''
-  - id: gstama_snakemake_wrappers
-    source_type: official
+  - id: gstama_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 1.0.4
     priority: Medium
     entrypoint: ''
 - software: gunzip
@@ -185,14 +178,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.12-v1.0
+    version: 1.12
     priority: High
     entrypoint: ''
-  - id: gunzip_snakemake_wrappers
-    source_type: official
+  - id: gunzip_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '1.12'
     priority: Medium
     entrypoint: ''
 - software: isoseq3
@@ -202,14 +195,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 4.0.0-v1.0
+    version: 4.0.0
     priority: High
     entrypoint: ''
-  - id: isoseq3_snakemake_wrappers
-    source_type: official
+  - id: isoseq3_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 4.0.0
     priority: Medium
     entrypoint: ''
 - software: lima
@@ -219,14 +212,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 2.9.0-v1.0
+    version: 2.9.0
     priority: High
     entrypoint: ''
-  - id: lima_snakemake_wrappers
-    source_type: official
+  - id: lima_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 2.9.0
     priority: Medium
     entrypoint: ''
 - software: minimap2
@@ -236,14 +229,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 2.24-v1.0
+    version: 2.24
     priority: High
     entrypoint: ''
-  - id: minimap2_snakemake_wrappers
-    source_type: official
+  - id: minimap2_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '2.31'
     priority: Medium
     entrypoint: ''
 - software: orfanage
@@ -253,14 +246,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.2.0-v1.0
+    version: 1.2.0
     priority: High
     entrypoint: ''
-  - id: orfanage_snakemake_wrappers
-    source_type: official
+  - id: orfanage_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: ''
+    version: 1.2.0
     priority: Medium
     entrypoint: ''
 - software: orffinder
@@ -270,14 +263,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 0.4.3-v1.0
+    version: 0.4.3
     priority: High
     entrypoint: ''
-  - id: orffinder_snakemake_wrappers
-    source_type: official
+  - id: orffinder_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 0.4.3
     priority: Medium
     entrypoint: ''
 - software: pbccs
@@ -287,14 +280,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 6.4.0-v1.0
+    version: 6.4.0
     priority: High
     entrypoint: ''
-  - id: pbccs_snakemake_wrappers
-    source_type: official
+  - id: pbccs_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 6.4.0
     priority: Medium
     entrypoint: ''
 - software: rsem
@@ -304,14 +297,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.3.3-v1.0
+    version: 1.3.3
     priority: High
     entrypoint: ''
-  - id: rsem_snakemake_wrappers
-    source_type: official
+  - id: rsem_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 1.3.3
     priority: Medium
     entrypoint: ''
 - software: samtools
@@ -321,14 +314,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.21-v1.0
+    version: '1.21'
     priority: High
     entrypoint: ''
-  - id: samtools_snakemake_wrappers
-    source_type: official
+  - id: samtools_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '1.23'
     priority: Medium
     entrypoint: ''
 - software: sra-tools
@@ -338,14 +331,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 3.4.1-v1.0
+    version: 3.4.1
     priority: High
     entrypoint: ''
-  - id: sra-tools_snakemake_wrappers
-    source_type: official
+  - id: sra-tools_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 3.4.1
     priority: Medium
     entrypoint: ''
 - software: star
@@ -355,14 +348,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 2.7.10b-v1.0
+    version: 2.7.11b
     priority: High
     entrypoint: ''
-  - id: star_snakemake_wrappers
-    source_type: official
+  - id: star_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 2.7.11b
     priority: Medium
     entrypoint: ''
 - software: stringtie
@@ -372,14 +365,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 3.0.3-v1.0
+    version: 3.0.3
     priority: High
     entrypoint: ''
-  - id: stringtie_snakemake_wrappers
-    source_type: official
+  - id: stringtie_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 3.0.3
     priority: Medium
     entrypoint: ''
 - software: td2
@@ -389,14 +382,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.0.7-v1.0
+    version: 1.0.7
     priority: High
     entrypoint: ''
-  - id: td2_snakemake_wrappers
-    source_type: official
+  - id: td2_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 1.0.7
     priority: Medium
     entrypoint: ''
 - software: transdecoder
@@ -406,14 +399,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 5.7.1-v1.0
+    version: 5.7.1
     priority: High
     entrypoint: ''
-  - id: transdecoder_snakemake_wrappers
-    source_type: official
+  - id: transdecoder_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 5.7.1
     priority: Medium
     entrypoint: ''
 - software: ultra
@@ -423,14 +416,14 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 0.1-v1.0
+    version: '0.1'
     priority: High
     entrypoint: ''
-  - id: ultra_snakemake_wrappers
-    source_type: official
+  - id: ultra_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: '0.1'
     priority: Medium
     entrypoint: ''
 - software: umi_tools
@@ -440,13 +433,13 @@ modules:
     source_type: custom
     impl: native
     path: native
-    version: 1.1.6-v1.0
+    version: 1.1.6
     priority: High
     entrypoint: ''
-  - id: umi_tools_snakemake_wrappers
-    source_type: official
+  - id: umi_tools_snakemake_local
+    source_type: custom
     impl: snakemake_local
     path: snakemake
-    version: v3.13.0
+    version: 1.1.6
     priority: Medium
     entrypoint: ''

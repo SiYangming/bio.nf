@@ -10,16 +10,14 @@ homepage: https://cutadapt.readthedocs.io/
 license: MIT
 software_versions:
 - id: cutadapt_native
-  cutadapt: 4.2-1
+  cutadapt: '5.2'
   build_route: official biocontainer（quay.io/biocontainers/cutadapt / depot.galaxyproject.org）
   source: https://anaconda.org/bioconda/cutadapt
-  note: '2026-09 核实：Debian bookworm apt 上限为 4.2-1（Debian 13 trixie 才有 4.7-2），
-    而 bioconda / nf-core / snakemake-wrappers 官方已统一 cutadapt=5.2。官方镜像优先，
-    本地不再自建容器：native 记录版本 4.2-1（原 apt 路线已随本地容器一并移除），宿主机直跑
-    main.py 时用 conda/mamba 安装 cutadapt=5.2（implementations 中 native 版本标签
-    5.2-v1.0 为技能语义对齐版本）。核心接头/质量/长度参数 4.2 与 5.2 兼容，但 4.3+ 新增选项
-    （如 --poly-a）需 5.2 才有，透传前请 cutadapt --help 核对；完整 5.2 语义亦可用官方
-    wrapper/容器环境。'
+  note: '2026-09 核实：Debian bookworm apt 上限为 4.2-1（历史 apt 路线已随本地容器一并移除）；native 经
+    官方容器/conda 安装 cutadapt=5.2（官方容器 quay.io/biocontainers/cutadapt:5.2--py312hfabe715_2），与
+    nf-core / snakemake-wrappers 官方 pin 一致；宿主机直跑 main.py 时用 conda/mamba 安装 cutadapt=5.2。
+    核心接头/质量/长度参数 4.2 与 5.2 兼容，但 4.3+ 新增选项（如 --poly-a）需 5.2 才有，透传前请
+    cutadapt --help 核对。'
 - id: cutadapt_nextflow_nfcore
   module_version: master（nf-core/modules 无 release tag；cutadapt main.nf 2026-04 更新 PR #11260）
   cutadapt: '5.2'
@@ -43,7 +41,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 5.2-v1.0
+  version: "5.2"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
     覆盖 trim / adapter-removal 子命令，自动注入 --cores 线程与 TMPDIR。
@@ -53,11 +51,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/cutadapt
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda cutadapt=5.2；容器可用
       quay.io/biocontainers/cutadapt:5.2 官方镜像（tag 见 README，差异见 software_versions）
-- id: cutadapt_snakemake_wrappers
+- id: cutadapt_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "5.2"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；官方 bio/cutadapt/{se,pe} 桥接见 README。
   note: snakemake/ 目录同时存放自 riboseq 拆分的本地规则（cutadapt_{se,pe}.smk），运行时 conda 用

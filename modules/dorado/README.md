@@ -84,19 +84,10 @@ bash test/run_test.sh   # dorado basecaller 需要真实 POD5 + 模型，本脚�
 
 * Docker 直用建议：`docker.1ms.run/nanoporetech/dorado:latest`（nanoseq config 默认）
 
-## 历史留存（legacy/）
+## 历史留存
 
-nanoseq 流程中 dorado **无 shell 脚本**，只有
-`config/config.yaml` 的 dorado 配置段，因此 `legacy/` 目录以 README 记录该 config 段原文，
-不做脚本留存。dorado 的 native 命令逻辑按 config 默认值 + 官方 CLI 在 `main.py` 实现。
-
-* `legacy/README.md`（config 段说明）
-
-
-## 历史说明
-
-nanoseq 流程中 dorado 无 shell 脚本，
-仅通过 config 的 dorado 段配置 basecall 参数；native 实现见 main.py 的 basecall 子命令。
+nanoseq 流程中 dorado **无独立 shell 脚本**，basecall/demux 参数由流程 `config.yaml` 的 dorado 段配置；
+dorado 的 native 命令逻辑按配置默认值 + 官方 CLI 在 `main.py` 实现。
 
 
 ---
@@ -164,7 +155,7 @@ dorado:
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # dorado native Conda 环境配方

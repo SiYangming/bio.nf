@@ -77,16 +77,16 @@ bash test/run_test.sh   # 无需真实转录本 FASTA；工具未装时退化为
 
 * 提供方式：官方镜像 / conda 提供（quay.io/biocontainers/transdecoder / depot.galaxyproject.org；宿主机安装用 mamba/conda 装 bioconda transdecoder=5.7.1）
 
-## 历史留存（legacy/）
+## 历史留存
 
-供追溯对照的原始 Snakemake wrapper 脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
+`snakemake/` 规则配套的同目录 wrapper 脚本（snakemake.shell + docker_wrapper 分派）；正式入口为 `main.py`。
 
-- `transdecoder_longorfs.py` — TransDecoder.LongOrfs 原始 wrapper（snakemake.shell + docker_wrapper）
-- `transdecoder_predict.py` — TransDecoder.Predict 原始 wrapper（snakemake.shell + docker_wrapper）
+- `transdecoder_longorfs.py` — TransDecoder.LongOrfs wrapper（同目录，供 transdecoder_longorfs.smk 使用）
+- `transdecoder_predict.py` — TransDecoder.Predict wrapper（同目录，供 transdecoder_predict.smk 使用）
 
-## 历史单元测试（test/unit/）
+## 单元测试（test/unit/）
 
-`test/unit/` 存放原始单元测试（test_transdecoder_longorfs.py / test_transdecoder_predict.py + common.py/conftest.py），供追溯对照与 pytest 回归；`test/run_test.sh` 为技能自带的最小回归。
+`test/unit/` 存放单元测试（test_transdecoder_longorfs.py / test_transdecoder_predict.py + common.py/conftest.py），供 pytest 回归；`test/run_test.sh` 为技能自带的最小回归。
 
 
 ---
@@ -101,33 +101,44 @@ bash test/run_test.sh   # 无需真实转录本 FASTA；工具未装时退化为
 
 ## 规则文件
 
-- `transdecoder.smk` — 两条规则：
-  - `rule transdecoder_longorfs`：转录本 FASTA → `transdecoder/{sample}/longorfs/`（候选最长 ORF）
-  - `rule transdecoder_predict`：`transdecoder/{sample}/predict/{sample}.{pep,cds,gff3,bed}`（最终 CDS）
+- `transdecoder_longorfs.smk` — `rule transdecoder_longorfs`：转录本 FASTA → `<outdir>/longorfs/`
+  （候选最长 ORF；产物含 `<fa>.transdecoder_dir/longest_orfs.{pep,gff3,cds}`）
+- `transdecoder_predict.smk` — `rule transdecoder_predict`：以 longorfs 产物为输入 → `<outdir>/predict/`
+  （最终 CDS：`<fa>.transdecoder.{pep,gff3,cds,bed}`）
 
-去除对 Snakefile 顶部全局变量（SAMPLES / os / config）与 `docker_wrapper.py` 的依赖：
-- 输入路径模板：`long_read/{sample}.fasta`
-- 参数内联：
-  - longorfs: `-m 50 -G Universal -S --complete_orfs_only`（可经 `params.gene_trans_map` 加映射）
-  - predict: `--no_refine_starts`（可经 `params.retain_pfam_hits / retain_blastp_hits` 加证据）
-- docker/container 分支移除，直接调用 `TransDecoder.LongOrfs` / `TransDecoder.Predict` 二进制
+两规则均为 config 驱动、单样本通用（td2 式样板），不依赖 workflow 的 `SAMPLES` / `{sample}` 层级；
+执行指令用同目录 `script:` wrapper（`transdecoder_longorfs.py` / `transdecoder_predict.py`，经共享
+`modules/docker_wrapper.py` 按 `exec_mode` 三模式分派）；`conda:` 用同目录相对名 `"transdecoder.yaml"`。
+
+config 契约（均有默认；独立运行时用 `--config` 覆盖）：
+- `exec_mode`：conda(默认) | docker | native
+- `transdecoder.docker_image` / `transdecoder.longorfs_bin` / `transdecoder.predict_bin`
+- `transdecoder.gene_trans_map`（longorfs 可选）、`transdecoder.retain_pfam_hits` / `retain_blastp_hits`（predict 可选）
+- `transdecoder.longorfs_extra_params` / `transdecoder.predict_extra_params`
+- `transdecoder_input_fasta`（明文 FASTA）/ `transdecoder_outdir` / `threads`
 
 ## 用法
 
 ```python
 # Snakefile 中
-include: "modules/transdecoder/snakemake/transdecoder.smk"
+include: "modules/transdecoder/snakemake/transdecoder_longorfs.smk"
+include: "modules/transdecoder/snakemake/transdecoder_predict.smk"
+# rule all:
+#     input: os.path.join(config["transdecoder_outdir"], "predict")
+```
 
-# 运行
-snakemake -j 8 transdecoder/sample1/predict/sample1.pep
+```bash
+# 独立运行（longorfs 示例；predict 需先有 longorfs 产物）
+snakemake -s modules/transdecoder/snakemake/transdecoder_longorfs.smk \
+    --config transdecoder_input_fasta=transcripts.fa transdecoder_outdir=td_out --cores 4 --use-conda
 ```
 
 ## 依赖环境
 
-规则内 `conda: "envs/transdecoder.yaml"`，需要自备：
+规则内 `conda: "transdecoder.yaml"`（同目录，已随规则交付）：
 
 ```yaml
-# envs/transdecoder.yaml
+# transdecoder.yaml
 channels: [conda-forge, bioconda]
 dependencies:
   - transdecoder=5.7.1
@@ -137,13 +148,13 @@ dependencies:
 
 ## 与其它实现的关系
 
-- 官方 wrapper（`../snakemake-wrappers/` 登记层，`v3.13.0/bio/transdecoder/{longorfs,predict}`）为推荐 Snakemake 路径
+- 官方 wrapper（snakemake-wrappers `v3.13.0/bio/transdecoder/{longorfs,predict}`，登记于软件级 `meta.yaml` / README，不建本地目录）亦可作为 Snakemake 路径
 - 非 Snakemake 场景（独立 CLI / Agent Function Calling）请走 `../../native/`
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # transdecoder native Conda 环境配方

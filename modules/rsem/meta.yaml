@@ -40,7 +40,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 1.3.3-v1.0
+  version: "1.3.3"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
     自动注入 --num-threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/rsem，tag 见 README）。
@@ -50,11 +50,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/rsem
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda rsem=1.3.3 bowtie2；容器可用 quay.io/biocontainers/rsem:1.3.3--pl5321h077b44d_12
       镜像（与 riboseq 流程一致）
-- id: rsem_snakemake_wrappers
+- id: rsem_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "1.3.3"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块
     snakemake/rsem_prepare_reference.smk 与 rsem_calculate_expression.smk 提供 riboseq 拆分

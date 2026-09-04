@@ -9,15 +9,13 @@ homepage: https://sourceforge.net/projects/bbmap/
 license: BSD-3-clause
 software_versions:
 - id: bbmap_native
-  bbmap: '39.01'
+  bbmap: '39.52'
   build_route: official biocontainer（quay.io/biocontainers/bbmap / depot.galaxyproject.org）
   source: https://anaconda.org/bioconda/bbmap
   note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
-    native 记录版本 39.01（Java 工具 bbmap.sh；原 apt 打包 39.01+dfsg-2 已随本地容器一并移除），
-    宿主机直跑 main.py 时用 conda/mamba 安装 bbmap。
-    注意：riboseq 流程/本地 snakemake env 用 bioconda bbmap==39.52（官方容器
-    quay.io/biocontainers/bbmap:39.52--he5f24ec_0），比 39.01 高约 0.5 minor；跨实现迁移
-    （尤其依赖比对细节的流程）时留意行为差异，必要时用 conda/官方容器固定 39.52。'
+    native 经官方容器/conda 安装 bbmap=39.52（官方容器 quay.io/biocontainers/bbmap:39.52--he5f24ec_0），
+    与 riboseq 流程 / 本地 snakemake env 一致；宿主机直跑 main.py 时用 conda/mamba 安装 bbmap=39.52。
+    原 apt 打包 39.01+dfsg-2 已随本地容器一并移除（历史记录，不再使用）。'
 - id: bbmap_snakemake_wrappers
   wrapper_tag: v3.13.0
   bbmap: '39.06'
@@ -39,7 +37,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 39.01-v1.0
+  version: "39.52"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
     自动注入 --threads 与 TMPDIR；容器走官方镜像（quay.io/biocontainers/bbmap，见 software_versions）。
@@ -49,11 +47,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/bbmap
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>=39.52；容器可用 quay.io/biocontainers/bbmap:39.52--he5f24ec_0
       镜像（与 riboseq 流程一致）
-- id: bbmap_snakemake_wrappers
+- id: bbmap_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "39.52"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/bbmap_{index,align}.smk
     提供 riboseq 分层比对本地规则（bbmap_index / bbmap_align_rRNA / bbmap_align_tRNA /

@@ -78,11 +78,11 @@ bash test/run_test.sh   # 无需真实核酸序列；工具未装时退化为 ar
 
 * 构建路线：debian:bookworm-slim + micromamba 引导 bioconda env（orffinder 不在 Debian apt）
 
-## 历史留存（legacy/）
+## 历史留存
 
-供追溯对照的原始 Snakemake wrapper 脚本存放于 `snakemake/`（wrapper 平铺同目录），**正式入口为 `main.py`**。
+供追溯对照的 Snakemake wrapper 脚本存放于 `snakemake/`（wrapper 平铺同目录，规则直接使用），**正式入口为 `main.py`**。
 
-- `orffinder.py` — ORFfinder 原始 wrapper（snakemake.shell + docker_wrapper）
+- `orffinder.py` — ORFfinder wrapper（snakemake.shell + docker_wrapper）
 
 
 ---
@@ -138,7 +138,7 @@ dependencies:
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # orffinder native Conda 环境配方

@@ -145,7 +145,7 @@ implementations:               # 必填；按优先级降序（native 永远最�
     path: native
     source_type: custom
     type: native
-    version: "<软件版本>-v<技能版本>"
+    version: "<软件版本>"          # 纯软件版本（不带 -v 技能后缀）
     priority: high
     when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选
   - id: <software>_nextflow_nfcore

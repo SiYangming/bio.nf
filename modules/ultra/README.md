@@ -91,7 +91,7 @@ bash test/run_test.sh
 | `align` | `ULTRA_align.py:subcmd_align` + `snakemake/ultra_align.smk` |
 | `sort` | `ULTRA_align.py:subcmd_sort` + `snakemake/ultra_sort_gtf.smk` |
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
 
@@ -105,9 +105,9 @@ bash test/run_test.sh
 # ultra / snakemake / local — 自定义 Snakemake 实现（td2 式）
 
 > 本目录为 snakemake-wrappers 官方缺失（bio/ultra 404）时的 **Snakemake 自维护规则**。
-> 已按 td2 式规范拆为**每 rule 一个 config 驱动 `.smk`**，去掉对 `workflow/lib/helpers.py`
-> 与 `SAMPLES / {species} / {sample}` 层级的依赖：`.gz` 参考/reads 由 wrapper 内联自动解压，
-> GTF 排序独立成前置规则，物种级 `prepare_genome / prepare_gtf` 不再需要单独规则。
+> 按 td2 式规范组织为**每 rule 一个 config 驱动 `.smk`**，不依赖 `workflow/lib/helpers.py`
+> 与 `SAMPLES / {species} / {sample}` 层级：`.gz` 参考/reads 由 wrapper 内联自动解压，
+> GTF 排序独立成前置规则；无物种级 `prepare_genome / prepare_gtf` 单独规则。
 
 ## 文件与规则清单
 
@@ -178,25 +178,24 @@ config.setdefault("ultra_align_dir", "results/ULTRA")
 config.setdefault("ultra_prefix", "sample")                   # align：BAM 前缀
 ```
 
-## 与历史实现的差异（ultra.smk → 单规则拆分）
+## Snakemake 规则拆分说明
 
-- 旧聚合 `ultra.smk`（prepare_genome / prepare_gtf / sort_gtf / ultra_index / ultra_align
-  五合一）已删除，现为 `ultra_sort_gtf.smk` / `ultra_index.smk` / `ultra_align.smk` 三个
-  单规则文件（td2 式 config 驱动）。
-- `prepare_genome` / `prepare_gtf` 不再单独设规则：`.gz` 参考 FASTA 由 index/align wrapper
+- 规则拆为 `ultra_sort_gtf.smk` / `ultra_index.smk` / `ultra_align.smk` 三个单规则文件
+  （td2 式 config 驱动）。
+- 无独立 `prepare_genome` / `prepare_gtf` 规则：`.gz` 参考 FASTA 由 index/align wrapper
   内联自动解压（与 `native/main.py` 行为一致）；GTF 去注释/解压由调用方准备
   （`sort_gtf` 只接收明文已去注释 GTF，`.gz` 先用 `modules/gunzip`）。
-- `ultra_align` 的 reads 与索引依赖改为显式 config 键：索引依赖 `ultra_index_dir/done`
-  （`ultra_index` 规则产物），不再用 `reads/{sample}.fa.gz` 通配与 `INDEX/{species}/done`。
-- 条件分支与多步逻辑（`.gz` 解压 / 索引复制 / sort / 清理）移入同目录 wrapper `.py`；
-  `sort_gtf` 保留纯 `shell:` 一行（stderr 进 log）。
+- `ultra_align` 的 reads 与索引依赖使用显式 config 键：索引依赖 `ultra_index_dir/done`
+  （`ultra_index` 规则产物）。
+- 条件分支与多步逻辑（`.gz` 解压 / 索引复制 / sort / 清理）放在同目录 wrapper `.py` 中；
+  `sort_gtf` 为纯 `shell:` 一行（stderr 进 log）。
 - 规则统一声明 `conda: "ultra.yaml"`（同目录相对名）；docker/native 由 `exec_mode` +
-  `docker_wrapper_binary` 在 wrapper 内解析（原 ultra.smk 无 conda 声明，环境由调用方外置）。
+  `docker_wrapper_binary` 在 wrapper 内解析。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # ultra native Conda 环境配方（兜底：HPC 无 root / 非容器场景）

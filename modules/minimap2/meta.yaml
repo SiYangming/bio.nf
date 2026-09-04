@@ -41,7 +41,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 2.24-v1.0
+  version: 2.24
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， align
     子命令输出 PAF 或 BAM（BAM 走 minimap2 | samtools sort | samtools view 管线）。
@@ -52,11 +52,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/minimap2
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: minimap2_snakemake_wrappers
+- id: minimap2_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "2.31"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
 default_implementation: minimap2_native

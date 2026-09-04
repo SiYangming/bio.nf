@@ -17,7 +17,7 @@
 | `adapter-removal` | 纯接头去除快捷入口（只给接头序列即可） | ✅（--cores） |
 
 - 运行时需本地安装 `cutadapt` 二进制：推荐 `mamba create -n cutadapt-native -c conda-forge -c bioconda cutadapt=5.2`
-- 容器/conda 由**官方镜像**提供（quay.io/biocontainers/cutadapt / bioconda cutadapt=5.2；本地不再自建容器，native 记录版本 4.2-1 与 bioconda 5.2 的差异见 `meta.yaml.software_versions.cutadapt_native.note`）
+- 容器/conda 由**官方镜像**提供（quay.io/biocontainers/cutadapt / bioconda cutadapt=5.2；本地不再自建容器，native=5.2，与 nf-core / snakemake-wrappers 官方 pin 一致；历史 apt 4.2-1 说明见 `meta.yaml.software_versions.cutadapt_native.note`）
 
 ## CLI 用法示例
 
@@ -106,7 +106,7 @@ bash test/run_test.sh
 cutadapt 只有 trim 一个子命令；SE/PE 为同一 wrapper（`cutadapt.py`）的两种输入形态 → `snakemake/cutadapt_se.smk`（rule `cutadapt_se`）/ `snakemake/cutadapt_pe.smk`（rule `cutadapt_pe`），每文件一规则、config 驱动、可独立 dry-run：
 
 - 配套文件（均平铺 `snakemake/`，`.smk` 同目录相对引用）：`cutadapt.yaml`（`bioconda::cutadapt==5.2`）、`cutadapt.py`（docker/native/conda 分支由共享 `modules/docker_wrapper.py` 提供）。
-- config 契约与独立运行示例见各 `.smk` 头注；不再依赖流程 `config["paths"]`/`containers`/`common.smk` 的 `samples`/`is_pe`。
+- config 契约与独立运行示例见各 `.smk` 头注；不依赖流程 `config["paths"]`/`containers`/`common.smk` 的 `samples`/`is_pe`。
   ```snakefile
   include: "modules/cutadapt/snakemake/cutadapt_se.smk"
   include: "modules/cutadapt/snakemake/cutadapt_pe.smk"

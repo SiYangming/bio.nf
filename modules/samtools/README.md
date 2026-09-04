@@ -115,7 +115,7 @@ bash test/run_test.sh
 
 * 串联：include `samtools_sort.smk` + `samtools_index.smk` 并令 `samtools_index_input == samtools_sort_output` 即自动建立 sort→index 依赖；批量 flagstat 汇总在流程内赋值 `config["alignment_summary_flagstats"] = [...]` 后 include `alignment_summary.smk`。
 
-* samtools 子命令规则（`sort` / `index` / `view` / `sam_to_bam` / `flagstat` / `alignment_summary`）按上述单规则文件组织；`scripts/`、`envs/`、`../` 幽灵引用已消除。
+* samtools 子命令规则（`sort` / `index` / `view` / `sam_to_bam` / `flagstat` / `alignment_summary`）按上述单规则文件组织（无 `scripts/`、`envs/`、`../` 幽灵引用）。
 
 ### 官方 snakemake-wrappers（说明层，运行时靠 `wrapper:` 句柄解析）
 
@@ -123,7 +123,7 @@ bash test/run_test.sh
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # samtools native Conda 环境配方

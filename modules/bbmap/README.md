@@ -94,7 +94,7 @@ bash test/run_test.sh
 
 ### 本地拆分规则（td2 式：每 rule 一个 .smk，config 驱动）
 
-`snakemake/` 内规则已按子命令拆为单规则文件（不再依赖流程 `common.smk`/`samples`/`config["paths"]`，可独立 dry-run）：
+`snakemake/` 内规则按子命令拆为单规则文件（不依赖流程 `common.smk`/`samples`/`config["paths"]`，可独立 dry-run）：
 
 | 文件 | 规则 | 作用 |
 |------|------|------|
@@ -162,19 +162,19 @@ include { BBMAP_ALIGN } from '../modules/nf-core/bbmap/align/main'
 
 | 实现 | bbmap 版本 | 来源 |
 |------|-----------|------|
-| native（官方容器/conda） | **39.01**（记录版本） | official biocontainer：quay.io/biocontainers/bbmap / bioconda bbmap（tag 见文末链接） |
-| snakemake 本地规则 env | 39.52 | bioconda（riboseq 流程 `envs/bbmap.yaml`，与 riboseq config 一致） |
+| native（官方容器/conda） | **39.52** | official biocontainer：quay.io/biocontainers/bbmap:39.52--he5f24ec_0 / bioconda bbmap=39.52（riboseq 流程同款） |
+| snakemake 本地规则 env | 39.52 | bioconda（本模块 `snakemake/bbmap.yaml`，与 riboseq 流程一致） |
 | snakemake-wrappers v3.13.0（bio/bbtools） | 39.06 | bioconda（bio/bbtools/environment.yaml） |
 | snakemake-wrappers master | 40.02 | bioconda（autobump） |
 | nf-core master（bbmap/align） | 39.18 | bioconda（modules/nf-core/bbmap/align/environment.yml） |
 | riboseq 容器 | 39.52 | quay.io/biocontainers/bbmap:39.52--he5f24ec_0 |
 
-> 记录版本 39.01 与 riboseq/bioconda（39.52）存在 ~0.5 minor 级差异（原 apt 打包差异已随本地容器移除，官方镜像/conda 统一走 bioconda 版本）；对比对细节敏感（Ribo-seq 分层滤比、multimap 计数）的流程建议用官方容器/conda 固定 39.52，与 riboseq 流程一致。
+> native 与 riboseq 流程统一 39.52（官方容器 quay.io/biocontainers/bbmap:39.52--he5f24ec_0 / conda bbmap=39.52）；原 apt 打包 39.01+dfsg-2 的历史差异已随本地容器移除。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # bbmap native Conda 环境配方（HPC 无 root / 非容器兜底）

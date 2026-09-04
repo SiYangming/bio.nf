@@ -147,7 +147,7 @@ dependencies:
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # sra-tools native Conda 环境配方

@@ -243,7 +243,7 @@ execution:
 
 ```yaml
 id: fastqc_native
-version: "0.12.1-v1.0"
+version: "0.12.1"
 software: fastqc
 type: native
 source_type: custom

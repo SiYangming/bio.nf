@@ -78,7 +78,7 @@ bash test/run_test.sh   # 无需真实 subreads BAM；ccs 未安装时退化为 
 
 * 构建路线：official biocontainer（quay.io/biocontainers/pbccs / depot.galaxyproject.org）；本地不再自建容器
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
 
@@ -123,7 +123,7 @@ bash test/run_test.sh   # 无需真实 subreads BAM；ccs 未安装时退化为 
   （docker/native/conda 三模式经共享 `modules/docker_wrapper.py` 的 `docker_wrapper_binary(config, "pbccs",
   "ccs_bin", "ccs")` 分派；参考 `modules/samtools/snakemake/samtools_sort.py`）。`exec_mode` 默认 conda，
   docker/native 需在 config.yaml 预设 `pbccs.docker_image` / `pbccs.ccs_bin`。
-- 原聚合 `pbccs.smk`（依赖 workflow 级 `envs/pbccs.yaml` 与 `logs/` 约定）已按上述单规则文件重新组织并删除；`envs/`、`logs/` 幽灵引用已消除。
+- 规则按上述单文件拆分（config 驱动），不依赖 workflow 级 `envs/pbccs.yaml` 与 `logs/` 约定；无 `envs/` / `logs/` 幽灵引用。
 
 ### 与其它实现的关系
 
@@ -133,7 +133,7 @@ bash test/run_test.sh   # 无需真实 subreads BAM；ccs 未安装时退化为 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # pbccs native Conda 环境配方

@@ -12,7 +12,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 9.1-v1.0
+  version: 9.1
   priority: high
   when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。直接调用 GNU/系统 sort 二进制。
   container_ref:
@@ -20,11 +20,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/gnu_sort
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: gnu_sort_snakemake_wrappers
+- id: gnu_sort_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "9.1"
   priority: medium
   when_to_use: Snakemake 流程、复用中央 wrapper 缓存时（注意：官方暂缺 gnu sort wrapper，见下方说明）。
 default_implementation: gnu_sort_native

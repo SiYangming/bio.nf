@@ -94,7 +94,7 @@ bash test/run_test.sh
 
 * `--tmpdir` 覆盖 `$TMPDIR`；所有中间产物落在 `--outdir` 内。
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为** **`main.py`**。
 
@@ -130,7 +130,7 @@ gs-tama（tama\_\* 脚本与 tama-py3 库）**必须使用 1.0.4 版本，其他
 
 # gstama / snakemake / local — 自维护 Snakemake rule
 
-自维护规则（去掉对 `workflow/lib/helpers.py` 的全局依赖，`docker_run` 分支删除，路径内联）。
+自维护规则（自包含：不依赖 `workflow/lib/helpers.py` 与流程级 `docker_run` 配置）。
 
 > 官方 `bio/gstama` 在 snakemake-wrappers 中不存在（404），本目录是 Snakemake 场景的**实际执行路径**。
 
@@ -163,14 +163,14 @@ rule all:
         "results/gstama_merge/merged.bed",
 ```
 
-## 与历史实现的差异
+## 规则设计说明
 
-* 删除 `docker_run` 分支与 `GSTAMA_DOCKER_IMAGE` 容器配置。
+* 无流程级 `docker_run` / `GSTAMA_DOCKER_IMAGE` 容器配置。
 
-* `get_collapse_input_bam`（按 aligner 查 minimap2/ultra 目录）内联为默认 minimap2 路径
+* collapse 默认输入为 minimap2 比对产物路径
   `results/minimap2/{aligner}/{sample}/{sample}.chunk{n}.bam`（ultra 场景需自行改 input）。
 
-* `get_all_collapse_beds`（遍历 sample 表）内联为 `run:` 块内的 glob 遍历。
+* merge 的 bed 列表在 `run:` 块内以 glob 遍历生成。
 
 * 参数由 `config["gstama"]` 读取并内联默认值：
 
@@ -180,11 +180,11 @@ rule all:
 
   * `filelist_cap: "no_cap"`、`filelist_order: "1"`
 
-* 各规则仍写 `versions.yml`（与 nf-core 模块风格一致）。
+* 各规则写 `versions.yml`（与 nf-core 模块风格一致）。
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # gstama native Conda 环境配方

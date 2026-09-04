@@ -9,12 +9,13 @@ homepage: https://github.com/ncbi/sra-tools
 license: Public Domain
 software_versions:
 - id: sra-tools_native
-  sra_tools: latest（示例 pin 3.4.1，bioconda 当前最新）
+  sra_tools: 3.4.1
   build_route: official biocontainer（quay.io/biocontainers/sra-tools / depot.galaxyproject.org）
   source: https://anaconda.org/bioconda/sra-tools
   note: '官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
-    bioconda sra-tools 包提供三个可执行：prefetch / fasterq-dump / fastq-dump，native 子命令一一对应；
-    宿主机直跑 main.py 时用 conda/mamba 安装 sra-tools=3.4.1。'
+    native 经官方容器/conda 安装 sra-tools=3.4.1（bioconda 当前最新）；bioconda sra-tools 包提供
+    三个可执行：prefetch / fasterq-dump / fastq-dump，与 native 子命令一一对应；宿主机直跑 main.py
+    时用 conda/mamba 安装 sra-tools=3.4.1。'
 - id: sra-tools_nextflow_nfcore
   module_version: nf-core master（2026-09 抓取）
   sra_tools: 3.2.1
@@ -36,7 +37,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 3.4.1-v1.0
+  version: "3.4.1"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。 覆盖 prefetch
     / fasterq-dump / fastq-dump 三段链路，自动注入线程。
@@ -47,11 +48,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/sra-tools
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: sra-tools_snakemake_wrappers
+- id: sra-tools_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "3.4.1"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
   note: 官方 bio/sra-tools 目前只有 fasterq-dump 一个 wrapper；prefetch/fastq-dump 请走 sra-tools_snakemake_local。

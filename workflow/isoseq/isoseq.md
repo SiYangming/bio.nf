@@ -24,7 +24,7 @@
 
 * `native/main.py`：流程编排入口（约 309 行样本循环编排器；`--list-stages` / `--dry-run` / `--real`）
 
-原 `testdata/`、`LEGACY_README.md`、`snakemake/` 集成目录已按仓库规则并入本文档并移除；各阶段工具能力由 `modules/` 原子模块承载。
+本目录不含 `testdata/`、`LEGACY_README.md` 与 `snakemake/` 集成层（相关内容并入本文档）；各阶段工具能力由 `modules/` 原子模块承载。
 
 ## 依赖的原子模块（modules/）
 
@@ -81,10 +81,10 @@ python modules/gstama/native/main.py collapse --help
 
 ### B. Snakemake（按需在项目内重建；仓库不再内置 snakemake/ 目录）
 
-原 `workflow/isoseq/snakemake/`（Snakefile.template / config.yaml / config\_schema.yaml / samples\_schema.yaml / README）已按「目录仅剩文档则并至 workflow 根」规则并入本文档并移除。需要 Snakemake 执行时，在**项目目录**内重建集成层：
+本 workflow 不内置 `snakemake/` 集成层；Snakefile.template / config.yaml / config\_schema.yaml / samples\_schema.yaml 等文件清单与要点见下。需要 Snakemake 执行时，在**项目目录**内重建集成层：
 
 1. 以 `Snakefile.template` 逻辑为骨架建立项目 `Snakefile`，`configfile: "config.yaml"`，并 `include:` 各原子模块规则（模块内路径相对仓库）：`../../../modules/{pbccs,lima,isoseq3,bamtools,gstama,minimap2,ultra}/snakemake/*.smk`（pbccs/lima/isoseq3\_refine/bamtools\_convert/gstama\_polyacleanup/gstama\_collapse/gstama\_filelist/gstama\_merge/minimap2\_align/ultra 等）；
-2. `config.yaml` 关键项：`exec_mode: native`（迁移后规则直调本地二进制；docker 需按模块容器自行扩展）、01..09 输出目录（PBCCS\_DIR…TAMA\_MERGE）；
+2. `config.yaml` 关键项：`exec_mode: native`（规则直调本地二进制；docker 需按模块容器自行扩展）、01..09 输出目录（PBCCS\_DIR…TAMA\_MERGE）；
 3. `config_schema.yaml` / `samples_schema.yaml`：`validate()` 用 schema。
 4. 运行（执行入口为仓库共享 [scripts/run\_smk.sh](../../scripts/run_smk.sh)）：
 
@@ -94,7 +94,7 @@ bash <repo>/scripts/run_smk.sh -n        # dry-run（预演）
 bash <repo>/scripts/run_smk.sh           # 执行（exec_mode 见 config.yaml，默认 native）
 ```
 
-> 原目录文件清单与作用：Snakefile.template（流程组装骨架）、config.yaml（exec\_mode=native 等流程参数）、config\_schema/samples\_schema.yaml（校验 schema）。各步骤规则在 `modules/<sw>/snakemake/` 下维护；独立部署时请一并带入对应模块规则（缺失时可用官方 `wrapper:` 句柄兜底）。
+> 重建文件清单与作用：Snakefile.template 逻辑（流程组装骨架）、config.yaml（exec\_mode=native 等流程参数）、config\_schema.yaml / samples\_schema.yaml（校验 schema）。各步骤规则在 `modules/<sw>/snakemake/` 下维护；独立部署时请一并带入对应模块规则（缺失时可用官方 `wrapper:` 句柄兜底）。
 
 ### C. Nextflow（nf-core 官方已有 → 不建本地目录）
 
@@ -102,7 +102,7 @@ bash <repo>/scripts/run_smk.sh           # 执行（exec_mode 见 config.yaml，
 
 ## 历史留存与详细用法
 
-pyflow 封装（ccs\_analysis / lima / isoseq3\_refine / bamtools\_convert / tama\_polyacleanup / minimap2\_align / ULTRA\_align 的 Python 实现与 ParaFly→GNU parallel→xargs 并发批处理、`--*-bin` 路径注入、chunk 处理）已归位各模块 `native/`（与 main.py 并列），**完整用法文档见本 README「附录」**（原 LEGACY\_README.md 已并入，本仓库不再单独保留）。要点：
+pyflow 封装（ccs\_analysis / lima / isoseq3\_refine / bamtools\_convert / tama\_polyacleanup / minimap2\_align / ULTRA\_align 的 Python 实现与 ParaFly→GNU parallel→xargs 并发批处理、`--*-bin` 路径注入、chunk 处理）现存放于各模块 `native/`（与 main.py 并列），**完整用法文档见本文档「附录」**。要点：
 
 * **并发**：批处理脚本优先 ParaFly，其次 GNU parallel，最后 xargs -P；`CPUS_PER_TASK × PARA_CPU` 不超过机器总线程并预留 1-2 线程。
 
@@ -126,7 +126,7 @@ pyflow 封装（ccs\_analysis / lima / isoseq3\_refine / bamtools\_convert / tam
 
 ## 附录：pyflow 详细用法（历史留存全文）
 
-> 注意：以下为原 pyflow 历史操作文档（其中路径 / 环境变量 / 并发参数为当时真实示例）。ccs\_analysis / lima\_analysis / isoseq3\_refine / bamtools\_convert / gs\_tama / tama\_polyacleanup / minimap2\_align / ULTRA\_align 等封装与批处理脚本已归位 `modules/<sw>/native/`，正文中的 `pyflow/` 路径、conda 环境名（如 `pacbio_iso_seq`、`ultra_bioinformatics`）与 `--*-bin` 注入方式请按当前模块实际参数使用。
+> 注意：以下为原 pyflow 历史操作文档（其中路径 / 环境变量 / 并发参数为当时真实示例）。ccs\_analysis / lima\_analysis / isoseq3\_refine / bamtools\_convert / gs\_tama / tama\_polyacleanup / minimap2\_align / ULTRA\_align 等封装与批处理脚本现存放于 `modules/<sw>/native/`，正文中的 `pyflow/` 路径、conda 环境名（如 `pacbio_iso_seq`、`ultra_bioinformatics`）与 `--*-bin` 注入方式请按当前模块实际参数使用。
 
 Genome Fasta: <https://ftp.ensemblgenomes.ebi.ac.uk/pub/plants/release-62/fasta/oryza_rufipogon/dna/Oryza_rufipogon.OR_W1943.dna.toplevel.fa.gz>
 

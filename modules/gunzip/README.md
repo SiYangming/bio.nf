@@ -93,19 +93,19 @@ snakemake -s modules/gunzip/snakemake/gunzip.smk \
 |------|------|-----------|
 | `gunzip` | `gzip -cd <in.gz> > <out>`（stdout=解压内容进输出文件，stderr 进 log） | `exec_mode` / `gunzip_input`(必填) / `gunzip_output` / `gunzip.{docker_image,gzip_bin}` |
 
-## 与历史实现的差异
+## 规则设计说明
 
-- 移除 `docker_run` / `GUNZIP_DOCKER_IMAGE` 与 `workflow/lib/helpers.py` 依赖；
-  原 `{filepath}` 通配规则改为显式 config 键（每任务一规则）。
-- `shell:` 直写改为 `script:` 同目录 wrapper `gunzip.py`（两级注入共享 `modules/docker_wrapper.py`）：
-  docker 用 `gunzip.docker_image`、native 用 `gunzip.gzip_bin`、conda 走 PATH。
-- 规则内补齐 `log:`（stderr 重定向到同目录 `gunzip.log`；stdout=解压内容进输出文件）。
-- `gzip_bin` 保留 config 可覆盖（默认 `gzip`，走系统 PATH）。
+- 规则 config 驱动：输入输出为显式 config 键（`gunzip_input` / `gunzip_output`，每任务一规则），无
+  `{filepath}` 通配；不依赖流程级 `docker_run` / `GUNZIP_DOCKER_IMAGE` 与 `workflow/lib/helpers.py`。
+- 执行用同目录 `script:` wrapper `gunzip.py`（两级注入共享 `modules/docker_wrapper.py`）：docker 用
+  `gunzip.docker_image`、native 用 `gunzip.gzip_bin`、conda 走 PATH。
+- 规则内声明 `log:`（stderr 重定向到 `gunzip.log`；stdout=解压内容进输出文件）。
+- `gzip_bin` 可用 config 覆盖（默认 `gzip`，走系统 PATH）。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # gunzip native Conda 环境配方（兜底：离线 / 非容器场景）

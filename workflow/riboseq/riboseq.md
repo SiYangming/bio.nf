@@ -10,7 +10,7 @@
 
 * **上游原始出处**：[Bushell-lab/Ribo-seq](https://github.com/Bushell-lab/Ribo-seq) —— 经典 Shell + Python + R 流程（RPFs + Totals）的原始作者仓库，native/ 脚本由此整理而来。
 
-* **Snakemake 执行形态**：流程集成内容并入本文档「执行方式 B」（`snakemake/` 目录已并入文档并移除，无独立目录）。
+* **Snakemake 执行形态**：见本文档「执行方式 B」（本 workflow 不内置 `snakemake/` 目录，集成文件在项目内按需重建）。
 
 * **官方 nf-core 流程参考**：[nf-core/riboseq](https://github.com/nf-core/riboseq) —— 官方已有完整流程，按规则**不建** **`nextflow/`** **目录**，仅在本文档登记引用（见「执行方式 C」）。
 
@@ -30,7 +30,7 @@ workflow/riboseq/
     └── R_scripts/       # DESeq2 / QC / meta_plots / gsea / feature_properties / codon_occupancy
 ```
 
-> 测试数据（fastq 获取方式）与参考数据（chr20 fa/gtf、rsem\_index、tRNA/rRNA 库）的说明**已并入** **[native/README.md](native/README.md)**（§1 测试数据 / §2 参考数据），本文件不再重复。
+> 测试数据（fastq 获取方式）与参考数据（chr20 fa/gtf、rsem\_index、tRNA/rRNA 库）的说明见 [native/README.md](native/README.md)（§1 测试数据 / §2 参考数据），本文件不重复。
 
 ## 三种执行方式
 
@@ -63,7 +63,7 @@ python ../../../subworkflow/umi_tools_extract_dedup/native/main.py --sample-id {
 
 ### B. Snakemake（按需在项目内重建；仓库不再内置 snakemake/ 目录）
 
-原 `workflow/riboseq/snakemake/`（Snakefile / common.smk / utils.smk / config.yaml / config.schema.yaml / samples.schema.yaml）已按「目录仅剩文档则并至根文档」规则并入本文档并移除。需要 Snakemake 执行时，在**项目目录**内重建集成层：
+本 workflow 不内置 `snakemake/` 集成层；Snakefile / common.smk / utils.smk / config.yaml / config.schema.yaml / samples.schema.yaml 的文件要点见下。需要 Snakemake 执行时，在**项目目录**内重建集成层：
 
 1. 建立项目目录并放置流程集成文件（Snakefile 主文件 + `common.smk` + `utils.smk` + `config.yaml` + 两个 schema）：
 
@@ -76,7 +76,7 @@ python ../../../subworkflow/umi_tools_extract_dedup/native/main.py --sample-id {
    * `config.yaml`：全流程参数（protocol / 样本表 / 输出目录 / 各工具版本与 docker 镜像 / UMI 模式 / 参考路径；`exec_mode: docker|conda|apptainer`）；
 
    * `config.schema.yaml` / `samples.schema.yaml`：`validate()` 用 schema。
-2. 各工具规则在 `modules/<sw>/snakemake/` 下维护（规则自带 `conda: envs/*.yaml` 与 `container:`），Snakefile 通过 `include:` 引用；独立部署时请**一并携带**相关模块的 `snakemake/` 目录（各 wrapper 经 sys.path 注入引用共享的 `modules/docker_wrapper.py`，亦需一并携带），或改用官方 `wrapper:` 句柄。
+2. 各工具规则在 `modules/<sw>/snakemake/` 下维护（规则自带同目录 `conda: "*.yaml"` 与 `container:`），Snakefile 通过 `include:` 引用；独立部署时请**一并携带**相关模块的 `snakemake/` 目录（各 wrapper 经 sys.path 注入引用共享的 `modules/docker_wrapper.py`，亦需一并携带），或改用官方 `wrapper:` 句柄。
 3. 数据流：
 
 ```

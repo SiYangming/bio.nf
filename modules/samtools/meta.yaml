@@ -28,13 +28,15 @@ software_versions:
 - id: samtools_nextflow_local
   samtools: 未固定（用户按 main.nf 中 conda/container 自行声明）
 - id: samtools_snakemake_local
-  samtools: 未固定（用户按 rules/ 中 conda/container 自行声明）
+  samtools: '1.23'
+  source: snakemake/samtools.yaml（本地规则 conda env，bioconda::samtools==1.23）
+  note: 本地规则 env 固定 samtools=1.23（与 official wrapper/nf-core 的 1.24 相差一个 minor）
 implementations:
 - id: samtools_native
   path: native
   source_type: custom
   type: native
-  version: 1.21-v1.0
+  version: "1.21"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
 
@@ -42,13 +44,13 @@ implementations:
   container_ref:
     bioconda: https://anaconda.org/bioconda/samtools
     quay_biocontainers: quay.io/biocontainers/samtools
-    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
-      镜像
-- id: samtools_snakemake_wrappers
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda samtools=1.21；容器可用 quay.io/biocontainers/samtools:1.21--h96c455f_1
+      镜像（tag 见 README）
+- id: samtools_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "1.23"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
 default_implementation: samtools_native

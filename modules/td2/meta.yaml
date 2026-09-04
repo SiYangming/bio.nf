@@ -21,7 +21,6 @@ software_versions:
   note: nf-core master 当前 pin td2=1.1.0（比 native 的 1.0.7 新）；若 nf-core 回落旧 tag 则可能回到
     1.0.x。
 - id: td2_snakemake_wrappers
-  wrapper_tag: v3.13.0
   td2: 官方无 wrapper（bio/td2 404）
   source: —（snakemake-wrappers 仓库 bio/td2 目录不存在）
   note: 2026-09-01 抓取 https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/td2
@@ -35,7 +34,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 1.0.7-v1.0
+  version: "1.0.7"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
 
@@ -45,15 +44,15 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/td2
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: td2_snakemake_wrappers
+- id: td2_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "1.0.7"
   priority: medium
-  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
-  note: 官方 snakemake-wrappers 暂无 bio/td2 wrapper（2026-09-01 抓取 404），本实现仅登记桥接层，实际请降级
-    td2_snakemake_local。
+  when_to_use: 组装 Snakemake 流程时 include 本模块 snakemake/td2_{longorfs,predict}.smk 本地规则。
+  note: 官方 snakemake-wrappers 无 bio/td2 wrapper（2026-09-01 抓取 404），本地规则为唯一 Snakemake 路线
+    （conda env：td2.yaml，bioconda::td2=1.0.7），详见 software_versions。
 default_implementation: td2_native
 inputs:
   subcommand:

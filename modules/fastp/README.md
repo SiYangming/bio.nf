@@ -95,10 +95,8 @@ bash test/run_test.sh   # 无需真实 FASTQ；fastp 未装时退化为 argv 构
 
 ## 历史留存说明
 
-本技能为新建（补齐 `subworkflow/fastp_bwa_samtools` 编排器对
-`modules/fastp/native/main.py run` 的引用缺口），**无 legacy/ 迁移脚本**。
-编排器与历史流程请直接以 `main.py` 为正式入口；若未来从旧流程迁移辅助脚本，
-按 AGENT.md「脚本归位」原则放入 `native/legacy/`。
+本模块为新建实现，**无历史 legacy 脚本**；`fastp` 能力正式入口为
+`modules/fastp/native/main.py`（`run` 子命令，供 `subworkflow/fastp_bwa_samtools` 编排器调用）。
 
 
 ---
@@ -169,7 +167,7 @@ fastp:
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # fastp native Conda 环境配方

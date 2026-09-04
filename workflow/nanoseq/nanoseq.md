@@ -4,7 +4,7 @@ Nanopore 长读 RNA-seq 分析流程：可选 SRA 下载 / dorado 碱基识别 �
 
 * 元数据：本目录同级 [meta.yaml](meta.yaml)（stages / inputs / outputs / execution）。
 
-* 本流程为**目录形态**（对齐 [riboseq/](../riboseq/riboseq.md)）：**多步组合**经典脚本集中于 [native/](native/)（`run_*.sh`），流程编排入口 [native/main.py](native/main.py)；单一命令批处理脚本（`batch_*.sh`）留于所属模块 `sra-tools/native/`；单步原子能力在 `modules/<sw>/`（main.py / snakemake 规则）；Snakemake 集成内容已并入本文档（原 `snakemake/` 目录已移除）。
+* 本流程为**目录形态**（对齐 [riboseq/](../riboseq/riboseq.md)）：**多步组合**经典脚本集中于 [native/](native/)（`run_*.sh`），流程编排入口 [native/main.py](native/main.py)；单一命令批处理脚本（`batch_*.sh`）留于所属模块 `sra-tools/native/`；单步原子能力在 `modules/<sw>/`（main.py / snakemake 规则）；Snakemake 集成内容见本文档「执行方式 B」（本 workflow 不内置 `snakemake/` 目录）。
 
 ## 原始来源与致谢
 
@@ -71,11 +71,11 @@ python modules/flair/native/main.py collapse --help
 
 * 03/04 尾段（StringTie 组装 → ORF 预测）也可用本流程 [native/](native/) 经典脚本一键串联：`01_run_alignment_bam.sh`（可选，比对）→ `02_run_flair_consensus.sh` → `03_run_stringtie.sh` → `04_run_td2_orf_prediction.sh`（需按项目修改硬编码路径）；逐原子步骤仍走 `modules/<sw>/native/main.py`。
 
-> 流程编排入口 [native/main.py](native/main.py)（`--list-stages` / `--dry-run` / `--real`）即上文编排逻辑的实现；原 `snakemake/` 集成目录内容并入下文「执行方式 B」。
+> 流程编排入口 [native/main.py](native/main.py)（`--list-stages` / `--dry-run` / `--real`）即上文编排逻辑的实现；Snakemake 集成见下文「执行方式 B」。
 
 ### B. Snakemake（按需在项目内重建；仓库不再内置 snakemake/ 目录）
 
-原 `workflow/nanoseq/snakemake/`（Snakefile / Snakefile.template / common.smk / config.yaml / samples.schema.yaml / scripts/samplesheet\_group\_summary.py）已按「目录仅剩文档则并至 workflow 根」规则并入本文档并移除。需要 Snakemake 执行时，在**项目目录**内重建集成层：
+本 workflow 不内置 `snakemake/` 集成层；Snakefile / Snakefile.template / common.smk / config.yaml / samples.schema.yaml 及分组汇总脚本的要点见下。需要 Snakemake 执行时，在**项目目录**内重建集成层：
 
 1. 建立 `project/snakemake/`，放入主文件与公共件：
 
@@ -123,7 +123,7 @@ bash <repo>/scripts/run_smk.sh           # 执行（exec_mode 见 config.yaml，
 
 数据来源：**nf-core/test-datasets** **`nanoseq`** **分支** **`modification_fast5_fastq`** **路径**（<https://github.com/nf-core/test-datasets/tree/nanoseq/modification_fast5_fastq> ），含 HEK293T-METTL3-KO-rep1 与 HEK293T-WT-rep1 两个样本的原始 fast5 与 basecalled fastq（Nanopore RNA-seq）。上游无版本标签，以分支 `nanoseq` + 路径为准；文件为官方原样二进制，未作任何修改。
 
-> 本仓库曾内置两个样本各 5 个 fast5 的精简子集（KO 5 + WT 5）用于快速冒烟；按「测试数据不随仓库存储」规则已移除，均可从下方链接获取完整数据后自行截取。
+> 测试数据不随仓库存储；可从下方链接获取完整数据，需要快速冒烟时自行截取两个样本各若干 fast5 即可。
 
 下载完整数据：
 

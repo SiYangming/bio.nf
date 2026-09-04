@@ -36,7 +36,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 0.24.0-v1.0
+  version: "0.24.0"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标； subworkflow/fastp_bwa_samtools
     编排器即调用本实现的 run 子命令。
@@ -47,11 +47,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/fastp
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: fastp_snakemake_wrappers
+- id: fastp_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "0.24.0"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时（官方 bio/fastp 存在，单 wrapper）。
 default_implementation: fastp_native

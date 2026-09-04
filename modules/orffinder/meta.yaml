@@ -20,7 +20,6 @@ software_versions:
   note: 2026-09-01 抓取 https://api.github.com/repos/nf-core/modules/contents/modules/nf-core/orffinder
     返回 404；Nextflow 场景请使用 orffinder_nextflow_local。
 - id: orffinder_snakemake_wrappers
-  wrapper_tag: v3.13.0
   orffinder: 官方无 wrapper（bio/orffinder 404）
   source: —（snakemake-wrappers 仓库 bio/orffinder 目录不存在）
   note: 2026-09-01 抓取 https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/orffinder
@@ -34,7 +33,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 0.4.3-v1.0
+  version: "0.4.3"
   priority: high
   when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标。
 
@@ -44,15 +43,15 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/orffinder
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: orffinder_snakemake_wrappers
+- id: orffinder_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "0.4.3"
   priority: medium
-  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
-  note: 官方 snakemake-wrappers 暂无 bio/orffinder wrapper（2026-09-01 抓取 404），本实现仅登记桥接层，实际请降级
-    orffinder_snakemake_local。
+  when_to_use: 组装 Snakemake 流程时 include 本模块 snakemake/orffinder.smk 本地规则。
+  note: 官方 snakemake-wrappers 无 bio/orffinder wrapper（2026-09-01 抓取 404），本地规则为唯一 Snakemake 路线
+    （conda env：orffinder.yaml，orffinder=0.4.3），详见 software_versions。
 default_implementation: orffinder_native
 inputs:
   subcommand:

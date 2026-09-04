@@ -73,7 +73,7 @@ bash test/run_test.sh   # 合成最小 BAM；lima 未安装时退化为 argv 构
 - lima 2.9.0（bioconda::lima=2.9.0，由官方镜像/conda 提供：quay.io/biocontainers/lima、bioconda lima=2.9.0）
 - 构建路线：official biocontainer（quay.io/biocontainers/lima / depot.galaxyproject.org）；本地不再自建容器
 
-## 历史留存（legacy/）
+## 历史留存
 
 供追溯对照的原始实现脚本与 `main.py` 同存于 `native/`，**正式入口为 `main.py`**。
 
@@ -116,8 +116,8 @@ snakemake -s modules/lima/snakemake/lima.smk \
   与 `pbccs.smk` 串接时令 `lima_input_reads` == ccs 产物即自动建立依赖。
 - 产物命名（BAM 主路径）：`<out>`（拆分 reads）与同目录 `<out>.pbi`、`<stem>.lima.{report,summary,counts}`
   （官方 prefix = 输出去扩展名）；`.lima.clips` / `.removed.bam` 等 side-product 按参数产生、非规则 output。
-- 原聚合 `lima.smk`（`ccs/{sample}/{sample}.chunk{n}.bam` 模板 + `envs/lima.yaml` 幽灵引用）已重构为上述
-  config 驱动单规则文件，`conda:` 改为同目录 `"lima.yaml"`，幽灵引用消除。
+- 规则为 config 驱动单文件（无 `ccs/{sample}/{sample}.chunk{n}.bam` 模板依赖）；`conda:` 用同目录
+  相对名 `"lima.yaml"`，无 `envs/` / `scripts/` 幽灵引用。
 
 ### 与其它实现的关系
 
@@ -129,7 +129,7 @@ snakemake -s modules/lima/snakemake/lima.smk \
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # lima native Conda 环境配方

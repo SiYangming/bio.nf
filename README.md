@@ -100,7 +100,7 @@ bioskills/
 
 参考黄金样例 `modules/samtools/`（三引擎五实现完整对照 + 官方镜像优先登记 + software_versions 差异声明）。
 参考第二个完整样例 `modules/fastqc/`（官方镜像路线登记示范：environment.container_official + build_route=official biocontainer；单 process / 单 wrapper 的 submodules 占位写法）。
-参考复合流程骨架 [subworkflow/fastp_bwa_samtools/](subworkflow/fastp_bwa_samtools/fastp_bwa_samtools.md)（多软件 stages 声明、native/main.py 编排入口与 Snakemake / Nextflow 骨架并入文档）及目录说明 [AGENT.md](AGENT.md)。
+参考复合流程骨架 [subworkflow/fastp_bwa_samtools/](subworkflow/fastp_bwa_samtools/fastp_bwa_samtools.md)（多软件 stages 声明、native/main.py 编排入口；Snakemake / Nextflow 骨架要点见其文档）及目录说明 [AGENT.md](AGENT.md)。
 
 ## 构建规范
 

@@ -12,7 +12,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 0.12.1-v1.0
+  version: 0.12.1
   priority: high
   when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。自动注入 JVM 内存与线程优化。
   container_ref:
@@ -20,11 +20,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/fastqc
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: fastqc_snakemake_wrappers
+- id: fastqc_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "0.12.1"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时；本模块 snakemake/fastqc.smk
     提供本地单规则（config 驱动），官方 bio/fastqc wrapper 信息见 README 与 software_versions。

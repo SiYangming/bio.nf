@@ -78,7 +78,7 @@ bash test/run_test.sh   # fix_gtf 为真实回归；assemble/merge 退化为 arg
 
 ## 历史留存
 
-原始阶段脚本已随所属流程收拢至 `workflow/nanoseq/native/03_run_stringtie.sh`（逐样本 assemble + 坐标修复 + 跨样本 merge 的多步组合，Stage 03 · StringTie；硬编码项目路径，仅供追溯对照 / 一键运行，正式能力请走 `main.py` 的 assemble / fix_gtf / merge 原子子命令）。
+多步组合脚本（逐样本 assemble + 坐标修复 + 跨样本 merge）的流程版见 `workflow/nanoseq/native/03_run_stringtie.sh`（Stage 03 · StringTie；硬编码项目路径，仅供追溯对照 / 一键运行）；正式能力请走 `main.py` 的 assemble / fix_gtf / merge 原子子命令。
 
 
 ---
@@ -155,7 +155,7 @@ rule all:
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # stringtie native Conda 环境配方

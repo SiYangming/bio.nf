@@ -13,7 +13,7 @@ implementations:
   path: native
   source_type: custom
   type: native
-  version: 4.0.0-v1.0
+  version: 4.0.0
   priority: high
   when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。自动注入线程与 --require-polya
     默认。
@@ -22,11 +22,11 @@ implementations:
     quay_biocontainers: quay.io/biocontainers/isoseq3
     install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
       镜像
-- id: isoseq3_snakemake_wrappers
+- id: isoseq3_snakemake_local
   path: snakemake
-  source_type: official
+  source_type: custom
   type: snakemake_local
-  version: v3.13.0
+  version: "4.0.0"
   priority: medium
   when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
   note: 官方 snakemake-wrappers 暂无 bio/isoseq3 wrapper（2026-08 抓取 404），本实现仅登记桥接层，实际请降级

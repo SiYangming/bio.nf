@@ -155,18 +155,18 @@ include { BOWTIE2_BUILD } from '../modules/nf-core/bowtie2/build/main'
 
 | 实现 | bowtie2 版本 | 来源 |
 |------|-------------|------|
-| native（官方容器/conda） | **2.5.0**（记录版本） | official biocontainer：quay.io/biocontainers/bowtie2 / bioconda bowtie2（tag 见文末链接） |
-| snakemake 本地规则 env | 2.5.4 | bioconda（riboseq 流程 `envs/bowtie2.yaml`） |
+| native（官方容器/conda） | **2.5.4** | official biocontainer：quay.io/biocontainers/bowtie2:2.5.4--he96a11b_7 / bioconda bowtie2=2.5.4（riboseq 流程同款） |
+| snakemake 本地规则 env | 2.5.4 | bioconda（本模块 `snakemake/bowtie2.yaml`，与 riboseq 流程一致） |
 | snakemake-wrappers v3.13.0 | 2.5.4 | bioconda（bio/bowtie2/align/environment.yaml） |
 | snakemake-wrappers master | 2.5.5 | bioconda（autobump） |
 | nf-core master | 2.5.4 | bioconda（modules/nf-core/bowtie2/*/environment.yml） |
 
-> 记录版本 2.5.0 与 bioconda（2.5.4/2.5.5）存在 minor 级差异（原 apt 打包差异已随本地容器移除，官方镜像/conda 统一走 bioconda 版本）；对比对细节敏感的流程建议用官方容器/conda 固定 2.5.4，与 riboseq 流程一致。
+> native 与 riboseq 流程统一 2.5.4（官方容器 quay.io/biocontainers/bowtie2:2.5.4--he96a11b_7 / conda bowtie2=2.5.4）；原 apt 打包 2.5.0-3+b2 的历史差异已随本地容器移除。
 
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # bowtie2 native Conda 环境配方（HPC 无 root / 非容器兜底）

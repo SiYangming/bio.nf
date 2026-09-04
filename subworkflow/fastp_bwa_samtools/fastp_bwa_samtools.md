@@ -32,9 +32,9 @@ stages 声明见 [meta.yaml](meta.yaml)：`fastp`（去接头/质控）→ `bwa_
 - `bwa-mem2`：`main.py mem -R "@RG\tID:{sample}\tSM:{sample}\tLB:{sample}" ref R1 [R2] --threads N`，SAM 管道给 `samtools view -O BAM -o {outdir}/bam/{sample}.bam`；
 - `samtools`：`main.py sort raw.bam -o {outdir}/bam/{sample}.sorted.bam --threads N` → `main.py index sorted.bam`。
 
-> 按「纯编排器不入库」规则该脚本曾被移除，现已恢复为 [native/main.py](native/main.py)（内容即上文三种模式逻辑）；演示用 `--dry-run`（默认），真实执行 `--real`。
+> 编排逻辑实现为 [native/main.py](native/main.py)（内容即上文三种模式逻辑）；演示用 `--dry-run`（默认），真实执行 `--real`。
 
-## Snakemake 骨架（原 snakemake/Snakefile.template 要点）
+## Snakemake 骨架要点
 
 复制到真实项目改 `workflow/Snakefile` 使用；规则经 `python <repo>/modules/<sw>/native/main.py` 直调：
 
@@ -54,9 +54,9 @@ rule samtools_sort_index:  # bam -> sorted.bam + .bai ; threads 4
     shell: "python ../../samtools/native/main.py sort {input} -o {output.bam} --threads {threads} && python ../../samtools/native/main.py index {output.bam}"
 ```
 
-> 完整规则示例（含 input/output 声明）已随目录移除；落地时按模块实际参数补齐 `input/output/threads/resources`。
+> 落地时按模块实际参数补齐各规则的 `input/output/threads/resources`（上面示例只给出命令形态）。
 
-## Nextflow 骨架（原 nextflow/main.nf.template 要点）
+## Nextflow 骨架要点
 
 复制到真实项目并安装 nf-core / local 模块后使用（DSL2）：
 

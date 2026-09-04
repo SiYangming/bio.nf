@@ -93,7 +93,7 @@ bash test/run_test.sh
 
 ## 历史留存
 
-旧实现（bamtools\_convert.py / run\_bamtools\_convert.sh）已随本次优化清理——其能力由 `main.py convert` 覆盖（正式入口为 main.py），需要时仍可回溯 git 历史。
+BAM 转 FASTA/FASTQ 等能力由 `main.py convert` 覆盖（正式入口为 `main.py`）。
 
 ***
 
@@ -101,8 +101,7 @@ bash test/run_test.sh
 
 # bamtools / snakemake / local — 自维护 Snakemake rule
 
-td2 式单规则实现（config 驱动），去掉对 `workflow/lib/helpers.py` 的全局依赖（`docker_run`
-分支删除、路径内联）；BAM 转换 + 写 `versions.yml` 属多步逻辑，用 `script:` + 同目录 wrapper。
+td2 式单规则实现（config 驱动、自包含，不依赖 `workflow/lib/helpers.py`）；BAM 转换 + 写 `versions.yml` 属多步逻辑，用 `script:` + 同目录 wrapper（docker/native/conda 经共享 `modules/docker_wrapper.py` 解析）。
 
 ## 文件
 
@@ -140,21 +139,20 @@ bamtools:
   extra_params: ""         # 透传附加参数
 ```
 
-## 与历史实现的差异
+## 规则设计说明
 
-* 删除 `docker_run` 分支与 `BAMTOOLS_DOCKER_IMAGE` 容器配置（docker 模式走 wrapper 的
-  `docker_wrapper` 分派）；固定输入路径 `results/refine/{sample}/{sample}.chunk{n}.bam`
-  改为显式 config 键 `bamtools_input_bam`。
+* docker/native 模式由 wrapper 的 `docker_wrapper` 分派（无需流程级 `BAMTOOLS_DOCKER_IMAGE` 配置）；
+  输入路径用显式 config 键 `bamtools_input_bam`（无固定 `results/refine/{sample}/{sample}.chunk{n}.bam` 模板）。
 
 * `bamtools.bin` / `format` 由 `config["bamtools"]` 读取并内联默认值：
 
   * `bamtools_bin: "bamtools"`、`format: "fasta"`
 
-* 保留写 `versions.yml`（与 nf-core 模块风格一致）。
+* 规则写 `versions.yml`（与 nf-core 模块风格一致）。
 
 ***
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 # bamtools native Conda 环境配方

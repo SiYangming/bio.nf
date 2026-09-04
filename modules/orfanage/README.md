@@ -31,10 +31,9 @@ docker run --rm -u $(id -u):$(id -g) -v $PWD:/data -w /data bioskills/orfanage:1
     run --query in.gff3 --output out.gtf --reference ref.fa tpl.fa
 ```
 
-## 历史留存（legacy/）
+## 历史留存
 
-原始文件（orfanage.py / orfanage.smk / orfanage.yaml / config 与 samples snippets）留存于 `native/`，
-仅供追溯对照，**正式入口为 `main.py`**。
+原始实现文件（orfanage.py / orfanage.smk / orfanage.yaml）即当前 `snakemake/` 本地规则本体（同目录平铺）；独立 CLI 场景正式入口为 `main.py`。
 
 
 ---
@@ -65,7 +64,7 @@ config 契约（详见 `orfanage.smk` 头部）：`exec_mode`（conda/docker/nat
 
 ---
 
-## Conda 环境（原 native/environment.yml）
+## Conda 环境（离线 / 非容器兜底备选）
 
 ```yaml
 name: orfanage-native
