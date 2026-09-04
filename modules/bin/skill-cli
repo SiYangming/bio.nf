@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""bioskills 技能库管理 CLI。
+
+子命令：
+  scan          扫描 modules/ 下所有软件级 meta.yaml，重建 registry.yaml
+  validate      校验某个软件目录的 meta.yaml（含 implementations 目录存在性）
+  schema        从 meta.yaml 导出 JSON Schema
+  run           直接调用某个 native 技能
+
+结构（单 meta.yaml 模式）：
+  modules/<sw>/meta.yaml              # 唯一 meta：软件级 + 实现级合并
+  modules/<sw>/README.md              # 合并各实现用法（native/snakemake/nextflow）
+  modules/<sw>/native/                # 本地实现（main.py + 本地脚本 + test；容器配方可选：官方镜像优先，查无官方才含 Dockerfile/Apptainer.def）
+  modules/<sw>/snakemake/             # Snakemake 实现（*.smk + scripts/ + env yaml）
+  modules/<sw>/nextflow/              # Nextflow 实现（有实际实现才建）
+
+示例：
+  skill-cli scan
+  skill-cli validate modules/samtools
+  skill-cli schema modules/samtools/meta.yaml
+  skill-cli run samtools -- index sorted.bam
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+SKILLS_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(SKILLS_ROOT))
+
+import base  # noqa: E402
+import yaml  # noqa: E402
+
+REGISTRY = SKILLS_ROOT / "registry.yaml"
+
+SOURCE_TYPES = ("official", "custom")
+IMPL_TYPES = (
+    "native",
+    "nextflow_local", "snakemake_local",
+    # 旧值兼容（validate 时仍接受）
+    "nextflow_nfcore", "snakemake_wrappers", "nfcore_module", "snakemake_wrapper",
+)
+
+
+def _load_meta(path: Path) -> dict:
+    with open(path, encoding="utf-8") as fh:
+        return yaml.safe_load(fh) or {}
+
+
+def _software_meta_paths() -> list[Path]:
+    """枚举全部软件级 meta.yaml（modules/<sw>/meta.yaml）。"""
+    return sorted(SKILLS_ROOT.glob("*/meta.yaml"))
+
+
+def _entries_from_meta(meta_path: Path) -> list[dict]:
+    """从软件级 meta.yaml 的 implementations 展开 registry 条目。"""
+    meta = _load_meta(meta_path)
+    software = meta.get("canonical") or meta.get("software") or meta_path.parent.name
+    entries: list[dict] = []
+    for impl in meta.get("implementations", []) or []:
+        p = impl.get("path", "")
+        ex = impl.get("execution") or {}
+        entries.append({
+            "id": impl.get("id", f"{software}_{impl.get('type', '')}"),
+            "software": software,
+            "source_type": impl.get("source_type", "custom"),
+            "impl": impl.get("type", ""),
+            "path": p,
+            "version": impl.get("version", ""),
+            "priority": str(impl.get("priority", "")).capitalize(),
+            "entrypoint": ex.get("entrypoint", "") if isinstance(ex, dict) else "",
+        })
+    return entries
+
+
+def cmd_scan(_: argparse.Namespace) -> int:
+    entries: list[dict] = []
+    for mp in _software_meta_paths():
+        entries += _entries_from_meta(mp)
+
+    aggregated: dict[str, dict] = {}
+    for e in entries:
+        sw = e.pop("software")
+        aggregated.setdefault(sw, {"software": sw, "canonical": sw, "implementations": []})
+        aggregated[sw]["implementations"].append(e)
+
+    from datetime import datetime, timezone
+    registry = {
+        "version": "1.0",
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "modules": list(aggregated.values()),
+    }
+    with open(REGISTRY, "w", encoding="utf-8") as fh:
+        yaml.safe_dump(registry, fh, sort_keys=False, allow_unicode=True)
+    print(f"已重建 registry.yaml：{len(entries)} 个实现，{len(aggregated)} 个软件")
+    return 0
+
+
+def cmd_validate(args: argparse.Namespace) -> int:
+    """validate modules/<sw>：校验软件级 meta.yaml + implementations 目录。"""
+    meta_path = Path(args.dir) / "meta.yaml"
+    if not meta_path.exists():
+        print(f"[ERROR] 未找到 {meta_path}", file=sys.stderr)
+        return 1
+    meta = _load_meta(meta_path)
+    errors: list[str] = []
+    for f in ("software", "description", "implementations", "default_implementation"):
+        if f not in meta:
+            errors.append(f"缺少必填字段: {f}")
+    for impl in meta.get("implementations", []) or []:
+        if impl.get("type") not in IMPL_TYPES:
+            errors.append(f"implementation type 非法: {impl.get('type')}（必须是 {IMPL_TYPES} 之一）")
+        if impl.get("source_type") not in SOURCE_TYPES:
+            errors.append(f"implementation source_type 非法: {impl.get('source_type')}")
+        d = Path(args.dir) / impl.get("path", "")
+        if not d.is_dir():
+            errors.append(f"implementation 目录不存在: {impl.get('path')}")
+            continue
+        # native 需要 main.py + test
+        if impl.get("type") == "native":
+            if not (d / "main.py").exists():
+                errors.append(f"native 目录缺少 main.py: {d}")
+            if not (d / "test" / "run_test.sh").exists():
+                errors.append(f"native 目录缺少 test/run_test.sh: {d}")
+
+    if errors:
+        print("[FAIL] " + meta_path.as_posix(), file=sys.stderr)
+        for e in errors:
+            print("  - " + e, file=sys.stderr)
+        return 1
+    print("[OK] " + meta_path.as_posix())
+    return 0
+
+
+def cmd_schema(args: argparse.Namespace) -> int:
+    out = base.SchemaExporter.export_file(args.meta, args.out)
+    print(f"已导出 JSON Schema -> {out}")
+    return 0
+
+
+def cmd_run(args: argparse.Namespace) -> int:
+    """skill-cli run <software> -- <subcommand> <args...>"""
+    native_dir = SKILLS_ROOT / args.software / "native"
+    main_py = native_dir / "main.py"
+    if not main_py.exists():
+        print(f"[ERROR] 未找到 native 实现: {main_py}", file=sys.stderr)
+        return 1
+    import subprocess
+    cmd = [sys.executable, str(main_py)] + args.argv
+    proc = subprocess.run(cmd)
+    return proc.returncode
+
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(prog="skill-cli", description="bioskills 技能库管理工具")
+    sub = p.add_subparsers(dest="cmd", required=True)
+
+    sub.add_parser("scan", help="重建 registry.yaml").set_defaults(func=cmd_scan)
+
+    pv = sub.add_parser("validate", help="校验软件目录的 meta.yaml 与实现结构")
+    pv.add_argument("dir", help="软件目录（如 modules/samtools）")
+    pv.set_defaults(func=cmd_validate)
+
+    ps = sub.add_parser("schema", help="从 meta.yaml 导出 JSON Schema")
+    ps.add_argument("meta", help="meta.yaml 路径")
+    ps.add_argument("--out", help="输出路径（默认同目录 .schema.json）")
+    ps.set_defaults(func=cmd_schema)
+
+    pr = sub.add_parser("run", help="直接运行 native 技能")
+    pr.add_argument("software", help="软件 canonical name（如 samtools）")
+    pr.add_argument("argv", nargs=argparse.REMAINDER, help="透传给 main.py 的参数")
+    pr.set_defaults(func=cmd_run)
+    return p
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    if getattr(args, "argv", None) and args.argv and args.argv[0] == "--":
+        args.argv = args.argv[1:]
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

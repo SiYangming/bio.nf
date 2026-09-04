@@ -1,0 +1,452 @@
+version: '1.0'
+generated_at: '2026-09-03T03:48:10+00:00'
+modules:
+- software: bamtools
+  canonical: bamtools
+  implementations:
+  - id: bamtools_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 2.5.2-v1.0
+    priority: High
+    entrypoint: ''
+  - id: bamtools_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: bbmap
+  canonical: bbmap
+  implementations:
+  - id: bbmap_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 39.01-v1.0
+    priority: High
+    entrypoint: ''
+  - id: bbmap_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: bowtie2
+  canonical: bowtie2
+  implementations:
+  - id: bowtie2_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 2.5.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: bowtie2_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: cutadapt
+  canonical: cutadapt
+  implementations:
+  - id: cutadapt_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 5.2-v1.0
+    priority: High
+    entrypoint: ''
+  - id: cutadapt_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: dorado
+  canonical: dorado
+  implementations:
+  - id: dorado_native
+    source_type: custom
+    impl: native
+    path: native
+    version: latest-v1.0
+    priority: High
+    entrypoint: ''
+  - id: dorado_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: fastp
+  canonical: fastp
+  implementations:
+  - id: fastp_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 0.24.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: fastp_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: fastqc
+  canonical: fastqc
+  implementations:
+  - id: fastqc_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 0.12.1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: fastqc_nextflow_nfcore
+    source_type: official
+    impl: nextflow_local
+    path: nextflow
+    version: 2.1.0
+    priority: Medium
+    entrypoint: ''
+  - id: fastqc_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: flair
+  canonical: flair
+  implementations:
+  - id: flair_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 3.0.0b1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: flair_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: gnu_sort
+  canonical: gnu_sort
+  implementations:
+  - id: gnu_sort_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 9.1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: gnu_sort_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: gstama
+  canonical: gstama
+  implementations:
+  - id: gstama_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.0.4-v1.0
+    priority: High
+    entrypoint: ''
+  - id: gstama_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: gunzip
+  canonical: gunzip
+  implementations:
+  - id: gunzip_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.12-v1.0
+    priority: High
+    entrypoint: ''
+  - id: gunzip_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: isoseq3
+  canonical: isoseq3
+  implementations:
+  - id: isoseq3_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 4.0.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: isoseq3_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: lima
+  canonical: lima
+  implementations:
+  - id: lima_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 2.9.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: lima_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: minimap2
+  canonical: minimap2
+  implementations:
+  - id: minimap2_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 2.24-v1.0
+    priority: High
+    entrypoint: ''
+  - id: minimap2_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: orfanage
+  canonical: orfanage
+  implementations:
+  - id: orfanage_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.2.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: orfanage_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: ''
+    priority: Medium
+    entrypoint: ''
+- software: orffinder
+  canonical: orffinder
+  implementations:
+  - id: orffinder_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 0.4.3-v1.0
+    priority: High
+    entrypoint: ''
+  - id: orffinder_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: pbccs
+  canonical: pbccs
+  implementations:
+  - id: pbccs_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 6.4.0-v1.0
+    priority: High
+    entrypoint: ''
+  - id: pbccs_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: rsem
+  canonical: rsem
+  implementations:
+  - id: rsem_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.3.3-v1.0
+    priority: High
+    entrypoint: ''
+  - id: rsem_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: samtools
+  canonical: samtools
+  implementations:
+  - id: samtools_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.21-v1.0
+    priority: High
+    entrypoint: ''
+  - id: samtools_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: sra-tools
+  canonical: sra-tools
+  implementations:
+  - id: sra-tools_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 3.4.1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: sra-tools_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: star
+  canonical: star
+  implementations:
+  - id: star_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 2.7.10b-v1.0
+    priority: High
+    entrypoint: ''
+  - id: star_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: stringtie
+  canonical: stringtie
+  implementations:
+  - id: stringtie_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 3.0.3-v1.0
+    priority: High
+    entrypoint: ''
+  - id: stringtie_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: td2
+  canonical: td2
+  implementations:
+  - id: td2_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.0.7-v1.0
+    priority: High
+    entrypoint: ''
+  - id: td2_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: transdecoder
+  canonical: transdecoder
+  implementations:
+  - id: transdecoder_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 5.7.1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: transdecoder_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: ultra
+  canonical: ultra
+  implementations:
+  - id: ultra_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 0.1-v1.0
+    priority: High
+    entrypoint: ''
+  - id: ultra_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
+- software: umi_tools
+  canonical: umi_tools
+  implementations:
+  - id: umi_tools_native
+    source_type: custom
+    impl: native
+    path: native
+    version: 1.1.6-v1.0
+    priority: High
+    entrypoint: ''
+  - id: umi_tools_snakemake_wrappers
+    source_type: official
+    impl: snakemake_local
+    path: snakemake
+    version: v3.13.0
+    priority: Medium
+    entrypoint: ''
