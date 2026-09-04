@@ -2,7 +2,7 @@
 
 > 汇总说明：本 README 合并各实现（native/snakemake/nextflow）的用法；安装方式见下方各节，容器与 conda 环境信息记录于此。
 
----
+***
 
 ## native 实现
 
@@ -14,14 +14,14 @@
 
 覆盖 bamtools 高频子命令，Iso-Seq 场景下 BAM → FASTA/FASTQ 转换首选：
 
-| 子命令 | 说明 |
-|--------|------|
+| 子命令       | 说明                                             |
+| --------- | ---------------------------------------------- |
 | `convert` | BAM → fasta/fastq/sam/bed/json/pileup/yaml（核心） |
-| `count` | 统计 BAM 比对数量 |
-| `stats` | 输出 BAM 基本统计 |
-| `header` | 打印 BAM header |
-| `index` | 建立 .bai 索引 |
-| `sort` | 按 region/name/size 排序 BAM |
+| `count`   | 统计 BAM 比对数量                                    |
+| `stats`   | 输出 BAM 基本统计                                    |
+| `header`  | 打印 BAM header                                  |
+| `index`   | 建立 .bai 索引                                     |
+| `sort`    | 按 region/name/size 排序 BAM                      |
 
 ## 快速开始
 
@@ -77,23 +77,25 @@ bash test/run_test.sh
 
 ## 版本说明
 
-- **native 二进制**：`bamtools 2.5.2`，由**官方镜像/conda 提供**（quay.io/biocontainers/bamtools、bioconda bamtools=2.5.2；宿主机安装用 mamba/conda）。
-- 与流程原配版本一致（`quay.io/biocontainers/bamtools:2.5.2--hdcf5f25_2`）；
+* **native 二进制**：`bamtools 2.5.2`，由**官方镜像/conda 提供**（quay.io/biocontainers/bamtools、bioconda bamtools=2.5.2；宿主机安装用 mamba/conda）。
+
+* 与流程原配版本一致（`quay.io/biocontainers/bamtools:2.5.2--hdcf5f25_2`）；
   snakemake-wrappers 侧已 bump 到 2.5.3，2.5.x API 兼容。
 
 ## 性能优化约定
 
-- **线程**：bamtools CLI 无通用 `-@` 参数，`--threads` 作为契约字段接收，
+* **线程**：bamtools CLI 无通用 `-@` 参数，`--threads` 作为契约字段接收，
   并在 `optimization.per_subcommand_threads` 中给出 sort 8 线程的调度建议。
-- **临时目录**：`--tmpdir` 可覆盖 `TMPDIR`；`sort` 中间文件写入 `$TMPDIR`。
-- **内存**：通过 `meta.yaml.optimization.default_mem_mb` 声明，供上层调度器读取。
+
+* **临时目录**：`--tmpdir` 可覆盖 `TMPDIR`；`sort` 中间文件写入 `$TMPDIR`。
+
+* **内存**：通过 `meta.yaml.optimization.default_mem_mb` 声明，供上层调度器读取。
 
 ## 历史留存
 
-旧实现（bamtools_convert.py / run_bamtools_convert.sh）已随本次优化清理——其能力由 `main.py convert` 覆盖（正式入口为 main.py），需要时仍可回溯 git 历史。
+旧实现（bamtools\_convert.py / run\_bamtools\_convert.sh）已随本次优化清理——其能力由 `main.py convert` 覆盖（正式入口为 main.py），需要时仍可回溯 git 历史。
 
-
----
+***
 
 ## snakemake 实现
 
@@ -104,13 +106,13 @@ td2 式单规则实现（config 驱动），去掉对 `workflow/lib/helpers.py` 
 
 ## 文件
 
-| 文件 | 作用 |
-|------|------|
+| 文件                     | 作用                                                                   |
+| ---------------------- | -------------------------------------------------------------------- |
 | `bamtools_convert.smk` | 单规则：`bamtools convert -format <fmt> -in <bam> -out <out>`（config 驱动） |
-| `bamtools_convert.py` | wrapper（两级注入 `modules/`；docker/native/conda 三模式 + 写 versions.yml） |
-| `bamtools.yaml` | conda env（bioconda `bamtools=2.5.2`，与 native 版本锚点一致） |
+| `bamtools_convert.py`  | wrapper（两级注入 `modules/`；docker/native/conda 三模式 + 写 versions.yml）    |
+| `bamtools.yaml`        | conda env（bioconda `bamtools=2.5.2`，与 native 版本锚点一致）                 |
 
-## 使用（config 契约见 bamtools_convert.smk 头注与软件级 meta.yaml `snakemake_include_hint`）
+## 使用（config 契约见 bamtools\_convert.smk 头注与软件级 meta.yaml `snakemake_include_hint`）
 
 在 Snakefile 中：
 
@@ -140,15 +142,17 @@ bamtools:
 
 ## 与历史实现的差异
 
-- 删除 `docker_run` 分支与 `BAMTOOLS_DOCKER_IMAGE` 容器配置（docker 模式走 wrapper 的
+* 删除 `docker_run` 分支与 `BAMTOOLS_DOCKER_IMAGE` 容器配置（docker 模式走 wrapper 的
   `docker_wrapper` 分派）；固定输入路径 `results/refine/{sample}/{sample}.chunk{n}.bam`
   改为显式 config 键 `bamtools_input_bam`。
-- `bamtools.bin` / `format` 由 `config["bamtools"]` 读取并内联默认值：
-  - `bamtools_bin: "bamtools"`、`format: "fasta"`
-- 保留写 `versions.yml`（与 nf-core 模块风格一致）。
 
+* `bamtools.bin` / `format` 由 `config["bamtools"]` 读取并内联默认值：
 
----
+  * `bamtools_bin: "bamtools"`、`format: "fasta"`
+
+* 保留写 `versions.yml`（与 nf-core 模块风格一致）。
+
+***
 
 ## Conda 环境（原 native/environment.yml）
 
@@ -170,8 +174,13 @@ dependencies:
 
 ## 容器与 Conda 链接
 
-- **Bioconda 页面**：https://anaconda.org/channels/bioconda/packages/bamtools/overview
-- **Docker（最新）**：`docker pull quay.io/biocontainers/bamtools:2.5.3--he132191_0`
-- **Singularity（最新）**：https://depot.galaxyproject.org/singularity/bamtools%3A2.5.3--he132191_0
-- 安装方式（本地）：`mamba create -n bamtools -c conda-forge -c bioconda bamtools=2.5.3`
-- 注：流程原配版本见上文（bamtools 历史版本），本链接为 bioconda 最新容器。
+* **Bioconda 页面**：<https://anaconda.org/channels/bioconda/packages/bamtools/overview>
+
+* **Docker（最新）**：`docker pull quay.io/biocontainers/bamtools:2.5.3--he132191_0`
+
+* **Singularity（最新）**：<https://depot.galaxyproject.org/singularity/bamtools%3A2.5.3--he132191_0>
+
+* 安装方式（本地）：`mamba create -n bamtools -c conda-forge -c bioconda bamtools=2.5.3`
+
+* 注：流程原配版本见上文（bamtools 历史版本），本链接为 bioconda 最新容器。
+
