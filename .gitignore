@@ -1,0 +1,58 @@
+# -- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# -- 虚拟环境 & 缓存 --------------------------------------------------------
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# -- IDE -------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -- TRAE 本地会话 / Skill 目录（本机挂载用，不入库）-------------------------
+.trae/
+
+# -- 运行产物 ---------------------------------------------------------------
+# *.schema.json 由 skill-cli schema 导出（可再生）。
+# 说明：官方仓库一般保留至少一套样例 schema 便于 Agent/FaaS 直接读取，
+#       本地增量生成的可按需 gitignore 单文件；此处保留仓库内已入库的 4 份样例，
+#       运行时新产生的 <name>.schema.json 可在本仓库覆盖策略中忽略（建议开发者自行加私有规则）。
+registry.yaml.bak
+tmp*/
+TMP*/
+test_artifacts/
+work/
+results/
+.nextflow/
+.nf-test/
+.snakemake/
+*.bam
+*.bai
+*.sam
+*.cram
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.vcf
+*.vcf.gz
+*.fa
+*.fasta
+*.fai
+*.bed
+*.bed.gz
+*.html
+*.zip
+.DS_Store
