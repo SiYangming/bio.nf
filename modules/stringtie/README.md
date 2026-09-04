@@ -105,8 +105,8 @@ wrapper 平铺于 `snakemake/` 根，规则内 `conda:` / `script:` 一律用同
 - `stringtie_assemble.py` / `stringtie_merge.py` —— assemble/merge 的 script wrapper（两级注入共享
   `modules/docker_wrapper.py`，docker/native/conda 三模式分派）
 - `stringtie_fix_gtf.py` + `fix_gtf.awk` —— fix_gtf 的 script wrapper 与其 awk helper：
-  wrapper 以 `Path(__file__).parent` 定位**同目录** `fix_gtf.awk`（helper 归属本目录，不再有
-  `workflow/scripts/` 副本；该规则纯文本处理、不挂 conda，awk 走系统 PATH）
+  wrapper 以 `Path(__file__).parent` 定位**同目录** `fix_gtf.awk`（helper 归属本目录，同目录相对定位；
+  该规则纯文本处理、不挂 conda，awk 走系统 PATH）
 
 去除 nohup/PID/LOCK 后台运行封装、绝对路径与 GNU parallel 依赖；规则 **config 驱动**
 （`config.setdefault` 默认值 + `--config` 覆盖，头注含完整契约与独立运行示例），不依赖

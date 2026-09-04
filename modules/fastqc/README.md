@@ -58,7 +58,7 @@ bash test/run_test.sh
 
 # fastqc snakemake 本地规则（td2 式：每 rule 一个 .smk，config 驱动）
 
-`snakemake/fastqc.smk`（rule `fastqc`）由原 `rule.smk.template`（通用模板）与 `fastqc_riboseq.smk`（riboseq 流程版）合并而来，两者已删除。当 snakemake-wrappers 官方 bio/fastqc 不满足特定需求（如强制 `-f fastq_bismark`、定制 contaminant/adapter 列表等）时使用。
+`snakemake/fastqc.smk`（rule `fastqc`）为单规则 config 驱动本地实现。当 snakemake-wrappers 官方 bio/fastqc 不满足特定需求（如强制 `-f fastq_bismark`、定制 contaminant/adapter 列表等）时使用。
 
 * 配套文件（均平铺 `snakemake/`，`.smk` 同目录相对引用）：`fastqc.yaml`（bioconda fastqc==0.12.1）、`fastqc.py`（nf-core 风格 wrapper：tempdir 运行防并发竞争、`--memory` 按线程均摊、exec\_mode 三模式分派，依赖共享 `modules/docker_wrapper.py`）。
 

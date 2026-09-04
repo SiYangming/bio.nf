@@ -101,7 +101,7 @@ bash test/run_test.sh
   curl -s https://api.github.com/repos/snakemake/snakemake-wrappers/contents/bio/cutadapt | python3 -c 'import json,sys; print("\n".join(sorted(x["name"] for x in json.load(sys.stdin))))'
   ```
 
-### 2) 本地自定义规则（td2 式，拆自 riboseq 流程）
+### 2) 本地自定义规则（td2 式）
 
 cutadapt 只有 trim 一个子命令；SE/PE 为同一 wrapper（`cutadapt.py`）的两种输入形态 → `snakemake/cutadapt_se.smk`（rule `cutadapt_se`）/ `snakemake/cutadapt_pe.smk`（rule `cutadapt_pe`），每文件一规则、config 驱动、可独立 dry-run：
 

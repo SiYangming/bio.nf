@@ -98,8 +98,8 @@ td2 式：每 rule 一个 config 驱动 `.smk`，共用同目录 conda env `sra-
 
 ## 规则文件
 
-- `sra_prefetch.smk` — `rule sra_prefetch`（下载）：`prefetch -f yes -t http -O <dir> <srr_id>`（迁移自 batch_prefetch.sh）
-- `sra_fastq_dump.smk` — `rule sra_fastq_dump`（转换）：`fastq-dump --split-3 --gzip -O <dir> <sra>`（迁移自 batch_sra_to_fastq*.sh）
+- `sra_prefetch.smk` — `rule sra_prefetch`（下载）：`prefetch -f yes -t http -O <dir> <srr_id>`
+- `sra_fastq_dump.smk` — `rule sra_fastq_dump`（转换）：`fastq-dump --split-3 --gzip -O <dir> <sra>`
 - `sra_fasterq_dump.smk` — `rule sra_fasterq_dump`（高速转换）：`fasterq-dump <sra> --split-3 -O <dir> -e N -t <tmpdir>`（官方推荐高速版）
 - `sra-tools.yaml` — conda env（bioconda `sra-tools=3.4.1`，提供 prefetch / fasterq-dump / fastq-dump）
 

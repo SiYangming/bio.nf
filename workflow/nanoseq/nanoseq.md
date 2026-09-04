@@ -36,7 +36,7 @@ fastq ──[minimap2 align -x splice -uf -k14]──> BAM
 | 组装         | stringtie          | `modules/stringtie`（assemble → fix\_gtf → merge）                |
 | ORF 预测     | transdecoder / td2 | `modules/transdecoder`、`modules/td2`（longorfs / predict）        |
 
-各模块含迁移自原流程的原子规则与单步辅助（`<sw>/snakemake/` 规则 + 脚本）；**阶段级多步经典脚本**不再散落于模块，统一归档于本流程 [native/](native/)（见「历史留存」）。
+各模块含流程级原子规则与单步辅助（`<sw>/snakemake/` 规则 + 脚本）；**阶段级多步经典脚本**不再散落于模块，统一归档于本流程 [native/](native/)（见「历史留存」）。
 
 ## 执行方式
 

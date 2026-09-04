@@ -90,11 +90,10 @@ bash test/run_test.sh
 
 # star / snakemake（本地规则 + 官方 wrappers 参考）
 
-### 本地拆分规则（type: snakemake_local，源为 riboseq 流程）
+### 本地拆分规则（type: snakemake_local）
 
-`snakemake/` 下规则按「每 rule 一个 config 驱动 .smk」拆分（td2 式，源 riboseq 的
-`riboseq.smk workflow/rules/star.smk`），规则不依赖流程级 `SAMPLES`/`samples` 表与
-`config[paths]` 上下文，可脱离流程独立 dry-run：
+`snakemake/` 下规则按「每 rule 一个 config 驱动 .smk」拆分（td2 式），规则不依赖流程级
+`SAMPLES`/`samples` 表与 `config[paths]` 上下文，可脱离流程独立 dry-run：
 
 | 文件 | 规则 | 作用 |
 |------|------|------|

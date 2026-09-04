@@ -39,7 +39,7 @@
 | 比对 B                        | ultra    | `modules/ultra`（index + align，需 GTF）                        |
 | collapse / filelist / merge | gstama   | `modules/gstama`                                            |
 
-各模块另含迁移自原流程的规则（`<sw>/snakemake/`）与原始 Python 封装/并发批处理脚本（`<sw>/native/`：ccs\_analysis / lima\_analysis / isoseq3\_refine / bamtools\_convert / gs\_tama / tama\_polyacleanup / minimap2\_align / ULTRA\_align 的 `.py` 及对应 `run_*.sh`）。
+各模块另含流程级规则（`<sw>/snakemake/`）与 Python 封装/并发批处理脚本（`<sw>/native/`：ccs\_analysis / lima\_analysis / isoseq3\_refine / bamtools\_convert / gs\_tama / tama\_polyacleanup / minimap2\_align / ULTRA\_align 的 `.py` 及对应 `run_*.sh`）。
 
 ## 执行方式
 

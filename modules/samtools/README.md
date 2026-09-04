@@ -115,7 +115,7 @@ bash test/run_test.sh
 
 * 串联：include `samtools_sort.smk` + `samtools_index.smk` 并令 `samtools_index_input == samtools_sort_output` 即自动建立 sort→index 依赖；批量 flagstat 汇总在流程内赋值 `config["alignment_summary_flagstats"] = [...]` 后 include `alignment_summary.smk`。
 
-* 原聚合 `samtools.smk`（isoseq/nanoseq 流程样式）与 `samtools_riboseq.smk`（riboseq 流程拆分样式，含 `sam_to_bam`/`view` 变体）已按上述单规则文件重新组织并删除；`scripts/`、`envs/`、`../` 幽灵引用已消除。
+* samtools 子命令规则（`sort` / `index` / `view` / `sam_to_bam` / `flagstat` / `alignment_summary`）按上述单规则文件组织；`scripts/`、`envs/`、`../` 幽灵引用已消除。
 
 ### 官方 snakemake-wrappers（说明层，运行时靠 `wrapper:` 句柄解析）
 

@@ -90,9 +90,9 @@ bash test/run_test.sh    # 本机无 rsem 时自省链路通过即可；装 rsem
 
 # rsem / snakemake（本地规则 + 官方 wrappers 参考）
 
-### 本地单规则文件（type: snakemake_local，源为 riboseq 流程）
+### 本地单规则文件（type: snakemake_local）
 
-`snakemake/` 下按 riboseq 拆分出的两个子命令各自一个 **config 驱动 .smk**（td2 式：每 rule 一个文件，顶部 `config.setdefault` 给默认、头注写独立运行示例），不依赖 workflow 的 SAMPLES / `{sample}` 层级：
+`snakemake/` 下两个子命令各自一个 **config 驱动 .smk**（td2 式：每 rule 一个文件，顶部 `config.setdefault` 给默认、头注写独立运行示例），不依赖 workflow 的 SAMPLES / `{sample}` 层级：
 
 | 规则 / .smk | 作用 | config 契约要点 |
 |------|------|------------------|

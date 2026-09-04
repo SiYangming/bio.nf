@@ -21,7 +21,7 @@ python3 modules/umi_tools/native/main.py dedup -I in.bam -S dedup.bam --output-s
 
 ### 2. snakemake（本地单规则，td2 式 config 驱动）
 
-规则已按 **td2 式规范**拆为单规则文件（每文件一个 rule、config 驱动、摆脱对流程 `samples` / `config[paths]` 的依赖），迁自 `riboseq.smk`：
+规则已按 **td2 式规范**拆为单规则文件（每文件一个 rule、config 驱动、摆脱对流程 `samples` / `config[paths]` 的依赖），见下表：
 
 | 文件 | rule | 说明 |
 |---|---|---|
