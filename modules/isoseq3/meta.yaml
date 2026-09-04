@@ -1,0 +1,161 @@
+software: isoseq3
+canonical: isoseq3
+category: isoseq
+description: 'isoseq3 是 PacBio IsoSeq 套件（conda 包名 isoseq，二进制 isoseq3）的 refine 子命令：
+  去除 polyA 尾与人工连接体，将 lima 清理后的全长相 reads 精炼为高质量转录本 reads， 并输出 consensusreadset.xml
+  / filter_summary.report.json / report.csv 等报告。
+
+  '
+homepage: https://github.com/PacificBiosciences/IsoSeq
+license: BSD-3-Clause-Clear
+implementations:
+- id: isoseq3_native
+  path: native
+  source_type: custom
+  type: native
+  version: 4.0.0-v1.0
+  priority: high
+  when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。自动注入线程与 --require-polya
+    默认。
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/isoseq3
+    quay_biocontainers: quay.io/biocontainers/isoseq3
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: isoseq3_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
+  note: 官方 snakemake-wrappers 暂无 bio/isoseq3 wrapper（2026-08 抓取 404），本实现仅登记桥接层，实际请降级
+    isoseq3_snakemake_local。
+default_implementation: isoseq3_native
+software_versions:
+  native:
+    isoseq: 4.0.0
+    binary: isoseq3
+    build_route: official biocontainer（quay.io/biocontainers/isoseq3 / depot.galaxyproject.org）
+    source: https://anaconda.org/bioconda/isoseq3
+    note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+      版本 isoseq=4.0.0（binary isoseq3）与 nf-core 对齐。
+  nextflow_nfcore:
+    isoseq: 4.0.0
+    module_version: 1.0.0
+    submodule: isoseq/refine
+    source: bioconda::isoseq=4.0.0（modules/nf-core/isoseq/refine/environment.yml）
+    note: nf-core 目录为 modules/nf-core/isoseq/{refine,cluster}；本技能对应 refine 子模块；container
+      由 community.wave.seqera.io 生成。
+  nextflow_local:
+    isoseq: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    isoseq: 官方无 wrapper（bio/isoseq3 404）
+    wrapper_tag: v3.13.0
+    source: —
+    note: 2026-08 抓取 snakemake-wrappers bio/isoseq3 返回 404，官方未收录；请使用 isoseq3_snakemake_local。
+  snakemake_local:
+    isoseq: 4.0.0
+    binary: isoseq3
+    source: 自维护 isoseq3_refine.smk + isoseq3_refine.py
+    note: rule 内 conda 指向同目录 isoseq3.yaml（bioconda::isoseq=4.0.0）；二进制 isoseq3 refine
+      （wrapper 支持 exec_mode conda/docker/native 三模式分派，native 走 config isoseq3.isoseq3_bin）。
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: isoseq3 子命令：refine（唯一核心命令）
+  bam:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入 BAM（lima 清理后的 ccs BAM）
+  primers:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 引物 FASTA 文件（*.fasta）
+  output:
+    type: file
+    required: false
+    cli_arg: positional
+    description: 输出 BAM 路径（默认 <outdir>/<prefix>.bam）
+  outdir:
+    type: string
+    required: false
+    cli_arg: -d
+    description: 输出目录（缺省为输入文件所在目录）
+  prefix:
+    type: string
+    required: false
+    description: 输出前缀（默认从 bam 文件名推断）
+  require_polya:
+    type: boolean
+    default: true
+    cli_arg: --require-polya
+    description: 仅保留检测到 polyA 尾的 reads（默认开启；传 false 则去掉该旗标）
+  min_polya_length:
+    type: integer
+    required: false
+    cli_arg: --min-polya-length
+    description: polyA 尾最小长度
+  threads:
+    type: integer
+    default: 4
+    cli_arg: -j
+    description: 线程数（自动注入；与 --num-threads 等价）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 isoseq3 refine 的额外参数（高级用法，慎用）
+outputs:
+  bam:
+    type: file
+    format: bam
+    description: 精炼后的完整 reads（polyA 已修剪）
+  pbi:
+    type: file
+    format: pbi
+    description: 输出 BAM 的 PacBio 索引
+  consensusreadset:
+    type: file
+    format: xml
+    description: read 库元数据（*.consensusreadset.xml）
+  summary:
+    type: file
+    format: json
+    description: 全长相/非嵌合/polyA reads 计数（*.filter_summary.report.json）
+  report:
+    type: file
+    format: csv
+    description: 引物与 polyA 检测元数据（*.report.csv）
+environment:
+  container_official: quay.io/biocontainers/isoseq3（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 isoseq3。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  tmpdir: /tmp
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    PYTHONUNBUFFERED: '1'
+  per_subcommand_threads:
+    refine: 8
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: isoseq3
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（td2 式：每 rule 一个 config 驱动 .smk；原聚合 isoseq3.smk 已删除）：
+    include: "modules/isoseq3/snakemake/isoseq3_refine.smk"
+    # 运行（可只请求单个 bam 目标）：
+    #   snakemake -s modules/isoseq3/snakemake/isoseq3_refine.smk \
+    #       --config isoseq3_input_bam=lima/s1/s1.chunk1.bam isoseq3_primers=primers.fasta \
+    #       --cores 8 --use-conda isoseq3_out/s1.chunk1.bam
+    # config 契约（均有默认，详见文件头注）：
+    #   isoseq3_input_bam（必填）/ isoseq3_primers（必填）/ isoseq3_outdir / isoseq3_prefix /
+    #   isoseq3.require_polya|min_polya_length|extra_args / threads /
+    #   exec_mode: conda(默认)|docker|native（docker 需 isoseq3.docker_image，native 需 isoseq3.isoseq3_bin）
+  snakemake_rules:
+  - isoseq3_refine.smk

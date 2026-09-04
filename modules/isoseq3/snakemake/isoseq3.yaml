@@ -1,0 +1,8 @@
+# isoseq3 snakemake conda 环境（与 isoseq3_refine.smk 同目录，conda: "isoseq3.yaml" 相对解析）
+# 版本：bioconda 包名 isoseq（PacBio IsoSeq 套件），提供二进制 isoseq3；isoseq=4.0.0
+#       与软件级 meta.yaml software_versions / README 锚点一致。
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bioconda::isoseq=4.0.0

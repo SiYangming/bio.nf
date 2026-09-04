@@ -1,0 +1,9 @@
+name: flair
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::flair==3.0.0b1        # 提供 bam2Bed12 / identify_gene_isoform / flair 可执行
+  - bioconda::minimap2==2.30        # flair collapse 内部依赖（--mm2_args 比对；版本锚点见 meta software_versions / README）
+  - bioconda::bedtools>=2.31.1      # flair_bam2bed12 规则（bedtools bamtobed -bed12）需要

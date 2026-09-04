@@ -1,0 +1,194 @@
+software: gstama
+canonical: gstama
+category: transcriptome
+description: 'TAMA（Gene-Switch Transcriptome Annotation by Modular Algorithms）是一套长读长
+  （Iso-Seq / ONT）转录组注释工具：tama_flnc_polya_cleanup.py 做 polyA 清理， tama_collapse.py 做转录本去冗余（collapse），tama_merge.py
+  合并多来源转录本集合。 本库以 bioconda 包名 gs-tama 登记，canonical 目录名为 gstama（与 nf-core 一致）。
+
+  '
+homepage: https://github.com/sguizard/gs-tama
+license: GPL-3.0-or-later
+software_versions:
+  native:
+    gstama: 1.0.4
+    build_route: CONDA（bioconda gs-tama=1.0.4，包提供 tama_flnc_polya_cleanup.py / tama_collapse.py
+      / tama_merge.py）
+    source: bioconda::gs-tama=1.0.4（Dockerfile/Apptainer 用 micromamba 引导，禁止 miniconda）
+    note: apt 无 gs-tama 包，故 native 容器走 micromamba + bioconda env 路线；python 驱动 main.py
+      由 env python 运行。
+  nextflow_nfcore:
+    gstama: 1.0.4
+    module_version: master@68566f0（modules/nf-core/gstama/collapse）
+    source: bioconda::gs-tama=1.0.4（modules/nf-core/gstama/*/environment.yml）
+    note: nf-core 拆分为 collapse / merge / polyacleanup 三个子模块；升级 modules 时请同步刷新。
+  nextflow_local:
+    gstama: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    gstama: （官方 bio/gstama 不存在，404）
+    wrapper_tag: v3.13.0
+    source: （无 environment.yaml 可对齐——官方 snakemake-wrappers 仓库无 bio/gstama 目录）
+    note: bio/gstama 返回 404，本实现为说明性空登记；实际使用请走 native 或 snakemake/local。
+  snakemake_local:
+    gstama: 1.0.4
+    source: 自维护 4 规则（gstama_{polyacleanup,collapse,filelist,merge}.smk，按子命令拆分）
+    note: '规则以 shell:/run: 直接调 tama_*.py，需 PATH 上有 gs-tama=1.0.4（如 conda env 或 native 容器）。'
+implementations:
+- id: gstama_native
+  path: native
+  source_type: custom
+  type: native
+  version: 1.0.4-v1.0
+  priority: high
+  when_to_use: '非流程引擎场景（AI Agent Function Calling / 独立 CLI / Shell 调用）的首选目标， 实现 polyacleanup
+    / collapse / filelist / merge 四个子命令。
+
+    '
+  container_ref:
+    bioconda: https://anaconda.org/channels/bioconda/packages/gs-tama
+    yangmingsi_conda: https://anaconda.org/channels/YangmingSi/packages/gs-tama（1.0.4）
+    quay_biocontainers: quay.io/biocontainers/gs-tama:1.0.3--hdfd78af_0（官方仅到 1.0.3）
+    quay_bioinfortools: quay.io/bioinfortools/gs-tama:1.0.4（1.0.4 官方容器）
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: gstama_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时（注意：官方 bio/gstama 不存在，实际需降级 local/native）。
+default_implementation: gstama_native
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: gstama 子命令：polyacleanup|collapse|filelist|merge
+  fasta:
+    type: file
+    required: false
+    format:
+    - fasta
+    - fa
+    description: polyacleanup 的输入 FLNC FASTA / collapse 的参考基因组 FASTA
+  bam:
+    type: file
+    required: false
+    format:
+    - bam
+    description: collapse 的输入比对 BAM（建议已排序）
+  bed_dir:
+    type: string
+    required: false
+    description: filelist 的 collapse bed 目录（递归匹配 *.bed）
+  filelist:
+    type: file
+    required: false
+    description: merge 的输入 filelist TSV（filelist 子命令产出）
+  outdir:
+    type: string
+    required: false
+    description: 输出目录（默认当前目录）
+  prefix:
+    type: string
+    required: false
+    description: 输出前缀（polyacleanup 默认 <fasta 名>_tama；collapse/merge 默认从输入文件名推断；filelist
+      默认取 bed 目录名）
+  cap:
+    type: string
+    required: false
+    cli_arg: --cap
+    description: filelist 的 cap 列：capped|no_cap（Iso-Seq 默认 no_cap）
+  order:
+    type: string
+    required: false
+    cli_arg: --order
+    description: filelist 的 order 列（三元 'start,junction,end'；文件名含 chunk<N> 时自动生成）
+  pattern:
+    type: string
+    required: false
+    description: filelist 的 bed 匹配模式（默认 *.bed，支持 **/ 递归）
+  args:
+    type: string
+    required: false
+    description: 透传给 TAMA 脚本的附加参数（如 collapse 的 -x no_cap -a 100 ...）
+  bam_input:
+    type: boolean
+    required: false
+    default: true
+    cli_arg: -b BAM
+    description: collapse 输入为 BAM（默认 true）；false 时用 -b SAM
+  samtools_bin:
+    type: string
+    required: false
+    description: collapse 时注入 PATH 的 samtools 可执行路径（tama_collapse.py 内部调用）
+  tama_script:
+    type: string
+    required: false
+    description: polyacleanup 使用的 tama_flnc_polya_cleanup.py 路径（默认从 PATH 解析）
+  tama_collapse_script:
+    type: string
+    required: false
+    description: collapse 使用的 tama_collapse.py 路径（默认从 PATH 解析）
+  tama_merge_script:
+    type: string
+    required: false
+    description: merge 使用的 tama_merge.py 路径（默认从 PATH 解析）
+  threads:
+    type: integer
+    default: 4
+    description: 线程数（契约字段；TAMA 脚本单线程，不实际注入）
+outputs:
+  cleaned_fasta:
+    type: file
+    format: fasta.gz
+    description: polyacleanup 输出（<prefix>.fa.gz）
+  polya_report:
+    type: file
+    format: txt.gz
+    description: polyacleanup 输出（<prefix>_polya_flnc_report.txt.gz）
+  tails:
+    type: file
+    format: fasta.gz
+    description: polyacleanup 输出（<prefix>_tails.fa.gz）
+  collapsed_bed:
+    type: file
+    format: bed
+    description: collapse 输出的去冗余转录本（*_collapsed.bed）
+  filelist_tsv:
+    type: file
+    format: tsv
+    description: filelist 输出的 TSV（<prefix>.tsv）
+  merged_bed:
+    type: file
+    format: bed
+    description: merge 输出的合并转录本注释
+environment:
+  conda: environment.yml
+  dockerfile: Dockerfile
+  apptainer_def: Apptainer.def
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  env_vars:
+    TMPDIR: '{tmpdir}'
+  per_subcommand_threads:
+    collapse: 4
+    merge: 4
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: ''
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（4 规则已按子命令拆分，可分别 include；链路 collapse -> filelist -> merge）：
+    include: "modules/gstama/snakemake/gstama_collapse.smk"
+    include: "modules/gstama/snakemake/gstama_filelist.smk"
+    include: "modules/gstama/snakemake/gstama_merge.smk"
+    include: "modules/gstama/snakemake/gstama_polyacleanup.smk"
+    # config 契约与运行说明见各 .smk 头部；规则走 PATH 调 tama_*.py，需 gs-tama=1.0.4 环境
+    # 示例：snakemake --config "gstama={fasta: ref.fa, collapse_args: '-x no_cap'}" -j 4
+  snakemake_rules:
+  - gstama_polyacleanup.smk
+  - gstama_collapse.smk
+  - gstama_filelist.smk
+  - gstama_merge.smk

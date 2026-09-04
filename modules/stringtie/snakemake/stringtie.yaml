@@ -1,0 +1,7 @@
+name: stringtie
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::stringtie==3.0.3

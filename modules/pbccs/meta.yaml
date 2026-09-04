@@ -1,0 +1,182 @@
+software: pbccs
+canonical: pbccs
+category: isoseq
+description: 'pbccs（二进制名 ccs）是 PacBio 的高精度一致性序列（HiFi / CCS）生成工具， 从 subreads BAM 生成单分子一致性
+  reads，支持分块并行（--chunk N/TOTAL）、 最小质量/通过次数/信噪比/长度过滤，是 Iso-Seq 流程的第一步。
+
+  '
+homepage: https://ccs.how/
+license: BSD-3-Clause-Clear
+implementations:
+- id: pbccs_native
+  path: native
+  source_type: custom
+  type: native
+  version: 6.4.0-v1.0
+  priority: high
+  when_to_use: 非流程引擎场景（AI Agent Function Calling / 独立 CLI）首选。自动注入线程与分块参数。
+  container_ref:
+    bioconda: https://anaconda.org/bioconda/pbccs
+    quay_biocontainers: quay.io/biocontainers/pbccs
+    install_hint: 推荐 mamba create -n <env> -c conda-forge -c bioconda <sw>；容器可用 quay.io/biocontainers
+      镜像
+- id: pbccs_snakemake_wrappers
+  path: snakemake
+  source_type: official
+  type: snakemake_local
+  version: v3.13.0
+  priority: medium
+  when_to_use: 组装 Snakemake 流程、复用中央 wrapper 缓存时。
+  note: 官方 snakemake-wrappers 暂无 bio/pbccs wrapper（2026-08 抓取 404），本实现仅登记桥接层，实际请降级
+    pbccs_snakemake_local。
+default_implementation: pbccs_native
+software_versions:
+  native:
+    pbccs: 6.4.0
+    binary: ccs
+    build_route: official biocontainer（quay.io/biocontainers/pbccs / depot.galaxyproject.org）
+    source: https://anaconda.org/bioconda/pbccs
+    note: 官方镜像优先（bioconda→quay.io/biocontainers→depot.galaxyproject.org），本地不再自建容器；
+      版本 pbccs=6.4.0（binary ccs）与 nf-core 对齐。
+  nextflow_nfcore:
+    pbccs: 6.4.0
+    module_version: 1.0.0
+    source: bioconda::pbccs=6.4.0（modules/nf-core/pbccs/environment.yml）
+    note: nf-core pbccs 为单模块（不分子命令）；container 用 community.wave.seqera.io 生成。
+  nextflow_local:
+    pbccs: （继承 native 容器或显式 pin；未启用则写占位）
+  snakemake_wrappers:
+    pbccs: 官方无 wrapper（bio/pbccs 404）
+    wrapper_tag: v3.13.0
+    source: —
+    note: 2026-08 抓取 snakemake-wrappers bio/pbccs 返回 404，官方未收录；请使用 pbccs_snakemake_local。
+  snakemake_local:
+    pbccs: 6.4.0
+    source: 自维护 pbccs.smk + pbccs.py（同目录 pbccs.yaml conda env）
+    note: rule 内 conda 指向同目录 pbccs.yaml（bioconda::pbccs=6.4.0）；二进制 ccs（wrapper
+      支持 exec_mode conda/docker/native 三模式分派，native 走 config pbccs.ccs_bin）。
+inputs:
+  subcommand:
+    type: string
+    required: true
+    description: pbccs 子命令：ccs（唯一核心命令）
+  subreads:
+    type: file
+    required: true
+    cli_arg: positional
+    description: 输入 subreads BAM 文件（*.subreads.bam）
+  output:
+    type: file
+    required: false
+    cli_arg: positional
+    description: 输出 CCS BAM 路径（默认 <prefix>.chunk<N>.bam）
+  outdir:
+    type: string
+    required: false
+    cli_arg: -d
+    description: 输出目录（缺省为输入文件所在目录）
+  prefix:
+    type: string
+    required: false
+    description: 输出前缀（默认 <sample>.chunk<chunk_num>，sample 取自 subreads 文件名去 .subreads
+      后缀）
+  chunk_num:
+    type: integer
+    required: true
+    cli_arg: --chunk
+    description: 当前分块编号（1-based）
+  chunk_total:
+    type: integer
+    required: true
+    cli_arg: --chunk
+    description: 总分块数
+  min_rq:
+    type: float
+    default: 0.9
+    cli_arg: --min-rq
+    description: 最小读取质量阈值（0-1）
+  min_passes:
+    type: integer
+    default: 3
+    cli_arg: --min-passes
+    description: 最小 subread 通过次数
+  min_snr:
+    type: float
+    default: 2.5
+    cli_arg: --min-snr
+    description: 最小信噪比
+  min_length:
+    type: integer
+    default: 10
+    cli_arg: --min-length
+    description: 最小序列长度
+  max_length:
+    type: integer
+    default: 50000
+    cli_arg: --max-length
+    description: 最大序列长度
+  top_passes:
+    type: integer
+    default: 60
+    cli_arg: --top-passes
+    description: 每个 ZMW 最多使用的 subread 通过次数
+  threads:
+    type: integer
+    default: 4
+    cli_arg: -j
+    description: 线程数（自动注入）
+  extra_args:
+    type: string
+    required: false
+    description: 透传给 ccs 的额外参数（高级用法，慎用）
+outputs:
+  bam:
+    type: file
+    format: bam
+    description: CCS 一致性序列 BAM（HiFi reads）
+  pbi:
+    type: file
+    format: pbi
+    description: CCS BAM 的 PacBio 索引
+  report_txt:
+    type: file
+    format: txt
+    description: ccs 汇总报告（txt）
+  report_json:
+    type: file
+    format: json
+    description: ccs 汇总报告（json）
+  metrics:
+    type: file
+    format: json.gz
+    description: ZMW 级指标（json.gz）
+environment:
+  container_official: quay.io/biocontainers/pbccs（bioconda 官方镜像；tag 以 quay / depot.galaxyproject.org 为准，见 README）
+  note: 官方镜像已覆盖，本地不再维护 Dockerfile/Apptainer.def；宿主机直跑 main.py 时用 conda/mamba 安装 pbccs。
+optimization:
+  default_cpus: 4
+  default_mem_mb: 8192
+  tmpdir: /tmp
+  env_vars:
+    TMPDIR: '{tmpdir}'
+    PYTHONUNBUFFERED: '1'
+  per_subcommand_threads:
+    ccs: 8
+    default: 4
+execution:
+  entrypoint: python main.py
+  test_command: bash test/run_test.sh
+  binary: ccs
+  snakemake_include_hint: |-
+    # 在 Snakefile 中（td2 式：每 rule 一个 config 驱动 .smk；原聚合 pbccs.smk 已删除）：
+    include: "modules/pbccs/snakemake/pbccs.smk"
+    # 运行（n=1..pbccs_chunk_total 的块目标；可只请求单块）：
+    #   snakemake -s modules/pbccs/snakemake/pbccs.smk \
+    #       --config pbccs_subreads=sample.subreads.bam pbccs_outdir=ccs_out pbccs_chunk_total=2 \
+    #       --cores 8 --use-conda ccs_out/sample.chunk1.bam ccs_out/sample.chunk2.bam
+    # config 契约（均有默认，详见文件头注）：
+    #   pbccs_subreads（必填）/ pbccs_outdir / pbccs_chunk_total / threads /
+    #   pbccs.min_rq|min_passes|min_snr|min_length|max_length|top_passes / pbccs.ccs_extra_params
+    #   exec_mode: conda(默认)|docker|native（docker 需 pbccs.docker_image，native 需 pbccs.ccs_bin）
+  snakemake_rules:
+  - pbccs.smk
